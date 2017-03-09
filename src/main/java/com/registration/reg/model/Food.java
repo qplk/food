@@ -18,7 +18,7 @@ public class Food {
     private Integer price;
     private String imgPath;
     private Set<Assortment> assortment = new HashSet<>();
-    private Set<OrderElement> orderElement = new HashSet<>();
+    private Set<OrderElement> orderElements = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -88,12 +88,12 @@ public class Food {
 
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
-    public Set<OrderElement> getOrderElement() {
-        return orderElement;
+    public Set<OrderElement> getOrderElements() {
+        return orderElements;
     }
 
-    public void setOrderElement(Set<OrderElement> orderElement) {
-        this.orderElement = orderElement;
+    public void setOrderElements(Set<OrderElement> orderElements) {
+        this.orderElements = orderElements;
     }
 
 }
