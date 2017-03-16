@@ -11,7 +11,19 @@ import java.sql.*;
 @Entity
 @Table(name = "order")
 public class Order {
+    public Order(Time deliveryTime, Integer fullPrice, String status, String statusInfo, String paymentInfo) {
+        this.deliveryTime = deliveryTime;
+        this.fullPrice = fullPrice;
+        this.status = status;
+        this.statusInfo = statusInfo;
+        this.paymentInfo = paymentInfo;
+    }
+
     private Long orderId;
+
+    public Order() {
+    }
+
     //private Long userId;
     //private Long restaurantId;
     private Time deliveryTime;

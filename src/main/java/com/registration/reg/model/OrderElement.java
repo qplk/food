@@ -18,6 +18,13 @@ public class OrderElement {
     private Food food;
     private Order order;
 
+    public OrderElement() {
+    }
+
+    public OrderElement(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_element_id")

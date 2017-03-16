@@ -25,6 +25,18 @@ public class Address {
     private Set<Order> orders = new HashSet<>();
 
 
+    public Address() {
+
+    }
+
+    public Address(String street, String buildingNumber, String roomNumber, String comment) {
+        this.street = street;
+        this.buildingNumber = buildingNumber;
+        this.roomNumber = roomNumber;
+        this.comment = comment;
+    }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "address_id")

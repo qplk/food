@@ -6,8 +6,10 @@ import com.registration.reg.repository.RestaurantRepository;
 import com.registration.reg.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by Stasia on 09.03.17.
@@ -19,14 +21,33 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Autowired
     private CityRepository cityRepository;
 
+    @Transactional
     @Override
-    public void save(Restaurant restaurant, City city) {
-        restaurant.setCityByRestaurantId(cityRepository.getOne(city.getCityId()));
+    public void save(Restaurant restaurant, Long cityId) {
+        City city = cityRepository.getOne(cityId);
 
-        HashSet<Restaurant> restaurantsInCity = new HashSet<>(cityRepository.getOne(city.getCityId()).getRestaurants());
+        restaurant.setCityByRestaurantId(city);
+
+        HashSet<Restaurant> restaurantsInCity = new HashSet<>(city.getRestaurants());
         restaurantsInCity.add(restaurant);
-        cityRepository.getOne(city.getCityId()).setRestaurants(restaurantsInCity);
+        city.setRestaurants(restaurantsInCity);
 
         restaurantRepository.save(restaurant);
+        cityRepository.save(city);
+    }
+
+    @Override
+    public Restaurant get(Long restaurantId) {
+        return restaurantRepository.getOne(restaurantId);
+    }
+
+    @Override
+    public List<Restaurant> findAll() {
+        return restaurantRepository.findAll();
+    }
+
+    @Override
+    public void delete(Long restaurantId) {
+        restaurantRepository.delete(restaurantId);
     }
 }

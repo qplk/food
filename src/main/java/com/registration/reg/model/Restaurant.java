@@ -12,6 +12,17 @@ import java.util.Set;
 @Table(name = "restaurant")
 public class Restaurant {
     private Long restaurantId;
+
+    public Restaurant() {
+
+    }
+
+    public Restaurant(String street, String buildingNumber, String restaurantPhone) {
+        this.street = street;
+        this.buildingNumber = buildingNumber;
+        this.restaurantPhone = restaurantPhone;
+    }
+
     //private Long cityId;
     private String street;
     private String buildingNumber;

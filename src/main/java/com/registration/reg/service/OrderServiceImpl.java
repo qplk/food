@@ -7,8 +7,10 @@ import com.registration.reg.repository.AddressRepository;
 import com.registration.reg.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by Stasia on 09.03.17.
@@ -24,24 +26,48 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Transactional
     @Override
-    public void save(Order order, User user, Restaurant restaurant, Address address) {
-        order.setUserByOrderId(userRepository.getOne(user.getId()));
-        order.setRestaurantByOrderId(restaurantRepository.getOne(restaurant.getRestaurantId()));
-        order.setAddressByOrderId(addressRepository.getOne(address.getId()));
+    public void save(Order order, Long userId, Long restaurantId, Long addressId) {
+        User user = userRepository.getOne(userId);
+        Restaurant restaurant = restaurantRepository.getOne(restaurantId);
+        Address address = addressRepository.getOne(addressId);
 
-        HashSet<Order> ordersFromUser = new HashSet<>(userRepository.getOne(user.getId()).getOrders());
+        order.setUserByOrderId(user);
+        order.setRestaurantByOrderId(restaurant);
+        order.setAddressByOrderId(address);
+
+        HashSet<Order> ordersFromUser = new HashSet<>(user.getOrders());
         ordersFromUser.add(order);
-        userRepository.getOne(user.getId()).setOrders(ordersFromUser);
+        user.setOrders(ordersFromUser);
 
-        HashSet<Order> ordersFromAddress = new HashSet<>(addressRepository.getOne(address.getId()).getOrders());
+        HashSet<Order> ordersFromAddress = new HashSet<>(address.getOrders());
         ordersFromAddress.add(order);
-        addressRepository.getOne(address.getId()).setOrders(ordersFromAddress);
+        address.setOrders(ordersFromAddress);
 
-        HashSet<Order> ordersInRestaurant = new HashSet<>(restaurantRepository.getOne(restaurant.getRestaurantId()).getOrders());
+        HashSet<Order> ordersInRestaurant = new HashSet<>(restaurant.getOrders());
         ordersInRestaurant.add(order);
-        restaurantRepository.getOne(restaurant.getRestaurantId()).setOrders(ordersInRestaurant);
+        restaurant.setOrders(ordersInRestaurant);
 
         orderRepository.save(order);
+        userRepository.save(user);
+        restaurantRepository.save(restaurant);
+        addressRepository.save(address);
+    }
+
+    @Override
+    public Order get(Long orderId) {
+        return orderRepository.getOne(orderId);
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
+
+
+    @Override
+    public void delete(Long orderId) {
+        orderRepository.delete(orderId);
     }
 }

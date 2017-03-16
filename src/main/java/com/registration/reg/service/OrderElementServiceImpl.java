@@ -9,8 +9,10 @@ import com.registration.reg.repository.FoodRepository;
 import com.registration.reg.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by Stasia on 09.03.17.
@@ -24,21 +26,42 @@ public class OrderElementServiceImpl implements OrderElementService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Transactional
     @Override
-    public void save(OrderElement orderElement, Food food, Order order) {
-        orderElement.setFood(foodRepository.getOne(food.getFoodId()));
-        orderElement.setOrder(orderRepository.getOne(order.getOrderId()));
+    public void save(OrderElement orderElement, Long foodId, Long orderId) {
+        Food food = foodRepository.getOne(foodId);
+        Order order = orderRepository.getOne(orderId);
 
-        HashSet<OrderElement> orderElementsInOrder = new HashSet<>(orderRepository.getOne(order.getOrderId()).getOrderElements());
+        orderElement.setFood(food);
+        orderElement.setOrder(order);
+
+        HashSet<OrderElement> orderElementsInOrder = new HashSet<>(order.getOrderElements());
         orderElementsInOrder.add(orderElement);
-        orderRepository.getOne(order.getOrderId()).setOrderElements(orderElementsInOrder);
+        order.setOrderElements(orderElementsInOrder);
 
-        HashSet<OrderElement> orderElementsWithFood = new HashSet<>(foodRepository.getOne(food.getFoodId()).getOrderElements());
+        HashSet<OrderElement> orderElementsWithFood = new HashSet<>(food.getOrderElements());
         orderElementsWithFood.add(orderElement);
-        foodRepository.getOne(food.getFoodId()).setOrderElements(orderElementsWithFood);
+        food.setOrderElements(orderElementsWithFood);
 
-        orderElement.setOrder(orderRepository.getOne(order.getOrderId()));
-        orderElement.setFood(foodRepository.getOne(food.getFoodId()));
         orderElementRepository.save(orderElement);
+        foodRepository.save(food);
+        orderRepository.save(order);
+    }
+
+    @Override
+    public OrderElement get(Long orderElementId) {
+        return orderElementRepository.getOne(orderElementId);
+    }
+
+
+    @Override
+    public List<OrderElement> findAll() {
+        return orderElementRepository.findAll();
+    }
+
+
+    @Override
+    public void delete(Long orderElementId) {
+        orderElementRepository.delete(orderElementId);
     }
 }

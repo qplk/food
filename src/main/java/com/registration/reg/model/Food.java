@@ -8,6 +8,8 @@ import java.sql.*;
 /**
  * Created by Stasia on 08.03.17.
  */
+
+
 @Entity
 @Table(name = "food")
 public class Food {
@@ -16,7 +18,7 @@ public class Food {
     private String description;
     private String portionSize;
     private Integer price;
-    private String imgPath;
+    private String category;
     private Set<Assortment> assortment = new HashSet<>();
     private Set<OrderElement> orderElements = new HashSet<>();
 
@@ -67,13 +69,13 @@ public class Food {
         this.price = price;
     }
 
-    @Column(name = "img_path", nullable = false)
-    public String getImgPath() {
-        return imgPath;
+    @Column(name = "category", nullable = false)
+    public String getCategory() {
+        return category;
     }
 
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
 

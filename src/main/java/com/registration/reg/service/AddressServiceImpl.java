@@ -8,8 +8,10 @@ import com.registration.reg.repository.CityRepository;
 import com.registration.reg.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by Stasia on 09.03.17.
@@ -23,36 +25,60 @@ public class AddressServiceImpl implements AddressService {
     @Autowired
     private CityRepository cityRepository;
 
+    @Transactional
     @Override
-    public void save(Address address, User user, City city) {
-        if ((addressRepository.findByStreetAndBuildingNumberAndRoomNumber(address.getStreet(), address.getBuildingNumber(), address.getRoomNumber()) != null) && (addressRepository.findByStreetAndBuildingNumberAndRoomNumber(address.getStreet(), address.getBuildingNumber(), address.getRoomNumber()).getCityByAddressId().getCityId() == city.getCityId())) {
-            Long addressId = addressRepository.findByStreetAndBuildingNumberAndRoomNumber(address.getStreet(), address.getBuildingNumber(), address.getRoomNumber()).getId();
+    public void save(Address address, Long userId, Long cityId) {
+        Address currAddress = addressRepository.findByStreetAndBuildingNumberAndRoomNumber(address.getStreet(), address.getBuildingNumber(), address.getRoomNumber());
+        User user = userRepository.findOne(userId);
 
-            HashSet<User> usersInAddress = new HashSet<>(addressRepository.findOne(addressId).getUsers());
+        if ((currAddress != null) && (currAddress.getCityByAddressId().getCityId() == cityId)) {
+            HashSet<User> usersInAddress = new HashSet<>(currAddress.getUsers());
             usersInAddress.add(user);
 
-            addressRepository.findOne(addressId).setUsers(usersInAddress);
+            currAddress.setUsers(usersInAddress);
 
-            HashSet<Address> addressesOfUser = new HashSet<>(userRepository.findOne(user.getId()).getAddresses());
-            addressesOfUser.add(addressRepository.findOne(addressId));
-            userRepository.findOne(user.getId()).setAddresses(addressesOfUser);
+            HashSet<Address> addressesOfUser = new HashSet<>(user.getAddresses());
+            addressesOfUser.add(currAddress);
+            user.setAddresses(addressesOfUser);
+
+            userRepository.save(user);
+            addressRepository.save(address);
         } else {
-            HashSet<Address> addressesOfUser = new HashSet<>(userRepository.findOne(user.getId()).getAddresses());
-            addressesOfUser.add(address);
-            userRepository.findOne(user.getId()).setAddresses(addressesOfUser);
+            City city = cityRepository.findOne(cityId);
 
-            HashSet<Address> addressesInCity = new HashSet<>(cityRepository.findOne(city.getCityId()).getAddresses());
+            HashSet<Address> addressesOfUser = new HashSet<>(user.getAddresses());
+            addressesOfUser.add(address);
+            user.setAddresses(addressesOfUser);
+
+            HashSet<Address> addressesInCity = new HashSet<>(city.getAddresses());
             addressesInCity.add(address);
-            cityRepository.findOne(city.getCityId()).setAddresses(addressesInCity);
+            city.setAddresses(addressesInCity);
 
             HashSet<User> users = new HashSet<>();
-            users.add(userRepository.getOne(user.getId()));
+            users.add(user);
             address.setUsers(users);
 
-            address.setCityByAddressId(cityRepository.getOne(city.getCityId()));
+            address.setCityByAddressId(city);
 
             addressRepository.save(address);
+            userRepository.save(user);
+            cityRepository.save(city);
         }
 
+    }
+
+    @Override
+    public Address get(Long addressId) {
+        return addressRepository.getOne(addressId);
+    }
+
+    @Override
+    public void delete(Long addressId) {
+        addressRepository.delete(addressId);
+    }
+
+    @Override
+    public List<Address> findAll() {
+        return addressRepository.findAll();
     }
 }

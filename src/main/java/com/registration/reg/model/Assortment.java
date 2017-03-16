@@ -14,6 +14,15 @@ public class Assortment {
     //@Id private Long restaurantId;
     //@Id private Long foodId;
     private Long assortmentId;
+
+    public Assortment(Integer quantity, Boolean enable) {
+        this.quantity = quantity;
+        this.enable = enable;
+    }
+
+    public Assortment() {
+    }
+
     private Integer quantity;
     private Boolean enable;
     private Restaurant restaurant;
