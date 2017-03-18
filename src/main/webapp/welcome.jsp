@@ -170,7 +170,7 @@
           </div>
           <div class="row">
             <div class="col-xs-6 col-lg-6">
-              <img src="pizzam.jpg">
+              <img src="https://dodopizzaru-a.akamaihd.net/Img/Products/Pizza/c581dcc8-15e7-4a0b-aea2-45bae256c4ec.jpg">
               <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
               <div class="input-group">
                 <div class="input-group-btn">
