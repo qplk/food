@@ -48,27 +48,7 @@ public class UserController {
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PATCH)
     public ResponseEntity updateUser(@PathVariable("id") Long id, @RequestBody User user) {
-
-        User oldUser = userService.get(id);
-
-       if (user.getEmail() != null) {
-            oldUser.setEmail(user.getEmail());
-       }
-       if (user.getGender() != null) {
-            oldUser.setGender(user.getGender());
-       }
-       if (user.getInformation() != null) {
-            oldUser.setInformation(user.getInformation());
-       }
-       if (user.getPhoneNumber() != null) {
-            oldUser.setPhoneNumber(user.getPhoneNumber());
-       }
-        if (user.getUsername() != null) {
-            oldUser.setUsername(user.getUsername());
-        }
-
-
-        userService.save(oldUser);
+        userService.updateUser(id, user);
 
         return new ResponseEntity(HttpStatus.OK);
     }

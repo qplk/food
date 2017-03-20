@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 
@@ -33,14 +35,14 @@ public class AssortmentServiceImpl implements AssortmentService {
 
         assortment.setRestaurant(restaurant);
 
-        HashSet<Assortment> assortmentInRestaurant = new HashSet<>(restaurant.getAssortment());
+        Set<Assortment> assortmentInRestaurant = new HashSet<>(restaurant.getAssortment());
         assortmentInRestaurant.add(assortment);
         restaurant.setAssortment(assortmentInRestaurant);
 
         assortment.setFood(food);
 
 
-        HashSet<Assortment> assortmentOfFood = new HashSet<>(food.getAssortment());
+        Set<Assortment> assortmentOfFood = new HashSet<>(food.getAssortment());
         assortmentOfFood.add(assortment);
         food.setAssortment(assortmentOfFood);
 

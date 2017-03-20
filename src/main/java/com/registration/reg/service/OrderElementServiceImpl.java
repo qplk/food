@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 
@@ -35,11 +36,11 @@ public class OrderElementServiceImpl implements OrderElementService {
         orderElement.setFood(food);
         orderElement.setOrder(order);
 
-        HashSet<OrderElement> orderElementsInOrder = new HashSet<>(order.getOrderElements());
+        Set<OrderElement> orderElementsInOrder = new HashSet<>(order.getOrderElements());
         orderElementsInOrder.add(orderElement);
         order.setOrderElements(orderElementsInOrder);
 
-        HashSet<OrderElement> orderElementsWithFood = new HashSet<>(food.getOrderElements());
+        Set<OrderElement> orderElementsWithFood = new HashSet<>(food.getOrderElements());
         orderElementsWithFood.add(orderElement);
         food.setOrderElements(orderElementsWithFood);
 

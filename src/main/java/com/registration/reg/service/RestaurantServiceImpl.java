@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         restaurant.setCityByRestaurantId(city);
 
-        HashSet<Restaurant> restaurantsInCity = new HashSet<>(city.getRestaurants());
+        Set<Restaurant> restaurantsInCity = new HashSet<>(city.getRestaurants());
         restaurantsInCity.add(restaurant);
         city.setRestaurants(restaurantsInCity);
 

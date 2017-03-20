@@ -28,8 +28,7 @@ public class AddressController {
 
     @RequestMapping(value = "/addresses", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity addAddress(@RequestBody AddressRequestBody addressRequestBody) {
-        Address address = new Address(addressRequestBody.getStreet(), addressRequestBody.getBuildingNumber(), addressRequestBody.getRoomNumber(), addressRequestBody.getComment());
-        addressService.save(address, addressRequestBody.getUserId(), addressRequestBody.getCityId());
+        addressService.save(addressRequestBody);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 

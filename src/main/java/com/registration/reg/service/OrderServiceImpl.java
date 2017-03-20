@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 
@@ -37,15 +38,15 @@ public class OrderServiceImpl implements OrderService {
         order.setRestaurantByOrderId(restaurant);
         order.setAddressByOrderId(address);
 
-        HashSet<Order> ordersFromUser = new HashSet<>(user.getOrders());
+        Set<Order> ordersFromUser = new HashSet<>(user.getOrders());
         ordersFromUser.add(order);
         user.setOrders(ordersFromUser);
 
-        HashSet<Order> ordersFromAddress = new HashSet<>(address.getOrders());
+        Set<Order> ordersFromAddress = new HashSet<>(address.getOrders());
         ordersFromAddress.add(order);
         address.setOrders(ordersFromAddress);
 
-        HashSet<Order> ordersInRestaurant = new HashSet<>(restaurant.getOrders());
+        Set<Order> ordersInRestaurant = new HashSet<>(restaurant.getOrders());
         ordersInRestaurant.add(order);
         restaurant.setOrders(ordersInRestaurant);
 
