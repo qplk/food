@@ -1,27 +1,20 @@
 package com.registration.reg.controller;
 
+import com.registration.reg.model.User;
+import com.registration.reg.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import com.registration.reg.service.UserService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import com.registration.reg.model.User;
+import org.springframework.web.bind.annotation.*;
 
-/**
- * Created by Stasia on 15.03.17.
- */
 @Controller("UserController")
 public class UserController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ResponseEntity findAllUsers() {
-        Iterable<User> userList = userService.findAll();
-        ResponseEntity responseEntity = new ResponseEntity<>(userList, HttpStatus.OK);
-        return responseEntity;
-    }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity addUser(@RequestBody User user) {
@@ -58,5 +51,5 @@ public class UserController {
         userService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
-
 }
+
