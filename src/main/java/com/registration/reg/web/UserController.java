@@ -67,7 +67,6 @@ public class UserController {
 
     }*/
 
-    }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ResponseEntity findAllUsers() {
