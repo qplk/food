@@ -72,7 +72,7 @@
                     <c:forEach var="row" items="${result.rows}">
                         <div class="col-xs-6 col-lg-4">
                             <h2><c:out value="${row.food_name}"/></h2>
-                            <p><c:out value="${row.food_description}"/></p>
+                            <p><c:out value="${row.description}"/></p>
                             <p><a class="btn btn-default" href="#" role="button">Update</a></p>
                             <p><a class="btn btn-default" href="#" role="button">Delete</a></p>
                         </div><!--/.col-xs-6.col-lg-4-->
@@ -87,7 +87,11 @@
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
             <div class="list-group">
                 <a href="#" class="list-group-item active">Food</a>
-                <a href="foodAdd.jsp" class="list-group-item">Add new item</a>
+                <!--<a href=".jsp" class="list-group-item">Add new item</a>-->
+
+                <form class="navbar-form navbar-right" action="${contextPath}/admin/food/foodAdd">
+                    <button class="btn btn-success">Add new item</button>
+                </form>
             </div>
         </div><!--/.sidebar-offcanvas-->
     </div><!--/row-->

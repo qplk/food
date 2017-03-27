@@ -25,7 +25,7 @@ public class FoodController {
     public String foodAdd(Model model) {
         model.addAttribute("foodForm", new Food());
 
-        return "/admin/food/";
+        return "/admin/food/foodAdd";
     }
    /* public ModelAndView showForm() {
         return new ModelAndView("foodForm", "foodForm", new Food());
@@ -43,7 +43,7 @@ public class FoodController {
        // model.addAttribute("category", foodForm.getCategory());
         foodService.save(foodForm);
 
-        return "redirect:/admin/food";
+        return "redirect:/admin/food/food.jsp";
     }
 
 
