@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,5 +34,44 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User get(Long userId) {
+        return userRepository.getOne(userId);
+    }
+
+    @Override
+    public void delete(Long userId) {
+        userRepository.delete(userId);
+    }
+
+    @Override
+    public void updateUser(Long id, User user) {
+        User oldUser = this.get(id);
+
+        if (user.getEmail() != null) {
+            oldUser.setEmail(user.getEmail());
+        }
+        if (user.getGender() != null) {
+            oldUser.setGender(user.getGender());
+        }
+        if (user.getInformation() != null) {
+            oldUser.setInformation(user.getInformation());
+        }
+        if (user.getPhoneNumber() != null) {
+            oldUser.setPhoneNumber(user.getPhoneNumber());
+        }
+        if (user.getUsername() != null) {
+            oldUser.setUsername(user.getUsername());
+        }
+
+
+        this.save(oldUser);
     }
 }

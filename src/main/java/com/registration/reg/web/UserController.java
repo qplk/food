@@ -11,6 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
@@ -61,5 +64,16 @@ public class UserController {
     /*@RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public String welcome(Model model) {
         return "welcome";
+
     }*/
+
+    }
+
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public ResponseEntity findAllUsers() {
+        Iterable<User> userList = userService.findAll();
+        ResponseEntity responseEntity = new ResponseEntity<>(userList, HttpStatus.OK);
+        return responseEntity;
+    }
 }
+
