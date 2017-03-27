@@ -36,7 +36,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">Food zone</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -147,7 +147,7 @@
                                             </div>
                                  </spring:bind>
 
-                                <div class="g-recaptcha" data-sitekey="6LesJhgUAAAAAFLSWEr_gKjZEBy3riMNfU3M7CNR"></div>
+                                <div id="recaptcha" class="g-recaptcha" data-sitekey="6LesJhgUAAAAAFLSWEr_gKjZEBy3riMNfU3M7CNR"></div>
                                 <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button></div>
                             </form:form>
                             <script src="https://www.google.com/recaptcha/api.js"></script>
@@ -165,25 +165,61 @@
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
           </p>
           <div class="jumbotron">
-            <h1>Hello, world!</h1>
-            <p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.</p>
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+              <!-- Indicators -->
+              <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+              </ol>
+
+              <!-- Wrapper for slides -->
+              <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                  <img src="http://i069.radikal.ru/1703/73/470db34c4705.jpg">
+                  <div class="carousel-caption">
+
+                  </div>
+                </div>
+                <div class="item">
+                  <img src="http://i069.radikal.ru/1703/73/470db34c4705.jpg">
+                  <div class="carousel-caption">
+
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Controls -->
+              <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
           </div>
-          <div class="row">
-            <div class="col-xs-6 col-lg-6">
+          <div id="div1" class="row">
+            <div class='col-xs-6 col-lg-6'>
               <img src="https://dodopizzaru-a.akamaihd.net/Img/Products/Pizza/c581dcc8-15e7-4a0b-aea2-45bae256c4ec.jpg">
               <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+
               <div class="input-group">
                 <div class="input-group-btn">
-                 <button type="button" id="plus" class="btn btn-default" onclick="add"><span class="glyphicon glyphicon-plus"></span></button>
-                 <button type="button" id="minus" class="btn btn-default" onclick="remove"><span class="glyphicon glyphicon-minus"></span></button>
+                 <button type="button" id="plus" class="btn btn-default" onclick="add()"><span class="glyphicon glyphicon-plus"></span></button>
+                 <button type="button" id="minus" class="btn btn-default" onclick="remove()"><span class="glyphicon glyphicon-minus"></span></button>
                 </div>
+                <div class="col-xs-3">
                  <input type="text" value="0" id="res1" class="form-control" disabled>
+                </div>
               </div>
             </div><!--/.col-xs-6.col-lg-6-->
             <div class="col-xs-6 col-lg-6">
               <h2>Heading</h2>
               <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+
             </div><!--/.col-xs-6.col-lg-6-->
             <div class="col-xs-6 col-lg-6">
               <h2>Heading</h2>
@@ -200,16 +236,16 @@
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
           <div class="list-group">
-            <a href="#" class="list-group-item active">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item active">Sushi</a>
+            <a href="#" class="list-group-item">Rolls</a>
+            <a href="#" class="list-group-item">Soup</a>
+            <a href="#" class="list-group-item">Thai</a>
+            <a href="#" class="list-group-item">Salads</a>
+            <a href="#" class="list-group-item">Pizza</a>
+            <a href="#" class="list-group-item">Sets</a>
+            <a href="#" class="list-group-item">Drinks</a>
+            <input type="text" id="divNum" class="form-control">
+            <button type="button" id="build" class="btn btn-default" onclick="del"></button>
           </div>
         </div><!--/.sidebar-offcanvas-->
       </div><!--/row-->
