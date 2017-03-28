@@ -4,6 +4,7 @@ import com.registration.reg.model.Restaurant;
 import com.registration.reg.model.City;
 import com.registration.reg.repository.RestaurantRepository;
 import com.registration.reg.repository.CityRepository;
+import com.registration.reg.requestBody.RestaurantRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,16 +25,15 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Transactional
     @Override
-    public void save(Restaurant restaurant, Long cityId) {
-        City city = cityRepository.getOne(cityId);
+    public void save(RestaurantRequestBody restaurantRequestBody) {
+        Restaurant restaurant = new Restaurant(restaurantRequestBody.getStreet(), restaurantRequestBody.getBuildingNumber(), restaurantRequestBody.getRestaurantPhone());
+        City city = cityRepository.getOne(restaurantRequestBody.getCityId());
 
         restaurant.setCityByRestaurantId(city);
-
-        Set<Restaurant> restaurantsInCity = new HashSet<>(city.getRestaurants());
-        restaurantsInCity.add(restaurant);
-        city.setRestaurants(restaurantsInCity);
-
         restaurantRepository.save(restaurant);
+
+        city.getRestaurants().add(restaurant);
+
         cityRepository.save(city);
     }
 

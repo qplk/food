@@ -35,18 +35,13 @@ public class OrderElementServiceImpl implements OrderElementService {
 
         orderElement.setFood(food);
         orderElement.setOrder(order);
-
-        Set<OrderElement> orderElementsInOrder = new HashSet<>(order.getOrderElements());
-        orderElementsInOrder.add(orderElement);
-        order.setOrderElements(orderElementsInOrder);
-
-        Set<OrderElement> orderElementsWithFood = new HashSet<>(food.getOrderElements());
-        orderElementsWithFood.add(orderElement);
-        food.setOrderElements(orderElementsWithFood);
-
-        orderElementRepository.save(orderElement);
-        foodRepository.save(food);
         orderRepository.save(order);
+
+        order.getOrderElements().add(orderElement);
+        orderElementRepository.save(orderElement);
+
+        food.getOrderElements().add(orderElement);
+        foodRepository.save(food);
     }
 
     @Override

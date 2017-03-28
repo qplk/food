@@ -34,21 +34,15 @@ public class AssortmentServiceImpl implements AssortmentService {
         Food food = foodRepository.findOne(foodId);
 
         assortment.setRestaurant(restaurant);
-
-        Set<Assortment> assortmentInRestaurant = new HashSet<>(restaurant.getAssortment());
-        assortmentInRestaurant.add(assortment);
-        restaurant.setAssortment(assortmentInRestaurant);
-
         assortment.setFood(food);
-
-
-        Set<Assortment> assortmentOfFood = new HashSet<>(food.getAssortment());
-        assortmentOfFood.add(assortment);
-        food.setAssortment(assortmentOfFood);
-
-        foodRepository.save(food);
         assortmentRepository.save(assortment);
+
+        restaurant.getAssortment().add(assortment);
         restaurantRepository.save(restaurant);
+
+
+        food.getAssortment().add(assortment);
+        foodRepository.save(food);
     }
 
     @Override

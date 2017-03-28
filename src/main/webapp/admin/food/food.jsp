@@ -13,6 +13,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+    <sec:csrfMetaTags/>
 
     <title>Admin page Food</title>
 
@@ -34,9 +35,41 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Food</a>
+            <a class="navbar-brand" href="${contextPath}/admin/admin.jsp">Admin page</a>
         </div>
 
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Food</a></li>
+                <li><a href="${contextPath}/admin/users/users">Users</a></li>
+                <li><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
+                <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
+                <li><a href="#contact">Orders</a></li>
+                <li><a href="#contact">Assortment</a></li>
+            </ul>
+
+            <c:if test="${pageContext.request.userPrincipal.name == null}">
+                <form class="navbar-form navbar-right" action="${contextPath}/login">
+                    <a href="#ModalSign" class="btn btn-success" data-toggle="modal">Sign in</a>
+                </form>
+            </c:if>
+
+            <c:if test="${pageContext.request.userPrincipal.name == null}">
+                <form class="navbar-form navbar-right" action="${contextPath}/registration">
+                    <a href="#ModalReg" class="btn btn-success" data-toggle="modal">Registration</a>
+                </form>
+            </c:if>
+
+            <c:if test="${pageContext.request.userPrincipal.name != null}">
+                <p class="navbar-text navbar-right">Signed in as <a href="profile.jsp" class="navbar-link">${pageContext.request.userPrincipal.name}</a></p>
+            </c:if>
+
+            <c:if test="${pageContext.request.userPrincipal.name != null}">
+                <form class="navbar-form navbar-right" id="logoutForm" method="POST" action="${contextPath}/logout">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <a onclick="document.forms['logoutForm'].submit()"><button class="btn btn-success">logout</button></a>
+                </form>
+            </c:if>
 
     </div><!-- /.nav-collapse -->
     </div><!-- /.container -->
@@ -55,26 +88,24 @@
                 <p>Here you can manage smth</p>
             </div>
             <div class="row">
-                <sql:setDataSource var="snapshot" driver="com.mysql.jdbc.Driver"
-                   url="jdbc:mysql://localhost/Food"
-                   user="root"  password="password"/>
 
-                <sql:query dataSource="${snapshot}" var="result">
-                    SELECT * from Food;
-                </sql:query>
-
-                <c:if test="${result.rows == null}">
+                <c:if test="${empty foodList}">
                     <div class="col-xs-6 col-lg-4">
                         <h2>Food is null</h2>
                     </div><!--/.col-xs-6.col-lg-4-->
                 </c:if>
 
-                    <c:forEach var="row" items="${result.rows}">
+                    <c:forEach var="row" items="${foodList}">
                         <div class="col-xs-6 col-lg-4">
-                            <h2><c:out value="${row.food_name}"/></h2>
+                            <h2><c:out value="${row.foodName}"/></h2>
+                            <c:if test="${row.description != null}">
                             <p><c:out value="${row.description}"/></p>
+                            </c:if>
+                            <p><c:out value="${row.category}"/></p>
+                            <p><c:out value="${row.price}"/></p>
                             <p><a class="btn btn-default" href="#" role="button">Update</a></p>
                             <p><a class="btn btn-default" href="#" role="button">Delete</a></p>
+
                         </div><!--/.col-xs-6.col-lg-4-->
                     </c:forEach>
 

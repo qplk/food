@@ -38,10 +38,10 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Food</a></li>
+                <li><a href="${contextPath}/admin/food/food">Food</a></li>
                 <li><a href="${contextPath}/admin/users/users">Users</a></li>
                 <li><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
-                <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
+                <li class="active"><a href="#">Cities</a></li>
                 <li><a href="#contact">Orders</a></li>
                 <li><a href="#contact">Assortment</a></li>
             </ul>
@@ -88,45 +88,54 @@
             </div>
 
 
-            <form:form method="POST" modelAttribute="foodForm" class="form-signin">
-                <h2 class="form-signin-heading">Add new food item</h2>
-                <spring:bind path="foodName">
+            <form:form method="POST" modelAttribute="cityForm" class="form-signin">
+                <h2 class="form-signin-heading">Add new city</h2>
+                <spring:bind path="cityName">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="foodName" class="form-control" placeholder="Food name"
+                        <form:input type="text" path="cityName" class="form-control" placeholder="City name"
                                     autofocus="true"></form:input>
-                        <form:errors path="foodName"></form:errors>
+                        <form:errors path="cityName"></form:errors>
                     </div>
                 </spring:bind>
 
-                <spring:bind path="description">
+
+                <spring:bind path="deliveryPhone">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="description" class="form-control" placeholder="Description"></form:input>
-                        <form:errors path="description"></form:errors>
+                        <form:input type="text" path="deliveryPhone" class="form-control" placeholder="Delivery Phone"></form:input>
+                        <form:errors path="deliveryPhone"></form:errors>
                     </div>
                 </spring:bind>
 
-                <spring:bind path="portionSize">
+                <spring:bind path="openTime">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="portionSize" class="form-control" placeholder="Portion size"
+                        <form:input type="text" path="openTime" class="form-control" placeholder="Open Time"
                                     autofocus="true"></form:input>
-                        <form:errors path="portionSize"></form:errors>
+                        <form:errors path="openTime"></form:errors>
                     </div>
                 </spring:bind>
 
-                <spring:bind path="category">
+                <spring:bind path="closeTime">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:select class="form-control" path="category">
-                            <option>Drink</option>
-                            <option>Snack</option>
-                        </form:select>
-                    </div>
-                </spring:bind>
-
-                <spring:bind path="price">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="price" class="form-control" placeholder="Price"
+                        <form:input type="text" path="closeTime" class="form-control" placeholder="Close Time"
                                     autofocus="true"></form:input>
-                        <form:errors path="price"></form:errors>
+                        <form:errors path="closeTime"></form:errors>
+                    </div>
+                </spring:bind>
+
+
+                <spring:bind path="deliveryTime">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="deliveryTime" class="form-control" placeholder="Delivery Time"
+                                    autofocus="true"></form:input>
+                        <form:errors path="deliveryTime"></form:errors>
+                    </div>
+                </spring:bind>
+
+                <spring:bind path="minPrice">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="minPrice" class="form-control" placeholder="Min Price"
+                                    autofocus="true"></form:input>
+                        <form:errors path="minPrice"></form:errors>
                     </div>
                 </spring:bind>
 

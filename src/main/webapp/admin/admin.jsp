@@ -33,9 +33,34 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Food</a>
+            <a class="navbar-brand" href="#">Admin page</a>
         </div>
 
+
+        <div id="navbar" class="collapse navbar-collapse">
+
+            <c:if test="${pageContext.request.userPrincipal.name == null}">
+                <form class="navbar-form navbar-right" action="${contextPath}/login">
+                    <a href="#ModalSign" class="btn btn-success" data-toggle="modal">Sign in</a>
+                </form>
+            </c:if>
+
+            <c:if test="${pageContext.request.userPrincipal.name == null}">
+                <form class="navbar-form navbar-right" action="${contextPath}/registration">
+                    <a href="#ModalReg" class="btn btn-success" data-toggle="modal">Registration</a>
+                </form>
+            </c:if>
+
+            <c:if test="${pageContext.request.userPrincipal.name != null}">
+                <p class="navbar-text navbar-right">Signed in as <a href="profile.jsp" class="navbar-link">${pageContext.request.userPrincipal.name}</a></p>
+            </c:if>
+
+            <c:if test="${pageContext.request.userPrincipal.name != null}">
+                <form class="navbar-form navbar-right" id="logoutForm" method="POST" action="${contextPath}/logout">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <a onclick="document.forms['logoutForm'].submit()"><button class="btn btn-success">logout</button></a>
+                </form>
+            </c:if>
 
         </div><!-- /.nav-collapse -->
     </div><!-- /.container -->
@@ -57,22 +82,22 @@
                 <div class="col-xs-6 col-lg-4">
                     <h2>Users</h2>
                     <p>Find, update, create and delete users.</p>
-                    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                    <p><a class="btn btn-default" href="${contextPath}/admin/users/users" role="button">View details &raquo;</a></p>
                 </div><!--/.col-xs-6.col-lg-4-->
                 <div class="col-xs-6 col-lg-4">
                     <h2>Restaurants</h2>
                     <p>Find, update, create and delete restaurants.</p>
-                    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                    <p><a class="btn btn-default" href="${contextPath}/admin/restaurants/restaurants" role="button">View details &raquo;</a></p>
                 </div><!--/.col-xs-6.col-lg-4-->
                 <div class="col-xs-6 col-lg-4">
                     <h2>Cities</h2>
                     <p>Find, update, create and delete cities. </p>
-                    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                    <p><a class="btn btn-default" href="${contextPath}/admin/cities/cities" role="button">View details &raquo;</a></p>
                 </div><!--/.col-xs-6.col-lg-4-->
                 <div class="col-xs-6 col-lg-4">
                     <h2>Food</h2>
                     <p>Find, update, create and delete food.</p>
-                    <p><a class="btn btn-default" href="food/food.jsp" role="button">View details &raquo;</a></p>
+                    <p><a class="btn btn-default" href="${contextPath}/admin/food/food" role="button">View details &raquo;</a></p>
                 </div><!--/.col-xs-6.col-lg-4-->
                 <div class="col-xs-6 col-lg-4">
                     <h2>Orders</h2>

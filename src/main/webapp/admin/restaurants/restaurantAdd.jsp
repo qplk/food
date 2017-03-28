@@ -14,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin page Food Add</title>
+    <title>Admin page Restaurant Add</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
@@ -87,48 +87,49 @@
                 <p>Here you can manage smth</p>
             </div>
 
-
-            <form:form method="POST" modelAttribute="foodForm" class="form-signin">
-                <h2 class="form-signin-heading">Add new food item</h2>
-                <spring:bind path="foodName">
+            <form:form method="POST" modelAttribute="restaurantForm" class="form-signin">
+                <h2 class="form-signin-heading">Add new restaurant</h2>
+                <spring:bind path="street">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="foodName" class="form-control" placeholder="Food name"
+                        <form:input type="text" path="street" class="form-control" placeholder="Street"
                                     autofocus="true"></form:input>
-                        <form:errors path="foodName"></form:errors>
+                        <form:errors path="street"></form:errors>
                     </div>
                 </spring:bind>
 
-                <spring:bind path="description">
+                <spring:bind path="buildingNumber">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="description" class="form-control" placeholder="Description"></form:input>
-                        <form:errors path="description"></form:errors>
+                        <form:input type="text" path="buildingNumber" class="form-control" placeholder="Building Number"></form:input>
+                        <form:errors path="buildingNumber"></form:errors>
                     </div>
                 </spring:bind>
 
-                <spring:bind path="portionSize">
+                <spring:bind path="restaurantPhone">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="portionSize" class="form-control" placeholder="Portion size"
+                        <form:input type="text" path="restaurantPhone" class="form-control" placeholder="Restaurant Phone"
                                     autofocus="true"></form:input>
-                        <form:errors path="portionSize"></form:errors>
+                        <form:errors path="restaurantPhone"></form:errors>
                     </div>
                 </spring:bind>
 
-                <spring:bind path="category">
+                <spring:bind path="cityId">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:select class="form-control" path="category">
-                            <option>Drink</option>
-                            <option>Snack</option>
+                        <form:select class="form-control" path="cityId">
+                            <c:if test="${empty citiesList}">
+
+                                    <option>No city available</option>
+
+                            </c:if>
+
+                            <c:forEach var="row" items="${citiesList}">
+
+                                <option value="${row.cityId}"><c:out value="${row.cityName}"/></option>
+
+                            </c:forEach>
                         </form:select>
                     </div>
                 </spring:bind>
 
-                <spring:bind path="price">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="price" class="form-control" placeholder="Price"
-                                    autofocus="true"></form:input>
-                        <form:errors path="price"></form:errors>
-                    </div>
-                </spring:bind>
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
             </form:form>

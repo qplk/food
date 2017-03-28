@@ -29,8 +29,7 @@ public class RestaurantContoller {
 
     @RequestMapping(value = "/restaurants", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity addRestaurant(@RequestBody RestaurantRequestBody restaurantRequestBody) {
-        Restaurant restaurant = new Restaurant(restaurantRequestBody.getStreet(), restaurantRequestBody.getBuildingNumber(), restaurantRequestBody.getRestaurantPhone());
-        restaurantService.save(restaurant, restaurantRequestBody.getCityId());
+        restaurantService.save(restaurantRequestBody);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
