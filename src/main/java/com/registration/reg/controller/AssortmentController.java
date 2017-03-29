@@ -31,9 +31,7 @@ public class AssortmentController {
 
     @RequestMapping(value = "/assortment", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity addAssortment(@RequestBody AssortmentRequestBody assortmentRequestBody) {
-        Assortment assortment = new Assortment(assortmentRequestBody.getQuantity(), assortmentRequestBody.getEnable());
-
-        assortmentService.save(assortment, assortmentRequestBody.getRestaurantId(), assortmentRequestBody.getFoodId());
+        assortmentService.save(assortmentRequestBody);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 

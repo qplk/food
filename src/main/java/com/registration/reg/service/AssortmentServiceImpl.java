@@ -6,6 +6,7 @@ import com.registration.reg.model.Food;
 import com.registration.reg.repository.AssortmentRepository;
 import com.registration.reg.repository.RestaurantRepository;
 import com.registration.reg.repository.FoodRepository;
+import com.registration.reg.requestBody.AssortmentRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,9 +30,10 @@ public class AssortmentServiceImpl implements AssortmentService {
 
     @Transactional
     @Override
-    public void save(Assortment assortment, Long restaurantId, Long foodId) {
-        Restaurant restaurant = restaurantRepository.findOne(restaurantId);
-        Food food = foodRepository.findOne(foodId);
+    public void save(AssortmentRequestBody assortmentRequestBody) {
+        Assortment assortment = new Assortment(assortmentRequestBody.getQuantity(), assortmentRequestBody.getEnable());
+        Restaurant restaurant = restaurantRepository.findOne(assortmentRequestBody.getRestaurantId());
+        Food food = foodRepository.findOne(assortmentRequestBody.getFoodId());
 
         assortment.setRestaurant(restaurant);
         assortment.setFood(food);

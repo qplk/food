@@ -102,12 +102,12 @@
                 <div class="col-xs-6 col-lg-4">
                     <h2>Orders</h2>
                     <p>Find, update, create and delete orders.</p>
-                    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                    <p><a class="btn btn-default" href="${contextPath}/admin/orders/orders" role="button">View details &raquo;</a></p>
                 </div><!--/.col-xs-6.col-lg-4-->
                 <div class="col-xs-6 col-lg-4">
                     <h2>Assortment</h2>
                     <p>Find, update, create and delete assortment.</p>
-                    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                    <p><a class="btn btn-default" href="${contextPath}/admin/assortment/assortment" role="button">View details &raquo;</a></p>
                 </div><!--/.col-xs-6.col-lg-4-->
 
             </div><!--/row-->

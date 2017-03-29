@@ -44,8 +44,8 @@
                 <li><a href="${contextPath}/admin/users/users">Users</a></li>
                 <li class="active"><a href="#">Restaurants</a></li>
                 <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
-                <li><a href="#contact">Orders</a></li>
-                <li><a href="#contact">Assortment</a></li>
+                <li><a href="${contextPath}/admin/orders/orders">Orders</a></li>
+                <li><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
             </ul>
 
             <c:if test="${pageContext.request.userPrincipal.name == null}">
@@ -97,8 +97,8 @@
 
                 <c:forEach var="row" items="${restaurantsList}">
                     <div class="col-xs-6 col-lg-4">
-                        <h2><c:out value="${row.restaurantPhone}"/></h2>
-                        <p><c:out value="${row.street}"/>, <c:out value="${row.buildingNumber}"/></p>
+                        <h2><c:out value="${row.street}"/>, <c:out value="${row.buildingNumber}"/></h2>
+                        <p><c:out value="${row.restaurantPhone}"/></p>
                         <p><c:out value="${row.cityByRestaurantId.cityName}"/></p>
                         <p><a class="btn btn-default" href="#" role="button">Update</a></p>
                         <p><a class="btn btn-default" href="#" role="button">Delete</a></p>

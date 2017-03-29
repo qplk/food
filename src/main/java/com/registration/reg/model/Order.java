@@ -9,7 +9,7 @@ import java.sql.*;
  * Created by Stasia on 08.03.17.
  */
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     public Order(Time deliveryTime, Integer fullPrice, String status, String statusInfo, String paymentInfo) {
         this.deliveryTime = deliveryTime;

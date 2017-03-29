@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -13,8 +13,9 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+    <sec:csrfMetaTags/>
 
-    <title>Admin page Food Add</title>
+    <title>Admin page Orders</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
@@ -36,13 +37,14 @@
             </button>
             <a class="navbar-brand" href="${contextPath}/admin/admin.jsp">Admin page</a>
         </div>
+
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="${contextPath}/admin/food/food">Food</a></li>
                 <li><a href="${contextPath}/admin/users/users">Users</a></li>
                 <li><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
-                <li class="active"><a href="#">Cities</a></li>
-                <li><a href="${contextPath}/admin/orders/orders">Orders</a></li>
+                <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
+                <li class="active"><a href="#">Orders</a></li>
                 <li><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
             </ul>
 
@@ -70,7 +72,6 @@
             </c:if>
 
         </div><!-- /.nav-collapse -->
-
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
 
@@ -86,69 +87,33 @@
                 <h1>Admin page</h1>
                 <p>Here you can manage smth</p>
             </div>
+            <div class="row">
+
+                <c:if test="${empty ordersList}">
+                    <div class="col-xs-6 col-lg-4">
+                        <h2>No orders</h2>
+                    </div><!--/.col-xs-6.col-lg-4-->
+                </c:if>
+
+                <c:forEach var="row" items="${ordersList}">
+                    <div class="col-xs-6 col-lg-4">
+                        <p><a class="btn btn-default" href="#" role="button">Update</a></p>
+                        <p><a class="btn btn-default" href="#" role="button">Delete</a></p>
+
+                    </div><!--/.col-xs-6.col-lg-4-->
+                </c:forEach>
 
 
-            <form:form method="POST" modelAttribute="cityForm" class="form-signin">
-                <h2 class="form-signin-heading">Add new city</h2>
-                <spring:bind path="cityName">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="cityName" class="form-control" placeholder="City name"
-                                    autofocus="true"></form:input>
-                        <form:errors path="cityName"></form:errors>
-                    </div>
-                </spring:bind>
 
 
-                <spring:bind path="deliveryPhone">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="deliveryPhone" class="form-control" placeholder="Delivery Phone"></form:input>
-                        <form:errors path="deliveryPhone"></form:errors>
-                    </div>
-                </spring:bind>
-
-                <spring:bind path="openTime">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="openTime" class="form-control" placeholder="Open Time"
-                                    autofocus="true"></form:input>
-                        <form:errors path="openTime"></form:errors>
-                    </div>
-                </spring:bind>
-
-                <spring:bind path="closeTime">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="closeTime" class="form-control" placeholder="Close Time"
-                                    autofocus="true"></form:input>
-                        <form:errors path="closeTime"></form:errors>
-                    </div>
-                </spring:bind>
-
-
-                <spring:bind path="deliveryTime">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="deliveryTime" class="form-control" placeholder="Delivery Time"
-                                    autofocus="true"></form:input>
-                        <form:errors path="deliveryTime"></form:errors>
-                    </div>
-                </spring:bind>
-
-                <spring:bind path="minPrice">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="minPrice" class="form-control" placeholder="Min Price"
-                                    autofocus="true"></form:input>
-                        <form:errors path="minPrice"></form:errors>
-                    </div>
-                </spring:bind>
-
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-            </form:form>
-
+            </div><!--/row-->
         </div><!--/.col-xs-12.col-sm-9-->
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
             <div class="list-group">
-                <a href="${contextPath}/admin/food/foodAdd" class="list-group-item active">Add</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item active">Food</a>
+                <!--<a href=".jsp" class="list-group-item">Add new item</a>-->
+
             </div>
         </div><!--/.sidebar-offcanvas-->
     </div><!--/row-->

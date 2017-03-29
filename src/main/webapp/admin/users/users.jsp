@@ -44,8 +44,8 @@
                 <li class="active"><a href="#">Users</a></li>
                 <li><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
                 <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
-                <li><a href="#contact">Orders</a></li>
-                <li><a href="#contact">Assortment</a></li>
+                <li><a href="${contextPath}/admin/orders/orders">Orders</a></li>
+                <li><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
             </ul>
 
             <c:if test="${pageContext.request.userPrincipal.name == null}">

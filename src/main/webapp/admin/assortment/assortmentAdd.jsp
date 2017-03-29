@@ -14,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin page Food Add</title>
+    <title>Admin page Assortment Add</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
@@ -41,9 +41,9 @@
                 <li><a href="${contextPath}/admin/food/food">Food</a></li>
                 <li><a href="${contextPath}/admin/users/users">Users</a></li>
                 <li><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
-                <li class="active"><a href="#">Cities</a></li>
+                <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
                 <li><a href="${contextPath}/admin/orders/orders">Orders</a></li>
-                <li><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
+                <li class="active"><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
             </ul>
 
             <c:if test="${pageContext.request.userPrincipal.name == null}">
@@ -88,56 +88,57 @@
             </div>
 
 
-            <form:form method="POST" modelAttribute="cityForm" class="form-signin">
-                <h2 class="form-signin-heading">Add new city</h2>
-                <spring:bind path="cityName">
+            <h2>Restaurant</h2>
+            <h2><c:out value="${restaurant.street}"/>, <c:out value="${restaurant.buildingNumber}"/></h2>
+            <p><c:out value="${restaurant.restaurantPhone}"/></p>
+            <p><c:out value="${restaurant.cityByRestaurantId.cityName}"/></p>
+
+
+
+            <form:form method="POST" modelAttribute="assortmentForm" class="form-signin">
+                <h2 class="form-signin-heading">Add assortment</h2>
+
+                <spring:bind path="foodId">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="cityName" class="form-control" placeholder="City name"
+                        <form:select class="form-control" path="foodId">
+                            <c:if test="${empty foodList}">
+
+                                <option>No food available</option>
+
+                            </c:if>
+
+                            <c:forEach var="row" items="${foodList}">
+
+                                <option value="${row.foodId}"><c:out value="${row.foodName}"/></option>
+
+                            </c:forEach>
+                        </form:select>
+                    </div>
+                </spring:bind>
+
+
+
+                <spring:bind path="enable">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:select class="form-control" path="enable">
+
+                            <option value="0">Disable</option>
+                            <option value="1">Enable</option>
+
+                        </form:select>
+                    </div>
+                </spring:bind>
+
+                <spring:bind path="quantity">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="quantity" class="form-control" placeholder="Quantity"
                                     autofocus="true"></form:input>
-                        <form:errors path="cityName"></form:errors>
+                        <form:errors path="quantity"></form:errors>
                     </div>
                 </spring:bind>
 
 
-                <spring:bind path="deliveryPhone">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="deliveryPhone" class="form-control" placeholder="Delivery Phone"></form:input>
-                        <form:errors path="deliveryPhone"></form:errors>
-                    </div>
-                </spring:bind>
 
-                <spring:bind path="openTime">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="openTime" class="form-control" placeholder="Open Time"
-                                    autofocus="true"></form:input>
-                        <form:errors path="openTime"></form:errors>
-                    </div>
-                </spring:bind>
-
-                <spring:bind path="closeTime">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="closeTime" class="form-control" placeholder="Close Time"
-                                    autofocus="true"></form:input>
-                        <form:errors path="closeTime"></form:errors>
-                    </div>
-                </spring:bind>
-
-
-                <spring:bind path="deliveryTime">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="deliveryTime" class="form-control" placeholder="Delivery Time"
-                                    autofocus="true"></form:input>
-                        <form:errors path="deliveryTime"></form:errors>
-                    </div>
-                </spring:bind>
-
-                <spring:bind path="minPrice">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="minPrice" class="form-control" placeholder="Min Price"
-                                    autofocus="true"></form:input>
-                        <form:errors path="minPrice"></form:errors>
-                    </div>
-                </spring:bind>
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
             </form:form>
