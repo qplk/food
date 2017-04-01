@@ -37,23 +37,16 @@ public class OrderServiceImpl implements OrderService {
         order.setUserByOrderId(user);
         order.setRestaurantByOrderId(restaurant);
         order.setAddressByOrderId(address);
-
-        Set<Order> ordersFromUser = new HashSet<>(user.getOrders());
-        ordersFromUser.add(order);
-        user.setOrders(ordersFromUser);
-
-        Set<Order> ordersFromAddress = new HashSet<>(address.getOrders());
-        ordersFromAddress.add(order);
-        address.setOrders(ordersFromAddress);
-
-        Set<Order> ordersInRestaurant = new HashSet<>(restaurant.getOrders());
-        ordersInRestaurant.add(order);
-        restaurant.setOrders(ordersInRestaurant);
-
         orderRepository.save(order);
+
+        user.getOrders().add(order);
         userRepository.save(user);
-        restaurantRepository.save(restaurant);
+
+        address.getOrders().add(order);
         addressRepository.save(address);
+
+        restaurant.getOrders().add(order);
+        restaurantRepository.save(restaurant);
     }
 
     @Override

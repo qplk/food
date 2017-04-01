@@ -10,6 +10,8 @@ import java.util.List;
 public interface FoodService {
     void save(Food food);
 
+    Food findByFoodName(String foodName);
+
     Food get(Long foodId);
 
     List<Food> findAll();

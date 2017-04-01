@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -67,13 +70,15 @@ public class UserController {
 
     }*/
 
+
+    @RequestMapping(value = "/admin/users/users", method = RequestMethod.GET)
+    public ModelAndView findAllUsers() {
+        List<User> usersList = userService.findAll();
+        ModelAndView model = new ModelAndView("/admin/users/users");
+        model.addObject("usersList", usersList);
+
+        return model;
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ResponseEntity findAllUsers() {
-        Iterable<User> userList = userService.findAll();
-        ResponseEntity responseEntity = new ResponseEntity<>(userList, HttpStatus.OK);
-        return responseEntity;
-    }
 }
 

@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -13,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin page</title>
+    <title>Admin page Food Add</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
@@ -33,11 +34,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Admin page</a>
+            <a class="navbar-brand" href="${contextPath}/admin/admin.jsp">Admin page</a>
         </div>
-
-
         <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="${contextPath}/admin/food/food">Food</a></li>
+                <li><a href="${contextPath}/admin/users/users">Users</a></li>
+                <li><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
+                <li class="active"><a href="#">Cities</a></li>
+                <li><a href="${contextPath}/admin/orders/orders">Orders</a></li>
+                <li><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
+            </ul>
 
             <c:if test="${pageContext.request.userPrincipal.name == null}">
                 <form class="navbar-form navbar-right" action="${contextPath}/login">
@@ -63,6 +70,7 @@
             </c:if>
 
         </div><!-- /.nav-collapse -->
+
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
 
@@ -78,51 +86,67 @@
                 <h1>Admin page</h1>
                 <p>Here you can manage smth</p>
             </div>
-            <div class="row">
-                <div class="col-xs-6 col-lg-4">
-                    <h2>Users</h2>
-                    <p>Find, update, create and delete users.</p>
-                    <p><a class="btn btn-default" href="${contextPath}/admin/users/users" role="button">View details &raquo;</a></p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-6 col-lg-4">
-                    <h2>Restaurants</h2>
-                    <p>Find, update, create and delete restaurants.</p>
-                    <p><a class="btn btn-default" href="${contextPath}/admin/restaurants/restaurants" role="button">View details &raquo;</a></p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-6 col-lg-4">
-                    <h2>Cities</h2>
-                    <p>Find, update, create and delete cities. </p>
-                    <p><a class="btn btn-default" href="${contextPath}/admin/cities/cities" role="button">View details &raquo;</a></p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-6 col-lg-4">
-                    <h2>Food</h2>
-                    <p>Find, update, create and delete food.</p>
-                    <p><a class="btn btn-default" href="${contextPath}/admin/food/food" role="button">View details &raquo;</a></p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-6 col-lg-4">
-                    <h2>Orders</h2>
-                    <p>Find, update, create and delete orders.</p>
-                    <p><a class="btn btn-default" href="${contextPath}/admin/orders/orders" role="button">View details &raquo;</a></p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-6 col-lg-4">
-                    <h2>Assortment</h2>
-                    <p>Find, update, create and delete assortment.</p>
-                    <p><a class="btn btn-default" href="${contextPath}/admin/assortment/assortment" role="button">View details &raquo;</a></p>
-                </div><!--/.col-xs-6.col-lg-4-->
 
-            </div><!--/row-->
+
+            <form:form method="POST" modelAttribute="cityForm" class="form-signin">
+                <h2 class="form-signin-heading">Add new city</h2>
+                <spring:bind path="cityName">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="cityName" class="form-control" placeholder="City name"
+                                    autofocus="true"></form:input>
+                        <form:errors path="cityName"></form:errors>
+                    </div>
+                </spring:bind>
+
+
+                <spring:bind path="deliveryPhone">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="deliveryPhone" class="form-control" placeholder="Delivery Phone"></form:input>
+                        <form:errors path="deliveryPhone"></form:errors>
+                    </div>
+                </spring:bind>
+
+                <spring:bind path="openTime">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="openTime" class="form-control" placeholder="Open Time"
+                                    autofocus="true"></form:input>
+                        <form:errors path="openTime"></form:errors>
+                    </div>
+                </spring:bind>
+
+                <spring:bind path="closeTime">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="closeTime" class="form-control" placeholder="Close Time"
+                                    autofocus="true"></form:input>
+                        <form:errors path="closeTime"></form:errors>
+                    </div>
+                </spring:bind>
+
+
+                <spring:bind path="deliveryTime">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="deliveryTime" class="form-control" placeholder="Delivery Time"
+                                    autofocus="true"></form:input>
+                        <form:errors path="deliveryTime"></form:errors>
+                    </div>
+                </spring:bind>
+
+                <spring:bind path="minPrice">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="minPrice" class="form-control" placeholder="Min Price"
+                                    autofocus="true"></form:input>
+                        <form:errors path="minPrice"></form:errors>
+                    </div>
+                </spring:bind>
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+            </form:form>
+
         </div><!--/.col-xs-12.col-sm-9-->
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
             <div class="list-group">
-                <a href="#" class="list-group-item active">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
+                <a href="${contextPath}/admin/food/foodAdd" class="list-group-item active">Add</a>
                 <a href="#" class="list-group-item">Link</a>
                 <a href="#" class="list-group-item">Link</a>
             </div>

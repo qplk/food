@@ -103,6 +103,7 @@ public class City {
     }
 
     public void setRestaurants(Set<Restaurant> restaurants) {
+
         this.restaurants = restaurants;
     }
 }

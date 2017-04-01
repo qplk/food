@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -13,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin page</title>
+    <title>Admin page Restaurant Add</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
@@ -33,11 +34,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Admin page</a>
+            <a class="navbar-brand" href="${contextPath}/admin/admin.jsp">Admin page</a>
         </div>
-
-
         <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Food</a></li>
+                <li><a href="${contextPath}/admin/users/users">Users</a></li>
+                <li><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
+                <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
+                <li><a href="${contextPath}/admin/orders/orders">Orders</a></li>
+                <li><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
+            </ul>
 
             <c:if test="${pageContext.request.userPrincipal.name == null}">
                 <form class="navbar-form navbar-right" action="${contextPath}/login">
@@ -63,6 +70,7 @@
             </c:if>
 
         </div><!-- /.nav-collapse -->
+
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
 
@@ -78,51 +86,59 @@
                 <h1>Admin page</h1>
                 <p>Here you can manage smth</p>
             </div>
-            <div class="row">
-                <div class="col-xs-6 col-lg-4">
-                    <h2>Users</h2>
-                    <p>Find, update, create and delete users.</p>
-                    <p><a class="btn btn-default" href="${contextPath}/admin/users/users" role="button">View details &raquo;</a></p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-6 col-lg-4">
-                    <h2>Restaurants</h2>
-                    <p>Find, update, create and delete restaurants.</p>
-                    <p><a class="btn btn-default" href="${contextPath}/admin/restaurants/restaurants" role="button">View details &raquo;</a></p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-6 col-lg-4">
-                    <h2>Cities</h2>
-                    <p>Find, update, create and delete cities. </p>
-                    <p><a class="btn btn-default" href="${contextPath}/admin/cities/cities" role="button">View details &raquo;</a></p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-6 col-lg-4">
-                    <h2>Food</h2>
-                    <p>Find, update, create and delete food.</p>
-                    <p><a class="btn btn-default" href="${contextPath}/admin/food/food" role="button">View details &raquo;</a></p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-6 col-lg-4">
-                    <h2>Orders</h2>
-                    <p>Find, update, create and delete orders.</p>
-                    <p><a class="btn btn-default" href="${contextPath}/admin/orders/orders" role="button">View details &raquo;</a></p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-6 col-lg-4">
-                    <h2>Assortment</h2>
-                    <p>Find, update, create and delete assortment.</p>
-                    <p><a class="btn btn-default" href="${contextPath}/admin/assortment/assortment" role="button">View details &raquo;</a></p>
-                </div><!--/.col-xs-6.col-lg-4-->
 
-            </div><!--/row-->
+            <form:form method="POST" modelAttribute="restaurantForm" class="form-signin">
+                <h2 class="form-signin-heading">Add new restaurant</h2>
+                <spring:bind path="street">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="street" class="form-control" placeholder="Street"
+                                    autofocus="true"></form:input>
+                        <form:errors path="street"></form:errors>
+                    </div>
+                </spring:bind>
+
+                <spring:bind path="buildingNumber">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="buildingNumber" class="form-control" placeholder="Building Number"></form:input>
+                        <form:errors path="buildingNumber"></form:errors>
+                    </div>
+                </spring:bind>
+
+                <spring:bind path="restaurantPhone">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="restaurantPhone" class="form-control" placeholder="Restaurant Phone"
+                                    autofocus="true"></form:input>
+                        <form:errors path="restaurantPhone"></form:errors>
+                    </div>
+                </spring:bind>
+
+                <spring:bind path="cityId">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:select class="form-control" path="cityId">
+                            <c:if test="${empty citiesList}">
+
+                                    <option>No city available</option>
+
+                            </c:if>
+
+                            <c:forEach var="row" items="${citiesList}">
+
+                                <option value="${row.cityId}"><c:out value="${row.cityName}"/></option>
+
+                            </c:forEach>
+                        </form:select>
+                    </div>
+                </spring:bind>
+
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+            </form:form>
+
         </div><!--/.col-xs-12.col-sm-9-->
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
             <div class="list-group">
-                <a href="#" class="list-group-item active">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
+                <a href="${contextPath}/admin/food/foodAdd" class="list-group-item active">Add</a>
                 <a href="#" class="list-group-item">Link</a>
                 <a href="#" class="list-group-item">Link</a>
             </div>
