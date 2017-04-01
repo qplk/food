@@ -138,6 +138,14 @@
                                             </div>
                                  </spring:bind>
 
+                                 <spring:bind path="phoneNumber">
+                                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                                <form:input type="text" path="phoneNumber" class="form-control" placeholder="phone"
+                                                     autofocus="true"></form:input>
+                                                <form:errors path="phoneNumber"></form:errors>
+                                            </div>
+                                 </spring:bind>
+
                                  <spring:bind path="gender">
                                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                                 <form:select class="form-control" path="gender">
