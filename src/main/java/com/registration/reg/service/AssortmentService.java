@@ -13,6 +13,8 @@ public interface AssortmentService {
 
     Assortment get(Long assortmentId);
 
+    Assortment findByRestaurantIdAndFoodId(Long restaurantId, Long foodId);
+
     List<Assortment> findAll();
 
     void delete(Long assortmentId);

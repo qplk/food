@@ -7,6 +7,8 @@ import com.registration.reg.requestBody.RestaurantRequestBody;
 import com.registration.reg.service.AssortmentService;
 import com.registration.reg.service.FoodService;
 import com.registration.reg.service.RestaurantService;
+import com.registration.reg.validator.AssortmentValidator;
+import com.registration.reg.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,8 @@ public class AssortmentController {
     @Autowired
     FoodService foodService;
 
+    @Autowired
+    private AssortmentValidator assortmentValidator;
 
     @RequestMapping(value = "/admin/assortment/assortment", method = RequestMethod.GET)
     public ModelAndView findAllAssortment() {
@@ -59,9 +63,13 @@ public class AssortmentController {
 
     @RequestMapping(value = "/admin/assortment/assortmentAdd/{restaurantId}", method = RequestMethod.POST)
     public String assortmentAdd(@PathVariable Long restaurantId, @ModelAttribute("assortmentForm") AssortmentRequestBody assortmentForm, BindingResult bindingResult, ModelMap model) {
+        assortmentValidator.validate(assortmentForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "/admin/assortment/assortmentAdd/" + assortmentForm.getRestaurantId();
+            model.addAttribute("restaurant", restaurantService.get(restaurantId));
+            model.addAttribute("foodList", foodService.findAll());
+
+            return "/admin/assortment/assortmentAdd";
         }
 
         assortmentService.save(assortmentForm);

@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
 @Component
 public class UserValidator implements Validator {
 
-    private static final String patternString = "([A-Za-z0-9]{1,}[\\\\-]{0,1}[A-Za-z0-9]{1,}[\\\\.]{0,1}[A-Za-z0-9]{1,})+@([A-Za-z0-9]{1,}[\\\\-]{0,1}[A-Za-z0-9]{1,}[\\\\.]{0,1}[A-Za-z0-9]{1,})+[\\\\.]{1}[a-z]{2,4}";
-    private static final Pattern pattern = Pattern.compile(patternString);
+    private static final String patternEmailString = "([A-Za-z0-9]{1,}[\\\\-]{0,1}[A-Za-z0-9]{1,}[\\\\.]{0,1}[A-Za-z0-9]{1,})+@([A-Za-z0-9]{1,}[\\\\-]{0,1}[A-Za-z0-9]{1,}[\\\\.]{0,1}[A-Za-z0-9]{1,})+[\\\\.]{1}[a-z]{2,4}";
+    private static final Pattern patternEmail = Pattern.compile(patternEmailString);
 
     @Autowired
     private UserService userService;
@@ -46,7 +46,7 @@ public class UserValidator implements Validator {
             errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
         }
 
-        if(!pattern.matcher(user.getEmail()).matches()){
+        if(!patternEmail.matcher(user.getEmail()).matches()){
             errors.rejectValue("email", "Match.userForm.email");
         }
 

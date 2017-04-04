@@ -28,6 +28,11 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
+    public City findByCityName(String cityName) {
+        return cityRepository.findByCityName(cityName);
+    }
+
+    @Override
     public void delete(Long cityId) {
         cityRepository.delete(cityId);
     }

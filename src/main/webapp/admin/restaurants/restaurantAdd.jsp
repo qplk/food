@@ -38,9 +38,9 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Food</a></li>
+                <li><a href="#">Food</a></li>
                 <li><a href="${contextPath}/admin/users/users">Users</a></li>
-                <li><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
+                <li class="active"><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
                 <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
                 <li><a href="${contextPath}/admin/orders/orders">Orders</a></li>
                 <li><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
@@ -102,6 +102,7 @@
                         <form:input type="text" path="buildingNumber" class="form-control" placeholder="Building Number"></form:input>
                         <form:errors path="buildingNumber"></form:errors>
                     </div>
+
                 </spring:bind>
 
                 <spring:bind path="restaurantPhone">
@@ -127,6 +128,7 @@
 
                             </c:forEach>
                         </form:select>
+                        <form:errors path="cityId"></form:errors>
                     </div>
                 </spring:bind>
 

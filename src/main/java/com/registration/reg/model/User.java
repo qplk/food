@@ -10,7 +10,7 @@ public class User {
     private Long userId;
     private String username;
     private String email;
-    private String gender;
+    private Long gender;
     private String password;
     private String passwordConfirm;
     private Set<Role> roles;
@@ -51,11 +51,11 @@ public class User {
 
 
     @Column(name = "gender", nullable = false)
-    public String getGender() {
+    public Long getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Long gender) {
         this.gender = gender;
     }
 

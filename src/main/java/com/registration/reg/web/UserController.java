@@ -64,11 +64,11 @@ public class UserController {
         return "welcome";
     }
 
-    /*@RequestMapping(value = {"/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public String welcome(Model model) {
         return "welcome";
 
-    }*/
+    }
 
 
     @RequestMapping(value = "/admin/users/users", method = RequestMethod.GET)

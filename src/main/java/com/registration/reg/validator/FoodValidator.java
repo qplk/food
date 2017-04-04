@@ -44,6 +44,7 @@ public class FoodValidator implements Validator {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "NotEmpty");
+
         if (food.getPrice() < 0) {
             errors.rejectValue("price", "Value.foodForm.price");
         }

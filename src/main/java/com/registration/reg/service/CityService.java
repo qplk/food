@@ -12,6 +12,8 @@ public interface CityService {
 
     City get(Long cityId);
 
+    City findByCityName(String cityName);
+
     List<City> findAll();
 
     void delete(Long cityId);

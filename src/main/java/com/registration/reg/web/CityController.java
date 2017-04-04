@@ -2,7 +2,7 @@ package com.registration.reg.web;
 
 import com.registration.reg.model.City;
 import com.registration.reg.service.CityService;
-import com.registration.reg.validator.FoodValidator;
+import com.registration.reg.validator.CityValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +24,9 @@ public class CityController {
     @Autowired
     CityService cityService;
 
+    @Autowired
+    private CityValidator cityValidator;
+
 
     @RequestMapping(value = "/admin/cities/cityAdd", method = RequestMethod.GET)
     public String cityAdd(Model model) {
@@ -35,6 +38,8 @@ public class CityController {
 
     @RequestMapping(value = "/admin/cities/cityAdd", method = RequestMethod.POST)
     public String cityAdd(@ModelAttribute("cityForm") City cityForm, BindingResult bindingResult, ModelMap model) {
+        cityValidator.validate(cityForm, bindingResult);
+
 
         if (bindingResult.hasErrors()) {
             return "/admin/cities/cityAdd";

@@ -110,6 +110,11 @@
                         </c:if>
 
                         <p><c:out value="${row.email}"/></p>
+                        Roles:
+                    <c:forEach var="role" items="${row.roles}">
+                        <c:out value="${role.name}
+                        " />
+                        </c:forEach>
                         <p><a class="btn btn-default" href="#" role="button">Update</a></p>
                         <p><a class="btn btn-default" href="#" role="button">Delete</a></p>
 

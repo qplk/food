@@ -149,8 +149,8 @@
                                  <spring:bind path="gender">
                                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                                 <form:select class="form-control" path="gender">
-                                                      <option>Male</option>
-                                                      <option>Female</option>
+                                                      <option value="0">Male</option>
+                                                      <option value="1">Female</option>
                                                 </form:select>
                                             </div>
                                  </spring:bind>
