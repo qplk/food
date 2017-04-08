@@ -66,4 +66,17 @@ public class AssortmentServiceImpl implements AssortmentService {
     public List<Assortment> findAll() {
         return assortmentRepository.findAll();
     }
+
+    @Override
+    public void update(Long restaurantId, Long foodId, AssortmentRequestBody assortmentRequestBody) {
+        Restaurant restaurant = restaurantRepository.getOne(restaurantId);
+        Food food = foodRepository.getOne(foodId);
+
+        Assortment assortment = assortmentRepository.findByRestaurantAndFood(restaurant, food);
+
+        assortment.setQuantity(assortmentRequestBody.getQuantity());
+        assortment.setEnable(assortmentRequestBody.getEnable());
+
+        assortmentRepository.save(assortment);
+    }
 }

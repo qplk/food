@@ -1,6 +1,7 @@
 package com.registration.reg.controller;
 
 import com.registration.reg.model.User;
+import com.registration.reg.requestBody.UserRequestBody;
 import com.registration.reg.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,8 +41,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PATCH)
-    public ResponseEntity updateUser(@PathVariable("id") Long id, @RequestBody User user) {
-        userService.updateUser(id, user);
+    public ResponseEntity updateUser(@PathVariable("id") Long id, @RequestBody UserRequestBody user) {
+        userService.update(id, user);
 
         return new ResponseEntity(HttpStatus.OK);
     }

@@ -30,12 +30,17 @@ public class FoodValidator implements Validator {
     public void validate(Object o, Errors errors) {
         Food food = (Food) o;
 
+        if (foodService.findByFoodName(food.getFoodName()) != null) {
+            errors.rejectValue("foodName", "Duplicate.foodForm.foodName");
+        }
+
+        validateFields(food, errors);
+    }
+
+    public void validateFields(Food food, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "foodName", "NotEmpty");
         if (food.getFoodName().length() < 1 || food.getFoodName().length() > 32) {
             errors.rejectValue("foodName", "Size.foodForm.foodName");
-        }
-        if (foodService.findByFoodName(food.getFoodName()) != null) {
-            errors.rejectValue("foodName", "Duplicate.foodForm.foodName");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "portionSize", "NotEmpty");

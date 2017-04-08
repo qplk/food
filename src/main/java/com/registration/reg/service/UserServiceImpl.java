@@ -1,8 +1,10 @@
 package com.registration.reg.service;
 
+import com.registration.reg.model.Role;
 import com.registration.reg.model.User;
 import com.registration.reg.repository.RoleRepository;
 import com.registration.reg.repository.UserRepository;
+import com.registration.reg.requestBody.UserRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<>(roleRepository.findAll()));
+        //user.setRoles(new HashSet<>(roleRepository.findAll()));
+        user.getRoles().add(roleRepository.findByName("ROLE_USER"));
         userRepository.save(user);
     }
 
@@ -52,8 +55,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(Long id, User user) {
-        User oldUser = this.get(id);
+    public void update(Long id, UserRequestBody user) {
+        User oldUser = userRepository.getOne(id);
 
         if (user.getEmail() != null) {
             oldUser.setEmail(user.getEmail());
@@ -71,7 +74,17 @@ public class UserServiceImpl implements UserService {
             oldUser.setUsername(user.getUsername());
         }
 
+        if (user.getInformation() != null) {
+            oldUser.setInformation(user.getInformation());
+        }
 
-        this.save(oldUser);
+        if (user.getRoles() != null) {
+            oldUser.setRoles(user.getRoles());
+        } else {
+            oldUser.setRoles(new HashSet<Role>());
+        }
+
+
+        userRepository.save(oldUser);
     }
 }

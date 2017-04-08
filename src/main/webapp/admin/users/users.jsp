@@ -95,27 +95,30 @@
                     </div><!--/.col-xs-6.col-lg-4-->
                 </c:if>
 
-                <c:forEach var="row" items="${usersList}">
+                <c:forEach var="user" items="${usersList}">
                     <div class="col-xs-6 col-lg-4">
-                        <h2><c:out value="${row.username}"/></h2>
-                        <c:if test="${row.gender == 1}">
+                        <h2><c:out value="${user.username}"/></h2>
+                        <p>Gender:
+                        <c:if test="${user.gender == 1}">
 
-                                <h2>Female</h2>
-
-                        </c:if>
-                        <c:if test="${row.gender == 0}">
-
-                                <h2>Male</h2>
+                                Female
 
                         </c:if>
+                        <c:if test="${user.gender == 0}">
 
-                        <p><c:out value="${row.email}"/></p>
-                        Roles:
-                    <c:forEach var="role" items="${row.roles}">
-                        <c:out value="${role.name}
-                        " />
-                        </c:forEach>
-                        <p><a class="btn btn-default" href="#" role="button">Update</a></p>
+                                Male
+
+                        </c:if>
+                        </p>
+                        <p>Email: <c:out value="${user.email}"/></p>
+                        <p>Phone number: <c:out value="${user.phoneNumber}"/></p>
+                        <p>Roles:
+                    <c:forEach var="role" items="${user.roles}">
+                        <c:out value="${role.name}" /><br />
+                        </c:forEach></p>
+
+                        <p>Information: ${user.information}</p>
+                        <p><a class="btn btn-default" href="${contextPath}/admin/users/userUpdate/${user.userId}" role="button">Update</a></p>
                         <p><a class="btn btn-default" href="#" role="button">Delete</a></p>
 
                     </div><!--/.col-xs-6.col-lg-4-->

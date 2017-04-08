@@ -30,12 +30,17 @@ public class CityValidator implements Validator {
     public void validate(Object o, Errors errors) {
         City city = (City) o;
 
+        if (cityService.findByCityName(city.getCityName()) != null) {
+            errors.rejectValue("cityName", "Duplicate.cityForm.cityName");
+        }
+
+        validateFields(city, errors);
+    }
+
+    public void validateFields(City city, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cityName", "NotEmpty");
         if (city.getCityName().length() < 2 || city.getCityName().length() > 32) {
             errors.rejectValue("cityName", "Size.cityForm.cityName");
-        }
-        if (cityService.findByCityName(city.getCityName()) != null) {
-            errors.rejectValue("cityName", "Duplicate.cityForm.cityName");
         }
 
         if(!patternPhone.matcher(city.getDeliveryPhone()).matches()){

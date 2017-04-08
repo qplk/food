@@ -1,6 +1,7 @@
 package com.registration.reg.service;
 
 import com.registration.reg.model.User;
+import com.registration.reg.requestBody.UserRequestBody;
 
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface UserService {
 
     void delete(Long userId);
 
-    void updateUser(Long id, User user);
+    void update(Long id, UserRequestBody user);
 }

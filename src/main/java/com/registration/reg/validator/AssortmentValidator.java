@@ -28,14 +28,20 @@ public class AssortmentValidator implements Validator {
     public void validate(Object o, Errors errors) {
         AssortmentRequestBody assortment = (AssortmentRequestBody) o;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "foodId", "NotEmpty");
-
         if (assortmentService.findByRestaurantIdAndFoodId(assortment.getRestaurantId(), assortment.getFoodId()) != null) {
             errors.rejectValue("foodId", "Duplicate.assortmentForm.foodId");
         }
 
-        if (assortment.getQuantity() < 0) {
-            errors.rejectValue("quantity", "Value.assortmentForm.quantity");
+        validateFields(assortment, errors);
+    }
+
+    public void validateFields(AssortmentRequestBody assortment, Errors errors) {
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "foodId", "NotEmpty");
+
+        if ((assortment.getQuantity() != null) && (assortment.getQuantity() < 0)) {
+
+                errors.rejectValue("quantity", "Value.assortmentForm.quantity");
         }
+
     }
 }

@@ -76,4 +76,31 @@ public class AssortmentController {
 
         return "redirect:/admin/assortment/assortment";
     }
+
+
+    @RequestMapping(value = "/admin/assortment/assortmentUpdate/{restaurantId}/{foodId}", method = RequestMethod.GET)
+    public String updateAssortment(@PathVariable Long restaurantId, @PathVariable Long foodId, Model model) {
+        model.addAttribute("assortmentForm", new AssortmentRequestBody());
+        model.addAttribute("assortment", assortmentService.findByRestaurantIdAndFoodId(restaurantId, foodId));
+        model.addAttribute("foodList", foodService.findAll());
+
+        return "/admin/assortment/assortmentUpdate";
+    }
+
+
+    @RequestMapping(value = "/admin/assortment/assortmentUpdate/{restaurantId}/{foodId}", method = RequestMethod.POST)
+    public String updateFood(@PathVariable Long restaurantId, @PathVariable Long foodId, @ModelAttribute("assortmentForm") AssortmentRequestBody assortmentForm, BindingResult bindingResult, ModelMap model) {
+        assortmentValidator.validateFields(assortmentForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("assortment", assortmentService.findByRestaurantIdAndFoodId(restaurantId, foodId));
+            model.addAttribute("foodList", foodService.findAll());
+
+            return "/admin/assortment/assortmentUpdate";
+        }
+
+        assortmentService.update(restaurantId, foodId, assortmentForm);
+
+        return "redirect:/admin/assortment/assortment";
+    }
 }

@@ -68,4 +68,31 @@ public class RestaurantController {
         return model;
     }
 
+
+    @RequestMapping(value = "/admin/restaurants/restaurantUpdate/{id}", method = RequestMethod.GET)
+    public String updateRestaurant(@PathVariable Long id, Model model) {
+        model.addAttribute("restaurantForm", new RestaurantRequestBody());
+        model.addAttribute("restaurant", restaurantService.get(id));
+        model.addAttribute("citiesList", cityService.findAll());
+
+        return "/admin/restaurants/restaurantUpdate";
+    }
+
+
+    @RequestMapping(value = "/admin/restaurants/restaurantUpdate/{id}", method = RequestMethod.POST)
+    public String updateRestaurant(@PathVariable Long id, @ModelAttribute("restaurantForm") RestaurantRequestBody restaurantForm, BindingResult bindingResult, ModelMap model) {
+        restaurantValidator.validate(restaurantForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("restaurant", restaurantService.get(id));
+            model.addAttribute("citiesList", cityService.findAll());
+
+            return "/admin/restaurants/restaurantUpdate";
+        }
+
+        restaurantService.update(id, restaurantForm);
+
+        return "redirect:/admin/restaurants/restaurants";
+    }
+
 }

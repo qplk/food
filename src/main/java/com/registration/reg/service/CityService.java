@@ -17,4 +17,6 @@ public interface CityService {
     List<City> findAll();
 
     void delete(Long cityId);
+
+    void update(Long cityId, City city);
 }

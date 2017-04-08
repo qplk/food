@@ -41,4 +41,18 @@ public class CityServiceImpl implements CityService {
     public List <City> findAll() {
         return cityRepository.findAll();
     }
+
+    @Override
+    public void update(Long cityId, City city) {
+        City oldCity = cityRepository.getOne(cityId);
+
+        oldCity.setCityName(city.getCityName());
+        oldCity.setCloseTime(city.getCloseTime());
+        oldCity.setOpenTime(city.getOpenTime());
+        oldCity.setDeliveryPhone(city.getDeliveryPhone());
+        oldCity.setMinPrice(city.getMinPrice());
+        oldCity.setDeliveryTime(city.getDeliveryTime());
+
+        cityRepository.save(oldCity);
+    }
 }

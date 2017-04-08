@@ -43,4 +43,5 @@ public class RestaurantValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cityId", "NotEmpty");
     }
+
 }

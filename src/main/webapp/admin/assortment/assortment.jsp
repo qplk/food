@@ -111,14 +111,13 @@
                         <p><c:out value="${assortment.food.foodName}"/><c:if test="${assortment.quantity != null}">: <c:out value="${assortment.quantity}"/> items
                     </c:if> <c:if test="${assortment.enable == false}">
                             Disabled
-                        </c:if></p>
+                        </c:if>
+                            <a class="btn btn-default" href="${contextPath}/admin/assortment/assortmentUpdate/${row.restaurantId}/${assortment.food.foodId}" role="button">Update</a> <a class="btn btn-default" href="#" role="button">Delete</a></p>
 
                     </c:forEach>
 
                         <p><a class="btn btn-default" href="${contextPath}/admin/assortment/assortmentAdd/${row.restaurantId}" role="button">Add item >></a></p>
 
-                        <p><a class="btn btn-default" href="#" role="button">Update</a></p>
-                        <p><a class="btn btn-default" href="#" role="button">Delete</a></p>
 
                     </div><!--/.col-xs-6.col-lg-4-->
                 </c:forEach>

@@ -40,4 +40,17 @@ public class FoodServiceImpl implements FoodService {
     public void delete(Long foodId) {
         foodRepository.delete(foodId);
     }
+
+    @Override
+    public void update(Long foodId, Food food) {
+        Food oldFood = foodRepository.getOne(foodId);
+
+        oldFood.setFoodName(food.getFoodName());
+        oldFood.setDescription(food.getDescription());
+        oldFood.setCategory(food.getCategory());
+        oldFood.setPortionSize(food.getPortionSize());
+        oldFood.setPrice(food.getPrice());
+
+        foodRepository.save(oldFood);
+    }
 }

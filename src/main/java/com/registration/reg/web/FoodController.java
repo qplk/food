@@ -70,5 +70,29 @@ public class FoodController {
         return "redirect:/admin/food/food";
     }
 
+    @RequestMapping(value = "/admin/food/foodUpdate/{id}", method = RequestMethod.GET)
+    public String updateFood(@PathVariable Long id, Model model) {
+        model.addAttribute("foodForm", new Food());
+        model.addAttribute("food", foodService.get(id));
+
+        return "/admin/food/foodUpdate";
+    }
+
+
+    @RequestMapping(value = "/admin/food/foodUpdate/{id}", method = RequestMethod.POST)
+    public String updateFood(@PathVariable Long id, @ModelAttribute("foodForm") Food foodForm, BindingResult bindingResult, ModelMap model) {
+        foodValidator.validateFields(foodForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("food", foodService.get(id));
+
+            return "/admin/food/foodUpdate";
+        }
+
+        foodService.update(id, foodForm);
+
+        return "redirect:/admin/food/food";
+    }
+
 
 }

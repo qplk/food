@@ -18,4 +18,6 @@ public interface AssortmentService {
     List<Assortment> findAll();
 
     void delete(Long assortmentId);
+
+    void update(Long restaurantId, Long foodId, AssortmentRequestBody assortmentRequestBody);
 }
