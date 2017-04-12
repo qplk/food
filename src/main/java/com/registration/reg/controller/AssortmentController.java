@@ -22,10 +22,17 @@ public class AssortmentController {
     @Autowired
     AssortmentService assortmentService;
 
-    @RequestMapping(value = "/assortment", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/assortment", method = RequestMethod.GET)
     public ResponseEntity findAllAssortment() {
         Iterable<Assortment> assortmentList = assortmentService.findAll();
         ResponseEntity responseEntity = new ResponseEntity<>(assortmentList, HttpStatus.OK);
+        return responseEntity;
+    }*/
+    
+    @RequestMapping(value = "/assortment", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity findRestaurantAssortment(@RequestParam("restaurantId") Long restaurantId, @RequestParam("category") String category){
+        Iterable<Food> foodAssortmentList = assortmentService.findAllFoodInRestaurant(restaurantId, category);
+        ResponseEntity responseEntity = new ResponseEntity<>(foodAssortmentList, HttpStatus.OK);
         return responseEntity;
     }
 
