@@ -27,6 +27,9 @@
     <![endif]-->
 </head>
 <body>
+<div class="hidden">
+    <input type="text" id="city" value="1"/>
+</div>
 <nav class="navbar navbar-fixed-top navbar-inverse">
       <div class="container">
         <div class="navbar-header">
@@ -43,6 +46,15 @@
             <li class="active"><a href="#">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cities<b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li><button class="btn btn-link btn-block" id="Moscow" onclick="setCity(1)">Moscow</button></li>
+                        <li><button class="btn btn-link btn-block" id="StPetersburg" onclick="setCity(2)">St. Petersburg</button></li>
+                        <li><button class="btn btn-link btn-block" id="Kazan">Kazan</button></li>
+                        <li><button class="btn btn-link btn-block" id="Dolgoprudniy">Dolgoprudniy</button></li>
+                      </ul>
+                    </li>
           </ul>
 
           <c:if test="${pageContext.request.userPrincipal.name == null}">
@@ -209,56 +221,33 @@
               </a>
             </div>
           </div>
-          <div id="div1" class="row">
-            <div class='col-xs-6 col-lg-6'>
-              <img src="https://dodopizzaru-a.akamaihd.net/Img/Products/Pizza/c581dcc8-15e7-4a0b-aea2-45bae256c4ec.jpg">
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-
-              <div class="input-group">
-                <div class="input-group-btn">
-                 <button type="button" id="plus" class="btn btn-default" onclick="add()"><span class="glyphicon glyphicon-plus"></span></button>
-                 <button type="button" id="minus" class="btn btn-default" onclick="remove()"><span class="glyphicon glyphicon-minus"></span></button>
-                </div>
-                <div class="col-xs-3">
-                 <input type="text" value="0" id="res1" class="form-control" disabled>
-                </div>
-              </div>
-            </div><!--/.col-xs-6.col-lg-6-->
-            <div class="col-xs-6 col-lg-6">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-
-            </div><!--/.col-xs-6.col-lg-6-->
-            <div class="col-xs-6 col-lg-6">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div><!--/.col-xs-6.col-lg-6-->
-            <div class="col-xs-6 col-lg-6">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div><!--/.col-xs-6.col-lg-6-->
-          </div><!--/row-->
         </div><!--/.col-xs-12.col-sm-9-->
 
-        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
-          <div class="list-group">
-            <a href="#" class="list-group-item active">Sushi</a>
-            <a href="#" class="list-group-item">Rolls</a>
-            <a href="#" class="list-group-item">Soup</a>
-            <a href="#" class="list-group-item">Thai</a>
-            <a href="#" class="list-group-item">Salads</a>
-            <a href="#" class="list-group-item">Pizza</a>
-            <a href="#" class="list-group-item">Sets</a>
-            <a href="#" class="list-group-item">Drinks</a>
-            <input type="text" id="divNum" class="form-control">
-            <button type="button" id="build" class="btn btn-default" onclick="del"></button>
-          </div>
-        </div><!--/.sidebar-offcanvas-->
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebarCategories">
+            <button class='btn btn-primary btn-lg btn-block' id="category1" onclick="buildDrink()" value="Drink">Drink</button>
+            <button class='btn btn-primary btn-lg btn-block' id="category2" onclick="buildSnack()" value="Snack">Snack</button>
+        </div><!--/.sidebar-categories-->
+      <div class="row" id="div1">
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="http://s020.radikal.ru/i709/1704/1a/79606a4bc27b.jpg">
+                <div class="caption">
+                    <h4>Food Name</h4>
+                    <p>Description</p>
+                    <div class='input-group'>
+                        <div class="input-group-btn">
+                            <button type='button' id='plus' class='btn btn-default'><span class='glyphicon glyphicon-plus'></span></button>
+                            <button type='button' id='minus' class='btn btn-default'><span class='glyphicon glyphicon-minus'></span></button>
+                        </div>
+                        <div class='col-xs-3'>
+                            <input type='text' value='0' class='form-control' disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
       </div><!--/row-->
 
-      <hr>
     </div><!--/.container-->
 
 <!-- /container -->
