@@ -2,7 +2,7 @@ package com.registration.reg.web;
 
 import com.registration.reg.model.City;
 import com.registration.reg.service.CityService;
-import com.registration.reg.validator.FoodValidator;
+import com.registration.reg.validator.CityValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +24,9 @@ public class CityController {
     @Autowired
     CityService cityService;
 
+    @Autowired
+    private CityValidator cityValidator;
+
 
     @RequestMapping(value = "/admin/cities/cityAdd", method = RequestMethod.GET)
     public String cityAdd(Model model) {
@@ -32,9 +35,19 @@ public class CityController {
         return "/admin/cities/cityAdd";
     }
 
+    @RequestMapping(value = "/admin/cities/cityUpdate/{id}", method = RequestMethod.GET)
+    public String updateCity(@PathVariable Long id, Model model) {
+        model.addAttribute("cityForm", new City());
+        model.addAttribute("city", cityService.get(id));
+
+        return "/admin/cities/cityUpdate";
+    }
+
 
     @RequestMapping(value = "/admin/cities/cityAdd", method = RequestMethod.POST)
     public String cityAdd(@ModelAttribute("cityForm") City cityForm, BindingResult bindingResult, ModelMap model) {
+        cityValidator.validate(cityForm, bindingResult);
+
 
         if (bindingResult.hasErrors()) {
             return "/admin/cities/cityAdd";
@@ -53,5 +66,30 @@ public class CityController {
 
         return model;
     }
+
+    @RequestMapping(value = "/admin/cities/cityUpdate/{id}", method = RequestMethod.POST)
+    public String updateCity(@PathVariable Long id, @ModelAttribute("cityForm") City cityForm, BindingResult bindingResult, ModelMap model) {
+        cityValidator.validateFields(cityForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("city", cityService.get(id));
+
+            return "/admin/cities/cityUpdate";
+        }
+
+        cityService.update(id, cityForm);
+
+        return "redirect:/admin/cities/cities";
+    }
+
+
+    @RequestMapping(value = "/admin/cities/cities", method = RequestMethod.DELETE)
+    public String deleteCity(Long id) {
+        cityService.delete(id);
+
+        return "redirect:/admin/cities/cities";
+    }
+
+
 
 }

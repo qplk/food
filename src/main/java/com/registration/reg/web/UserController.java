@@ -1,12 +1,17 @@
 package com.registration.reg.web;
 
+import com.registration.reg.model.Role;
 import com.registration.reg.model.User;
+import com.registration.reg.requestBody.UserRequestBody;
+import com.registration.reg.service.RoleService;
+import com.registration.reg.service.RoleServiceImpl;
 import com.registration.reg.service.SecurityService;
 import com.registration.reg.service.UserService;
 import com.registration.reg.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +30,9 @@ public class UserController {
 
     @Autowired
     private SecurityService securityService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private UserValidator userValidator;
@@ -64,11 +72,11 @@ public class UserController {
         return "welcome";
     }
 
-    /*@RequestMapping(value = {"/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public String welcome(Model model) {
         return "welcome";
 
-    }*/
+    }
 
 
     @RequestMapping(value = "/admin/users/users", method = RequestMethod.GET)
@@ -78,6 +86,32 @@ public class UserController {
         model.addObject("usersList", usersList);
 
         return model;
+    }
+
+    @RequestMapping(value = "/admin/users/userUpdate/{id}", method = RequestMethod.GET)
+    public String updateUser(@PathVariable Long id, Model model) {
+        model.addAttribute("userForm", new UserRequestBody());
+        model.addAttribute("user", userService.get(id));
+        model.addAttribute("roles", roleService.findAll());
+
+        return "/admin/users/userUpdate";
+    }
+
+
+    @RequestMapping(value = "/admin/users/userUpdate/{id}", method = RequestMethod.POST)
+    public String updateUser(@PathVariable Long id, @ModelAttribute("userForm") UserRequestBody userForm, BindingResult bindingResult, ModelMap model) {
+        userValidator.validateUpdate(userForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("user", userService.get(id));
+            model.addAttribute("roles", roleService.findAll());
+
+            return "/admin/users/userUpdate";
+        }
+
+        userService.update(id, userForm);
+
+        return "redirect:/admin/users/users";
     }
 
 }

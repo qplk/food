@@ -113,6 +113,7 @@
 
                             </c:forEach>
                         </form:select>
+                        <form:errors path="foodId"></form:errors>
                     </div>
                 </spring:bind>
 

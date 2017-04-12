@@ -103,7 +103,7 @@
                             </c:if>
                             <p><c:out value="${row.category}"/></p>
                             <p><c:out value="${row.price}"/></p>
-                            <p><a class="btn btn-default" href="#" role="button">Update</a></p>
+                            <p><a class="btn btn-default" href="${contextPath}/admin/food/foodUpdate/${row.foodId}" role="button">Update</a></p>
                             <p><a class="btn btn-default" href="#" role="button">Delete</a></p>
 
                         </div><!--/.col-xs-6.col-lg-4-->

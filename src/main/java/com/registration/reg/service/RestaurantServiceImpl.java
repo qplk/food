@@ -51,4 +51,26 @@ public class RestaurantServiceImpl implements RestaurantService {
     public void delete(Long restaurantId) {
         restaurantRepository.delete(restaurantId);
     }
+
+    @Override
+    public void update(Long restaurantId, RestaurantRequestBody restaurantRequestBody) {
+        Restaurant restaurant = restaurantRepository.getOne(restaurantId);
+        if (restaurantRequestBody.getCityId() != restaurant.getCityByRestaurantId().getCityId()) {
+            City city = cityRepository.getOne(restaurantRequestBody.getCityId());
+
+            city.getRestaurants().add(restaurant);
+            cityRepository.save(city);
+
+            restaurant.setCityByRestaurantId(city);
+        }
+
+
+        restaurant.setStreet(restaurantRequestBody.getStreet());
+        restaurant.setRestaurantPhone(restaurantRequestBody.getRestaurantPhone());
+        restaurant.setBuildingNumber(restaurantRequestBody.getBuildingNumber());
+
+
+        restaurantRepository.save(restaurant);
+    }
+
 }

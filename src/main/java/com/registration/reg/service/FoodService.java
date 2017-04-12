@@ -17,4 +17,6 @@ public interface FoodService {
     List<Food> findAll();
 
     void delete(Long foodId);
+
+    void update(Long foodId, Food food);
 }

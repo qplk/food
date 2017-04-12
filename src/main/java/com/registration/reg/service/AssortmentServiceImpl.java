@@ -53,6 +53,11 @@ public class AssortmentServiceImpl implements AssortmentService {
     }
 
     @Override
+    public Assortment findByRestaurantIdAndFoodId(Long restaurantId, Long foodId) {
+        return assortmentRepository.findByRestaurantAndFood(restaurantRepository.getOne(restaurantId), foodRepository.getOne(foodId));
+    }
+
+    @Override
     public void delete(Long assortmentId) {
         assortmentRepository.delete(assortmentId);
     }
@@ -60,5 +65,18 @@ public class AssortmentServiceImpl implements AssortmentService {
     @Override
     public List<Assortment> findAll() {
         return assortmentRepository.findAll();
+    }
+
+    @Override
+    public void update(Long restaurantId, Long foodId, AssortmentRequestBody assortmentRequestBody) {
+        Restaurant restaurant = restaurantRepository.getOne(restaurantId);
+        Food food = foodRepository.getOne(foodId);
+
+        Assortment assortment = assortmentRepository.findByRestaurantAndFood(restaurant, food);
+
+        assortment.setQuantity(assortmentRequestBody.getQuantity());
+        assortment.setEnable(assortmentRequestBody.getEnable());
+
+        assortmentRepository.save(assortment);
     }
 }

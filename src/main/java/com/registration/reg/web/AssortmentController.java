@@ -7,6 +7,8 @@ import com.registration.reg.requestBody.RestaurantRequestBody;
 import com.registration.reg.service.AssortmentService;
 import com.registration.reg.service.FoodService;
 import com.registration.reg.service.RestaurantService;
+import com.registration.reg.validator.AssortmentValidator;
+import com.registration.reg.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,8 @@ public class AssortmentController {
     @Autowired
     FoodService foodService;
 
+    @Autowired
+    private AssortmentValidator assortmentValidator;
 
     @RequestMapping(value = "/admin/assortment/assortment", method = RequestMethod.GET)
     public ModelAndView findAllAssortment() {
@@ -59,12 +63,43 @@ public class AssortmentController {
 
     @RequestMapping(value = "/admin/assortment/assortmentAdd/{restaurantId}", method = RequestMethod.POST)
     public String assortmentAdd(@PathVariable Long restaurantId, @ModelAttribute("assortmentForm") AssortmentRequestBody assortmentForm, BindingResult bindingResult, ModelMap model) {
+        assortmentValidator.validate(assortmentForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "/admin/assortment/assortmentAdd/" + assortmentForm.getRestaurantId();
+            model.addAttribute("restaurant", restaurantService.get(restaurantId));
+            model.addAttribute("foodList", foodService.findAll());
+
+            return "/admin/assortment/assortmentAdd";
         }
 
         assortmentService.save(assortmentForm);
+
+        return "redirect:/admin/assortment/assortment";
+    }
+
+
+    @RequestMapping(value = "/admin/assortment/assortmentUpdate/{restaurantId}/{foodId}", method = RequestMethod.GET)
+    public String updateAssortment(@PathVariable Long restaurantId, @PathVariable Long foodId, Model model) {
+        model.addAttribute("assortmentForm", new AssortmentRequestBody());
+        model.addAttribute("assortment", assortmentService.findByRestaurantIdAndFoodId(restaurantId, foodId));
+        model.addAttribute("foodList", foodService.findAll());
+
+        return "/admin/assortment/assortmentUpdate";
+    }
+
+
+    @RequestMapping(value = "/admin/assortment/assortmentUpdate/{restaurantId}/{foodId}", method = RequestMethod.POST)
+    public String updateFood(@PathVariable Long restaurantId, @PathVariable Long foodId, @ModelAttribute("assortmentForm") AssortmentRequestBody assortmentForm, BindingResult bindingResult, ModelMap model) {
+        assortmentValidator.validateFields(assortmentForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("assortment", assortmentService.findByRestaurantIdAndFoodId(restaurantId, foodId));
+            model.addAttribute("foodList", foodService.findAll());
+
+            return "/admin/assortment/assortmentUpdate";
+        }
+
+        assortmentService.update(restaurantId, foodId, assortmentForm);
 
         return "redirect:/admin/assortment/assortment";
     }

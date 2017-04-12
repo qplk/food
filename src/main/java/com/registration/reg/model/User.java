@@ -10,23 +10,28 @@ public class User {
     private Long userId;
     private String username;
     private String email;
-    private String gender;
+    private Long gender;
     private String password;
     private String passwordConfirm;
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
     private String phoneNumber;
     private String information;
     private Set<Address> addresses = new HashSet<>();
     private Set<Order> orders = new HashSet<>();
 
+    public User() {
+    }
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    public Long getId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setId(Long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -51,11 +56,11 @@ public class User {
 
 
     @Column(name = "gender", nullable = false)
-    public String getGender() {
+    public Long getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Long gender) {
         this.gender = gender;
     }
 

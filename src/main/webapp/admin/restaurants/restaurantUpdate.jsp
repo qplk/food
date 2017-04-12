@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -13,9 +13,8 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <sec:csrfMetaTags/>
 
-    <title>Admin page Restaurants</title>
+    <title>Admin page Restaurant Update</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
@@ -37,12 +36,11 @@
             </button>
             <a class="navbar-brand" href="${contextPath}/admin/admin.jsp">Admin page</a>
         </div>
-
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="${contextPath}/admin/food/food">Food</a></li>
+                <li><a href="#">Food</a></li>
                 <li><a href="${contextPath}/admin/users/users">Users</a></li>
-                <li class="active"><a href="#">Restaurants</a></li>
+                <li class="active"><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
                 <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
                 <li><a href="${contextPath}/admin/orders/orders">Orders</a></li>
                 <li><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
@@ -72,6 +70,7 @@
             </c:if>
 
         </div><!-- /.nav-collapse -->
+
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
 
@@ -87,39 +86,63 @@
                 <h1>Admin page</h1>
                 <p>Here you can manage smth</p>
             </div>
-            <div class="row">
 
-                <c:if test="${empty restaurantsList}">
-                    <div class="col-xs-6 col-lg-4">
-                        <h2>No restaurants</h2>
-                    </div><!--/.col-xs-6.col-lg-4-->
-                </c:if>
+            <form:form method="POST" modelAttribute="restaurantForm" class="form-signin">
+                <h2 class="form-signin-heading">Update restaurant</h2>
+                <spring:bind path="street">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="street" class="form-control" placeholder="Street"
+                                    autofocus="true" value="${restaurant.street}"></form:input>
+                        <form:errors path="street"></form:errors>
+                    </div>
+                </spring:bind>
 
-                <c:forEach var="row" items="${restaurantsList}">
-                    <div class="col-xs-6 col-lg-4">
-                        <h2><c:out value="${row.street}"/>, <c:out value="${row.buildingNumber}"/></h2>
-                        <p><c:out value="${row.restaurantPhone}"/></p>
-                        <p><c:out value="${row.cityByRestaurantId.cityName}"/></p>
-                        <p><a class="btn btn-default" href="${contextPath}/admin/restaurants/restaurantUpdate/${row.restaurantId}" role="button">Update</a></p>
-                        <p><a class="btn btn-default" href="#" role="button">Delete</a></p>
+                <spring:bind path="buildingNumber">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="buildingNumber" class="form-control" placeholder="Building Number" value="${restaurant.buildingNumber}"></form:input>
+                        <form:errors path="buildingNumber"></form:errors>
+                    </div>
 
-                    </div><!--/.col-xs-6.col-lg-4-->
-                </c:forEach>
+                </spring:bind>
+
+                <spring:bind path="restaurantPhone">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="restaurantPhone" class="form-control" placeholder="Restaurant Phone"
+                                    autofocus="true" value="${restaurant.restaurantPhone}"></form:input>
+                        <form:errors path="restaurantPhone"></form:errors>
+                    </div>
+                </spring:bind>
+
+                <spring:bind path="cityId">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:select class="form-control" path="cityId">
+                            <c:if test="${empty citiesList}">
+
+                                <option>No city available</option>
+
+                            </c:if>
+
+                            <c:forEach var="row" items="${citiesList}">
+
+                                <option value="${row.cityId}" <c:if test="${row.cityId == restaurant.cityByRestaurantId.cityId}">selected</c:if> > <c:out value="${row.cityName}"/></option>
+
+                            </c:forEach>
+                        </form:select>
+                        <form:errors path="cityId"></form:errors>
+                    </div>
+                </spring:bind>
 
 
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+            </form:form>
 
-
-            </div><!--/row-->
         </div><!--/.col-xs-12.col-sm-9-->
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
             <div class="list-group">
-                <a href="#" class="list-group-item active">Food</a>
-                <!--<a href=".jsp" class="list-group-item">Add new item</a>-->
-
-                <form class="navbar-form navbar-right" action="${contextPath}/admin/restaurants/restaurantAdd">
-                    <button class="btn btn-success">Add new item</button>
-                </form>
+                <a href="${contextPath}/admin/food/foodAdd" class="list-group-item active">Add</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
             </div>
         </div><!--/.sidebar-offcanvas-->
     </div><!--/row-->
