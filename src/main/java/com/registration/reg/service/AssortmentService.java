@@ -15,4 +15,6 @@ public interface AssortmentService {
     List<Assortment> findAll();
 
     void delete(Long assortmentId);
+    
+    List<Food> findAllFoodInRestaurant(Long restaurantId, String category);
 }
