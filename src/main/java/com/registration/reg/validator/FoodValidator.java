@@ -18,6 +18,9 @@ import java.util.regex.Pattern;
 
 @Component
 public class FoodValidator implements Validator {
+    private static final Pattern patternUrl = Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+
+
     @Autowired
     private FoodService foodService;
 
@@ -52,6 +55,11 @@ public class FoodValidator implements Validator {
 
         if (food.getPrice() < 0) {
             errors.rejectValue("price", "Value.foodForm.price");
+        }
+
+
+        if (!patternUrl.matcher(food.getImgPath()).matches()) {
+            errors.rejectValue("imgPath", "Value.foodForm.imgPath");
         }
     }
 }

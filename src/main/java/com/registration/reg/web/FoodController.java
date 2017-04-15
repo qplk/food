@@ -33,9 +33,6 @@ public class FoodController {
 
         return "/admin/food/foodAdd";
     }
-   /* public ModelAndView showForm() {
-        return new ModelAndView("foodForm", "foodForm", new Food());
-    }*/
 
     @RequestMapping(value = "/admin/food/foodAdd", method = RequestMethod.POST)
     public String foodAdd(@ModelAttribute("foodForm") Food foodForm, BindingResult bindingResult, ModelMap model) {
@@ -45,9 +42,6 @@ public class FoodController {
             return "/admin/food/foodAdd";
         }
 
-       // model.addAttribute("foodName", foodForm.getFoodName());
-       // model.addAttribute("description", foodForm.getDescription());
-       // model.addAttribute("category", foodForm.getCategory());
         foodService.save(foodForm);
 
         return "redirect:/admin/food/food";
@@ -62,13 +56,6 @@ public class FoodController {
         return model;
     }
 
-    @RequestMapping(value = "/admin/food/foodDelete/{id}", method = RequestMethod.DELETE)
-    public String foodDelete(@PathVariable Long id) {
-
-        foodService.delete(id);
-
-        return "redirect:/admin/food/food";
-    }
 
     @RequestMapping(value = "/admin/food/foodUpdate/{id}", method = RequestMethod.GET)
     public String updateFood(@PathVariable Long id, Model model) {
@@ -79,7 +66,7 @@ public class FoodController {
     }
 
 
-    @RequestMapping(value = "/admin/food/foodUpdate/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/food/foodUpdate/{id}", method = RequestMethod.PUT)
     public String updateFood(@PathVariable Long id, @ModelAttribute("foodForm") Food foodForm, BindingResult bindingResult, ModelMap model) {
         foodValidator.validateFields(foodForm, bindingResult);
 
@@ -90,6 +77,13 @@ public class FoodController {
         }
 
         foodService.update(id, foodForm);
+
+        return "redirect:/admin/food/food";
+    }
+
+    @RequestMapping(value = "/admin/food/food/{id}", method = RequestMethod.DELETE)
+    public String deleteFood(@PathVariable Long id) {
+        foodService.delete(id);
 
         return "redirect:/admin/food/food";
     }
