@@ -83,9 +83,10 @@ public class CityController {
     }
 
 
-    @RequestMapping(value = "/admin/cities/cities", method = RequestMethod.DELETE)
-    public String deleteCity(Long id) {
+    @RequestMapping(value = "/admin/cities/cities/{id}", method = RequestMethod.DELETE)
+    public String deleteCity(@PathVariable Long id) {
         cityService.delete(id);
+        System.out.println("LOL " + id);
 
         return "redirect:/admin/cities/cities";
     }

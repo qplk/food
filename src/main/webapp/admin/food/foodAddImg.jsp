@@ -88,52 +88,21 @@
             </div>
 
 
-            <form:form method="POST" modelAttribute="foodForm" class="form-signin">
-                <h2 class="form-signin-heading">Add new food item</h2>
-                <spring:bind path="foodName">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="foodName" class="form-control" placeholder="Food name"
-                                    autofocus="true"></form:input>
-                        <form:errors path="foodName"></form:errors>
-                    </div>
-                </spring:bind>
+            <form action="upload" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-                <spring:bind path="description">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="description" class="form-control" placeholder="Description"></form:input>
-                        <form:errors path="description"></form:errors>
-                    </div>
-                </spring:bind>
+                <input type="file" name="file" />
 
-                <spring:bind path="portionSize">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="portionSize" class="form-control" placeholder="Portion size"
-                                    autofocus="true"></form:input>
-                        <form:errors path="portionSize"></form:errors>
-                    </div>
-                </spring:bind>
+                <input type="submit" value="upload" />
 
-                <spring:bind path="category">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:select class="form-control" path="category">
-                            <option>Drink</option>
-                            <option>Snack</option>
-                        </form:select>
-                    </div>
-                </spring:bind>
+            </form>
 
-                <spring:bind path="price">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="price" class="form-control" placeholder="Price"
-                                    autofocus="true"></form:input>
-                        <form:errors path="price"></form:errors>
-                    </div>
-                </spring:bind>
+            <div id="result">
 
+                <h3>${requestScope["message"]}</h3>
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+            </div>
 
-            </form:form>
 
         </div><!--/.col-xs-12.col-sm-9-->
 

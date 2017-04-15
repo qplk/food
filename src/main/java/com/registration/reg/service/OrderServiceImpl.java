@@ -5,12 +5,12 @@ import com.registration.reg.repository.OrderRepository;
 import com.registration.reg.repository.UserRepository;
 import com.registration.reg.repository.AddressRepository;
 import com.registration.reg.repository.RestaurantRepository;
+import com.registration.reg.requestBody.OrderRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Set;
-import java.util.HashSet;
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
         order.setAddressByOrderId(address);
         orderRepository.save(order);
 
-        user.getOrders().add(order);
+        //user.setOrder(order);
         userRepository.save(user);
 
         address.getOrders().add(order);
@@ -59,9 +59,34 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findAll();
     }
 
+    @Override
+    public void delete(Long orderId){
+        orderRepository.delete(orderId);
+
+    }
 
     @Override
-    public void delete(Long orderId) {
-        orderRepository.delete(orderId);
+    public void update(Long orderId, OrderRequestBody orderRequestBody) {
+        Order order = orderRepository.getOne(orderId);
+    System.out.println(order.getStatus());
+        System.out.println(orderRequestBody.getStatus());
+        System.out.println(order.getStatus().equals("Forming"));
+        System.out.println(orderRequestBody.getStatus().equals("Formed"));
+
+        if (order.getStatus().equals("Forming") && (orderRequestBody.getStatus().equals("Formed"))) {
+            User user = userRepository.getOne(order.getUserByOrderId().getUserId());
+
+            Order newOrder = new Order(Time.valueOf("00:00:00"), 0, "Forming", "Initial order", "Cash", user);
+
+            orderRepository.save(newOrder);
+            user.getOrders().add(newOrder);
+            userRepository.save(user);
+        }
+
+        order.setStatus(orderRequestBody.getStatus());
+        order.setStatusInfo(orderRequestBody.getStatusInfo());
+
+        orderRepository.save(order);
+
     }
 }

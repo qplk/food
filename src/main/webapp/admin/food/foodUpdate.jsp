@@ -133,6 +133,8 @@
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
             </form:form>
 
+            <a href="${contextPath}/admin/food/foodAddImg.jsp" class="btn btn-default">Add image</a>
+
         </div><!--/.col-xs-12.col-sm-9-->
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">

@@ -117,6 +117,12 @@
                         <c:out value="${role.name}" /><br />
                         </c:forEach></p>
 
+                        <p>Adresses:
+                            <c:forEach var="address" items="${user.addresses}">
+                                <p><c:out value="${address.street}" />, <c:out value="${address.buildingNumber}" />, <c:out value="${address.roomNumber}" /><br />
+                                Comment: <c:out value="${address.comment}" /></p>
+                            </c:forEach>
+                        </p>
                         <p>Information: ${user.information}</p>
                         <p><a class="btn btn-default" href="${contextPath}/admin/users/userUpdate/${user.userId}" role="button">Update</a></p>
                         <p><a class="btn btn-default" href="#" role="button">Delete</a></p>

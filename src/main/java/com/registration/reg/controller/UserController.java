@@ -1,7 +1,6 @@
 package com.registration.reg.controller;
 
 import com.registration.reg.model.User;
-import com.registration.reg.requestBody.UserRequestBody;
 import com.registration.reg.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.registration.reg.requestBody.UserRequestBody;
 
 @Controller("UserController")
 public class UserController {

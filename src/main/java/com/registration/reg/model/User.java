@@ -17,7 +17,7 @@ public class User {
     private String phoneNumber;
     private String information;
     private Set<Address> addresses = new HashSet<>();
-    private Set<Order> orders = new HashSet<>();
+    private Set<Order> orders = new HashSet<>();;
 
     public User() {
     }
@@ -129,13 +129,13 @@ public class User {
 
 
     @OneToMany(mappedBy = "userByOrderId", cascade = CascadeType.ALL, orphanRemoval = true)
+   // @JoinColumn(name = "order_id", nullable = true)
     public Set<Order> getOrders() {
         return orders;
     }
 
-
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
+    public void setOrders(Set<Order> order) {
+        this.orders = order;
     }
 
 }

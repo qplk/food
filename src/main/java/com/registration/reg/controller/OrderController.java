@@ -28,13 +28,14 @@ public class OrderController {
         return responseEntity;
     }
 
+    /*
     @RequestMapping(value = "/orders", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity addOrder(@RequestBody OrderRequestBody orderRequestBody) {
         Order order = new Order(orderRequestBody.getDeliveryTime(), orderRequestBody.getFullPrice(), orderRequestBody.getStatus(), orderRequestBody.getStatusInfo(), orderRequestBody.getPaymentInfo());
 
         orderService.save(order, orderRequestBody.getUserId(), orderRequestBody.getRestaurantId(), orderRequestBody.getAddressId());
         return new ResponseEntity(HttpStatus.CREATED);
-    }
+    }*/
 
 
     @RequestMapping(value = "/orders/{id}", method = RequestMethod.DELETE)

@@ -91,18 +91,27 @@
 
                 <c:if test="${empty ordersList}">
                     <div class="col-xs-6 col-lg-4">
-                        <h2>No orders</h2>
+                        <h2>No current orders</h2>
                     </div><!--/.col-xs-6.col-lg-4-->
                 </c:if>
+                <c:if test="${not empty ordersList}">
 
-                <c:forEach var="row" items="${ordersList}">
-                    <div class="col-xs-6 col-lg-4">
-                        <p><a class="btn btn-default" href="#" role="button">Update</a></p>
-                        <p><a class="btn btn-default" href="#" role="button">Delete</a></p>
+                        <h2>Current orders</h2>
 
-                    </div><!--/.col-xs-6.col-lg-4-->
-                </c:forEach>
+                        <c:forEach var="row" items="${ordersList}">
+                            <div class="col-xs-6 col-lg-4">
+                                <p>User: <c:out value="${row.userByOrderId.username}"/></p>
+                                <p>Full price: <c:out value="${row.fullPrice}"/></p>
+                                <p>Delivery time: <c:out value="${row.deliveryTime}"/></p>
+                                <p>Status: <c:out value="${row.status}"/></p>
+                                <p>Status info: <c:out value="${row.statusInfo}"/></p>
+                                <p>Payment info: <c:out value="${row.paymentInfo}"/></p>
+                                <p><a class="btn btn-default" href="${contextPath}/admin/orders/orderUpdate/${row.orderId}" role="button">Update</a></p>
 
+                            </div><!--/.col-xs-6.col-lg-4-->
+                        </c:forEach>
+
+                </c:if>
 
 
 

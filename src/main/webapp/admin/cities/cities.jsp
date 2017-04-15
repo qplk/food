@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -24,20 +25,24 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-    <script type="text/javascript">
-        function deleteRequest(url, id) {
-            $.ajax({
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>
+        function func() {//(url, id) {
+           /* $.ajax({
                 url: url,
                 type: 'DELETE',
                 data: {"id": id},
                 success: $.noop,
                 error: $.noop
-            });
+            });*/
+           alert('Hello!');
         }
     </script>
     <![endif]-->
 </head>
 <body>
+
+
 <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
         <div class="navbar-header">
@@ -118,7 +123,33 @@
                             <c:out value="${restaurant.street}, ${restaurant.buildingNumber}"/><br />
                         </c:forEach></p>
                         <p> <a class="btn btn-default" href="${contextPath}/admin/cities/cityUpdate/${row.cityId}" role="button">Update</a></p>
-                        <p><a onclick="deleteRequest('/admin/cities/cities', ${row.cityId})" class="btn btn-default" role="button">Delete</a></p>
+                        <p><button onclick="func('/admin/cities/cities', ${row.cityId})" class="btn btn-default">Delete</button></p>
+                        <p><button onclick="function func() {
+                                alert('Hello!');
+                                $.ajax({
+                                     url: 'http://localhost:8080/admin/cities/cities',
+                                         type: 'DELETE',
+                                         data: {'id': ${row.cityId}},
+                                          success: {},
+                                           error: {}
+                                        });
+                        }
+                        func()">sdsd</button></p>
+                        <a onclick="function func() {
+                                alert('Hello!');
+                                $.ajax({
+                                url: '${contextPath}/admin/cities/cities/${row.cityId}',
+                                type: 'DELETE',
+                                data: {},
+                                success: {},
+                                error: {}
+                                });
+                                }
+                                func()"><button class="btn btn-success">logout</button></a>
+                        <form:form method="DELETE" action="${contextPath}/admin/cities/cities/${row.cityId}" class="navbar-form navbar-right">
+
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                        </form:form>
 
                     </div><!--/.col-xs-6.col-lg-4-->
                 </c:forEach>

@@ -160,6 +160,8 @@
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
             </form:form>
 
+           <p> <a class="btn btn-default" href="${contextPath}/admin/addresses/addressAdd/${user.userId}" role="button">Add address</a></p>
+
         </div><!--/.col-xs-12.col-sm-9-->
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">

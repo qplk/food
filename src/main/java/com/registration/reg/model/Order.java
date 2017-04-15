@@ -11,17 +11,20 @@ import java.sql.*;
 @Entity
 @Table(name = "orders")
 public class Order {
-    public Order(Time deliveryTime, Integer fullPrice, String status, String statusInfo, String paymentInfo) {
+
+    private Long orderId;
+
+    public Order() {
+    }
+
+
+    public Order(Time deliveryTime, Integer fullPrice, String status, String statusInfo, String paymentInfo, User userByOrderId) {
         this.deliveryTime = deliveryTime;
         this.fullPrice = fullPrice;
         this.status = status;
         this.statusInfo = statusInfo;
         this.paymentInfo = paymentInfo;
-    }
-
-    private Long orderId;
-
-    public Order() {
+        this.userByOrderId = userByOrderId;
     }
 
     //private Long userId;
@@ -112,9 +115,8 @@ public class Order {
         this.paymentInfo = paymentInfo;
     }
 
-
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = true)
     public User getUserByOrderId() {
         return userByOrderId;
     }
@@ -122,6 +124,7 @@ public class Order {
     public void setUserByOrderId(User userByOrderId) {
         this.userByOrderId = userByOrderId;
     }
+
 
 
     @ManyToOne
@@ -143,6 +146,7 @@ public class Order {
     public void setOrderElements(Set<OrderElement> orderElements) {
         this.orderElements = orderElements;
     }
+
 
 
     @ManyToOne

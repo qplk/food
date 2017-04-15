@@ -1,7 +1,6 @@
 package com.registration.reg.validator;
 
 import com.registration.reg.model.User;
-import com.registration.reg.requestBody.UserRequestBody;
 import com.registration.reg.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,7 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import java.util.regex.Matcher;
+import com.registration.reg.requestBody.UserRequestBody;
 import java.util.regex.Pattern;
 
 @Component
