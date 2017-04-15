@@ -130,6 +130,14 @@
                     </div>
                 </spring:bind>
 
+                <spring:bind path="imgPath">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="imgPath" class="form-control" placeholder="Image path"
+                                    autofocus="true"></form:input>
+                        <form:errors path="imgPath"></form:errors>
+                    </div>
+                </spring:bind>
+
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
             </form:form>
 

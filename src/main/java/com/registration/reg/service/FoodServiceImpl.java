@@ -50,6 +50,7 @@ public class FoodServiceImpl implements FoodService {
         oldFood.setCategory(food.getCategory());
         oldFood.setPortionSize(food.getPortionSize());
         oldFood.setPrice(food.getPrice());
+        oldFood.setImgPath(food.getImgPath());
 
         foodRepository.save(oldFood);
     }

@@ -19,6 +19,7 @@ public class Food {
     private String portionSize;
     private Integer price;
     private String category;
+    private String imgPath;
     private Set<Assortment> assortment = new HashSet<>();
     private Set<OrderElement> orderElements = new HashSet<>();
 
@@ -97,5 +98,15 @@ public class Food {
     public void setOrderElements(Set<OrderElement> orderElements) {
         this.orderElements = orderElements;
     }
+
+    @Column(name = "img_path", nullable = true)
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
 
 }

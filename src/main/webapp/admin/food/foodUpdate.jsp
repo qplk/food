@@ -88,7 +88,7 @@
             </div>
 
 
-            <form:form method="POST" modelAttribute="foodForm" class="form-signin">
+            <form:form method="PUT" modelAttribute="foodForm" class="form-signin">
                 <h2 class="form-signin-heading">Update food item</h2>
                 <spring:bind path="foodName">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
@@ -127,6 +127,14 @@
                         <form:input type="text" path="price" class="form-control" placeholder="Price"
                                     autofocus="true" value="${food.price}"></form:input>
                         <form:errors path="price"></form:errors>
+                    </div>
+                </spring:bind>
+
+                <spring:bind path="imgPath">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="imgPath" class="form-control" placeholder="Image path"
+                                    autofocus="true" value="${food.imgPath}"></form:input>
+                        <form:errors path="imgPath"></form:errors>
                     </div>
                 </spring:bind>
 
