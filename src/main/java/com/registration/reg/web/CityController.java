@@ -67,7 +67,7 @@ public class CityController {
         return model;
     }
 
-    @RequestMapping(value = "/admin/cities/cityUpdate/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/cities/cityUpdate/{id}", method = RequestMethod.PUT)
     public String updateCity(@PathVariable Long id, @ModelAttribute("cityForm") City cityForm, BindingResult bindingResult, ModelMap model) {
         cityValidator.validateFields(cityForm, bindingResult);
 
@@ -83,8 +83,8 @@ public class CityController {
     }
 
 
-    @RequestMapping(value = "/admin/cities/cities", method = RequestMethod.DELETE)
-    public String deleteCity(Long id) {
+    @RequestMapping(value = "/admin/cities/cities/{id}", method = RequestMethod.DELETE)
+    public String deleteCity(@PathVariable Long id) {
         cityService.delete(id);
 
         return "redirect:/admin/cities/cities";

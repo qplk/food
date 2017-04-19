@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -101,7 +102,9 @@
                         <p><c:out value="${row.restaurantPhone}"/></p>
                         <p><c:out value="${row.cityByRestaurantId.cityName}"/></p>
                         <p><a class="btn btn-default" href="${contextPath}/admin/restaurants/restaurantUpdate/${row.restaurantId}" role="button">Update</a></p>
-                        <p><a class="btn btn-default" href="#" role="button">Delete</a></p>
+                        <p><form:form method="DELETE" action="${contextPath}/admin/restaurants/restaurants/${row.restaurantId}">
+                            <button class="btn btn-default" type="submit">Delete</button>
+                        </form:form></p>
 
                     </div><!--/.col-xs-6.col-lg-4-->
                 </c:forEach>

@@ -79,7 +79,7 @@ public class RestaurantController {
     }
 
 
-    @RequestMapping(value = "/admin/restaurants/restaurantUpdate/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/restaurants/restaurantUpdate/{id}", method = RequestMethod.PUT)
     public String updateRestaurant(@PathVariable Long id, @ModelAttribute("restaurantForm") RestaurantRequestBody restaurantForm, BindingResult bindingResult, ModelMap model) {
         restaurantValidator.validate(restaurantForm, bindingResult);
 
@@ -91,6 +91,17 @@ public class RestaurantController {
         }
 
         restaurantService.update(id, restaurantForm);
+
+        return "redirect:/admin/restaurants/restaurants";
+    }
+
+    @RequestMapping(value = "/admin/restaurants/restaurants/{id}", method = RequestMethod.DELETE)
+    public String deleteRestaurant(@PathVariable Long id) {
+        System.out.println("Deleted");
+
+        restaurantService.delete(id);
+
+
 
         return "redirect:/admin/restaurants/restaurants";
     }

@@ -11,6 +11,17 @@ public class AssortmentRequestBody {
     private Integer quantity;
     private Boolean enable;
 
+
+    public AssortmentRequestBody() {
+    }
+
+    public AssortmentRequestBody(Integer quantity, Boolean enable, Long restaurantId, Long foodId) {
+        this.quantity = quantity;
+        this.enable = enable;
+        this.restaurantId = restaurantId;
+        this.foodId = foodId;
+    }
+
     public Long getAssortmentId() {
         return assortmentId;
     }
