@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@page isErrorPage="true"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -89,17 +90,16 @@
 
 
             <h2>Restaurant</h2>
-            <h2><c:out value="${assortment.restaurant.street}"/>, <c:out value="${assortment.restaurant.buildingNumber}"/></h2>
-            <p><c:out value="${assortment.restaurant.restaurantPhone}"/></p>
-            <p><c:out value="${assortment.restaurant.cityByRestaurantId.cityName}"/></p>
+            <h2><c:out value="${restaurant.street}"/>, <c:out value="${restaurant.buildingNumber}"/></h2>
+            <p><c:out value="${restaurant.restaurantPhone}"/></p>
+            <p><c:out value="${restaurant.cityByRestaurantId.cityName}"/></p>
 
 
 
-            <form:form method="POST" modelAttribute="assortmentForm" class="form-signin">
+            <form:form method="PUT" modelAttribute="assortmentForm" class="form-signin">
                 <h2 class="form-signin-heading">Update assortment</h2>
 
-              <p><c:out value="${assortment.food.foodName}"/></p>
-
+              <p><c:out value="${food.foodName}"/></p>
 
 
                 <spring:bind path="enable">
@@ -110,7 +110,7 @@
                                 selected
 
                             </c:if>>Disable</option>
-                            <option value="1" <option value="0" <c:if test="${true == assortment.enable}">
+                            <option value="1" <c:if test="${true == assortment.enable}">
                             selected
 
                         </c:if>>Enable</option>

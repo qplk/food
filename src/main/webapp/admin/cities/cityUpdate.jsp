@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@page isErrorPage="true"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -88,7 +89,7 @@
             </div>
 
 
-            <form:form method="POST" modelAttribute="cityForm" class="form-signin">
+            <form:form method="PUT" modelAttribute="cityForm" class="form-signin">
                 <h2 class="form-signin-heading">Update city</h2>
                 <spring:bind path="cityName">
                     <div class="form-group ${status.error ? 'has-error' : ''}">

@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -112,7 +113,10 @@
                     </c:if> <c:if test="${assortment.enable == false}">
                             Disabled
                         </c:if>
-                            <a class="btn btn-default" href="${contextPath}/admin/assortment/assortmentUpdate/${row.restaurantId}/${assortment.food.foodId}" role="button">Update</a> <a class="btn btn-default" href="#" role="button">Delete</a></p>
+                            <a class="btn btn-default" href="${contextPath}/admin/assortment/assortmentUpdate/${row.restaurantId}/${assortment.food.foodId}" role="button">Update</a>
+                            <form:form method="DELETE" action="${contextPath}/admin/assortment/assortment/${assortment.assortmentId}">
+                        <button class="btn btn-default" type="submit">Delete</button>
+                    </form:form></p>
 
                     </c:forEach>
 

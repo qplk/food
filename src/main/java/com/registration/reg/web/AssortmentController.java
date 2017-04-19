@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,26 +81,47 @@ public class AssortmentController {
 
     @RequestMapping(value = "/admin/assortment/assortmentUpdate/{restaurantId}/{foodId}", method = RequestMethod.GET)
     public String updateAssortment(@PathVariable Long restaurantId, @PathVariable Long foodId, Model model) {
+        Assortment assortment = assortmentService.findByRestaurantIdAndFoodId(restaurantId, foodId);
         model.addAttribute("assortmentForm", new AssortmentRequestBody());
-        model.addAttribute("assortment", assortmentService.findByRestaurantIdAndFoodId(restaurantId, foodId));
+        model.addAttribute("assortment", assortment);
+        model.addAttribute("restaurant", restaurantService.get(restaurantId));
+        model.addAttribute("food", foodService.get(foodId));
         model.addAttribute("foodList", foodService.findAll());
 
         return "/admin/assortment/assortmentUpdate";
     }
 
-
-    @RequestMapping(value = "/admin/assortment/assortmentUpdate/{restaurantId}/{foodId}", method = RequestMethod.POST)
-    public String updateFood(@PathVariable Long restaurantId, @PathVariable Long foodId, @ModelAttribute("assortmentForm") AssortmentRequestBody assortmentForm, BindingResult bindingResult, ModelMap model) {
+    @RequestMapping(value = "/admin/assortment/assortmentUpdate/{restaurantId}/{foodId}", method = RequestMethod.PUT)
+    public String updateAssortment(@PathVariable Long restaurantId, @PathVariable Long foodId, @ModelAttribute("assortmentForm") AssortmentRequestBody assortmentForm, BindingResult bindingResult, ModelMap model) {
         assortmentValidator.validateFields(assortmentForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("assortment", assortmentService.findByRestaurantIdAndFoodId(restaurantId, foodId));
+            System.out.println("errors");
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            for (ObjectError error: errors) {
+                System.out.println(error.toString());
+            }
+
+            model.addAttribute("assortment", assortmentForm);
+            model.addAttribute("restaurant", restaurantService.get(restaurantId));
+            model.addAttribute("food", foodService.get(foodId));
             model.addAttribute("foodList", foodService.findAll());
 
             return "/admin/assortment/assortmentUpdate";
         }
 
+        System.out.println("updating");
+
         assortmentService.update(restaurantId, foodId, assortmentForm);
+
+        System.out.println("updated");
+
+        return "redirect:/admin/assortment/assortment";
+    }
+
+    @RequestMapping(value = "/admin/assortment/assortment/{assortmentId}", method = RequestMethod.DELETE)
+    public String deleteFood(@PathVariable Long assortmentId) {
+        assortmentService.delete(assortmentId);
 
         return "redirect:/admin/assortment/assortment";
     }

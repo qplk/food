@@ -98,7 +98,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/admin/users/userUpdate/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/users/userUpdate/{id}", method = RequestMethod.PUT)
     public String updateUser(@PathVariable Long id, @ModelAttribute("userForm") UserRequestBody userForm, BindingResult bindingResult, ModelMap model) {
         userValidator.validateUpdate(userForm, bindingResult);
 

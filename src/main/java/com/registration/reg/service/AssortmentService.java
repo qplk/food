@@ -19,5 +19,7 @@ public interface AssortmentService {
 
     void delete(Long assortmentId);
 
-    void update(Long restaurantId, Long foodId, AssortmentRequestBody assortmentRequestBody);
+    void update(Long assortmentId, AssortmentRequestBody assortmentRequestBody);
+
+    void update(Long restauranId, Long foodId, AssortmentRequestBody assortmentRequestBody);
 }

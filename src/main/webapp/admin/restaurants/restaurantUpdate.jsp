@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@page isErrorPage="true"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -87,7 +88,7 @@
                 <p>Here you can manage smth</p>
             </div>
 
-            <form:form method="POST" modelAttribute="restaurantForm" class="form-signin">
+            <form:form method="PUT" modelAttribute="restaurantForm" class="form-signin">
                 <h2 class="form-signin-heading">Update restaurant</h2>
                 <spring:bind path="street">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
