@@ -31,7 +31,7 @@ public class OrderElementController {
     public ResponseEntity addOrderElement(@RequestBody OrderElementRequestBody orderElementRequestBody) {
         OrderElement orderElement = new OrderElement(orderElementRequestBody.getQuantity());
 
-        orderElementService.save(orderElement, orderElementRequestBody.getFoodId(), orderElementRequestBody.getOrderId());
+        orderElementService.save(orderElementRequestBody.getUserId(), orderElementRequestBody.getFoodId(), orderElementRequestBody);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 

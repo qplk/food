@@ -16,7 +16,7 @@
     <meta name="author" content="">
     <sec:csrfMetaTags/>
 
-    <title>Admin page Food</title>
+    <title>Admin page Order</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
@@ -41,11 +41,11 @@
 
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Food</a></li>
+                <li><a href="${contextPath}/admin/food/food">Food</a></li>
                 <li><a href="${contextPath}/admin/users/users">Users</a></li>
                 <li><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
                 <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
-                <li><a href="${contextPath}/admin/orders/orders">Orders</a></li>
+                <li class="active"><a href="#">Orders</a></li>
                 <li><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
             </ul>
 
@@ -72,7 +72,7 @@
                 </form>
             </c:if>
 
-    </div><!-- /.nav-collapse -->
+        </div><!-- /.nav-collapse -->
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
 
@@ -90,44 +90,45 @@
             </div>
             <div class="row">
 
-                <c:if test="${empty foodList}">
+
+                <div class="col-xs-6 col-lg-4">
+                        <p>User: <c:out value="${order.user.username}"/></p>
+                        <p>Full price: <c:out value="${order.fullPrice}"/></p>
+                        <p>Delivery time: <c:out value="${order.deliveryTime}"/></p>
+
+                        <p>Status: <c:out value="${order.status}"/></p>
+                        <p>Status info: <c:out value="${order.statusInfo}"/></p>
+                        <p>Payment info: <c:out value="${order.paymentInfo}"/></p>
+
+                </div><!--/.col-xs-6.col-lg-4-->
+
+
+
+                <c:if test="${empty order.orderElements}">
                     <div class="col-xs-6 col-lg-4">
-                        <h2>Food is null</h2>
+                        <h2>No order elements</h2>
                     </div><!--/.col-xs-6.col-lg-4-->
                 </c:if>
 
-                    <c:forEach var="row" items="${foodList}">
-                        <div class="col-xs-6 col-lg-4">
-                            <h2><c:out value="${row.foodName}"/></h2>
-                            <c:if test="${row.description != null}">
-                            <p><c:out value="${row.description}"/></p>
-                            </c:if>
-                            <p><c:out value="${row.category}"/></p>
-                            <p><img src="${row.imgPath}" /></p>
-                            <p>Portion size: <c:out value="${row.portionSize}"/></p>
-                            <p>Price: <c:out value="${row.price}"/></p>
 
-                            <p><a class="btn btn-default" href="${contextPath}/admin/food/foodUpdate/${row.foodId}" role="button">Update</a></p>
-                            <p> <form:form method="DELETE" action="${contextPath}/admin/food/food/${row.foodId}">
+                <c:forEach var="row" items="${order.orderElements}">
+                    <div class="col-xs-6 col-lg-4">
+                        <p><c:out value="${row.food.foodName}"/> <c:out value="${row.food.price}"/> quantity: <c:out value="${row.quantity}"/></p>
+                        <form:form method="DELETE" action="${contextPath}/admin/orders/order/${order.orderId}/${row.orderElementId}">
                             <button class="btn btn-default"type="submit">Delete</button>
-                        </form:form></p>
-                           <p> <form:form method="POST" action="${contextPath}/admin/food/food/1/1/${row.foodId}" modelAttribute="orderElementForm" class="form-signin">
+                        </form:form>
 
-                                <spring:bind path="quantity">
-                                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                                        <form:input type="text" path="quantity" class="form-control" placeholder="quantity"
-                                                    autofocus="true"></form:input>
-                                        <form:errors path="quantity"></form:errors>
-                                    </div>
-                                </spring:bind>
+                    </div><!--/.col-xs-6.col-lg-4-->
+                </c:forEach>
+                <form:form method="POST" modelAttribute="orderForm" action="${contextPath}/admin/orders/order/${order.orderId}">
 
-                                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-                            </form:form></p>
+                    <spring:bind path="fullPrice">
+                        <form:errors path="fullPrice"></form:errors>
 
-                        </div><!--/.col-xs-6.col-lg-4-->
-                    </c:forEach>
+                    </spring:bind>
 
-
+                <button class="btn btn-default"type="submit">Form</button>
+                </form:form>
 
 
             </div><!--/row-->
@@ -138,9 +139,6 @@
                 <a href="#" class="list-group-item active">Food</a>
                 <!--<a href=".jsp" class="list-group-item">Add new item</a>-->
 
-                <form class="navbar-form navbar-right" action="${contextPath}/admin/food/foodAdd">
-                    <button class="btn btn-success">Add new item</button>
-                </form>
             </div>
         </div><!--/.sidebar-offcanvas-->
     </div><!--/row-->

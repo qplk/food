@@ -19,6 +19,15 @@ public class Order {
         this.paymentInfo = paymentInfo;
     }
 
+    public Order(String statusInfo, User user) {
+        this.deliveryTime = Time.valueOf("00:00:00");
+        this.fullPrice = 0;
+        this.status = "Forming";
+        this.statusInfo = statusInfo;
+        this.paymentInfo = "Cash";
+        this.user = user;
+    }
+
     private Long orderId;
 
     public Order() {
@@ -31,7 +40,7 @@ public class Order {
     private String status;
     private String statusInfo;
     private String paymentInfo;
-    private User userByOrderId;
+    private User user;
     private Restaurant restaurantByOrderId;
     private Set<OrderElement> orderElements = new HashSet<>();
     private Address addressByOrderId;
@@ -115,12 +124,12 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    public User getUserByOrderId() {
-        return userByOrderId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserByOrderId(User userByOrderId) {
-        this.userByOrderId = userByOrderId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
 

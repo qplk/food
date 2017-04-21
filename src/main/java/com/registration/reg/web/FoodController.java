@@ -2,6 +2,7 @@ package com.registration.reg.web;
 
 import com.registration.reg.model.Food;
 import com.registration.reg.model.User;
+import com.registration.reg.requestBody.OrderElementRequestBody;
 import com.registration.reg.service.FoodService;
 import com.registration.reg.validator.FoodValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,7 @@ public class FoodController {
         List<Food> foodList = foodService.findAll();
         ModelAndView model = new ModelAndView("/admin/food/food");
         model.addObject("foodList", foodList);
+        model.addObject("orderElementForm", new OrderElementRequestBody());
 
         return model;
     }

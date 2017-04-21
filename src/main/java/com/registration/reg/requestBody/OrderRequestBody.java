@@ -16,6 +16,14 @@ public class OrderRequestBody {
     private Long orderId;
     private Long userId;
 
+    public OrderRequestBody() {
+    }
+
+    public OrderRequestBody(String status, String statusInfo) {
+        this.status = status;
+        this.statusInfo = statusInfo;
+    }
+
     public Long getOrderId() {
         return orderId;
     }

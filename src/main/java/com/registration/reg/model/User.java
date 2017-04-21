@@ -128,7 +128,7 @@ public class User {
     }
 
 
-    @OneToMany(mappedBy = "userByOrderId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     public Set<Order> getOrders() {
         return orders;
     }

@@ -17,8 +17,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class OrderElementRequestBody {
     private Long orderElementId;
     private Integer quantity;
-    private Long orderId;
+    private Long userId;
     private Long foodId;
+
+    public Long getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
+    }
+
+    private Long cityId;
 
     public Long getOrderElementId() {
         return orderElementId;
@@ -36,12 +46,12 @@ public class OrderElementRequestBody {
         this.quantity = quantity;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setUserId(Long orderId) {
+        this.userId = userId;
     }
 
     public Long getFoodId() {

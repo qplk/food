@@ -18,6 +18,12 @@ public class OrderElement {
     private Food food;
     private Order order;
 
+    public OrderElement(Integer quantity, Food food, Order order) {
+        this.quantity = quantity;
+        this.food = food;
+        this.order = order;
+    }
+
     public OrderElement() {
     }
 

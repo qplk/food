@@ -1,12 +1,8 @@
 package com.registration.reg.service;
 
-import com.registration.reg.model.OrderElement;
-import com.registration.reg.model.Food;
-import com.registration.reg.model.Order;
-import com.registration.reg.model.Restaurant;
-import com.registration.reg.repository.OrderElementRepository;
-import com.registration.reg.repository.FoodRepository;
-import com.registration.reg.repository.OrderRepository;
+import com.registration.reg.model.*;
+import com.registration.reg.repository.*;
+import com.registration.reg.requestBody.OrderElementRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,22 +22,41 @@ public class OrderElementServiceImpl implements OrderElementService {
     private FoodRepository foodRepository;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private AssortmentRepository assortmentRepository;
+    @Autowired
+    private RestaurantRepository restaurantRepository;
+    @Autowired
+    private CityRepository cityRepository;
 
     @Transactional
     @Override
-    public void save(OrderElement orderElement, Long foodId, Long orderId) {
+    public void save(Long userId, Long foodId, OrderElementRequestBody orderElementRequestBody) {
         Food food = foodRepository.getOne(foodId);
-        Order order = orderRepository.getOne(orderId);
+        Order order = orderRepository.findByUserAndStatus(userRepository.getOne(userId), "Forming");
+        OrderElement orderElement = new OrderElement(orderElementRequestBody.getQuantity(), food, order);
+        orderElementRepository.save(orderElement);
 
-        orderElement.setFood(food);
-        orderElement.setOrder(order);
-        orderRepository.save(order);
 
         order.getOrderElements().add(orderElement);
-        orderElementRepository.save(orderElement);
+        order.setFullPrice(order.getFullPrice() + orderElement.getFood().getPrice()*orderElement.getQuantity());
+        order.setRestaurantByOrderId(restaurantRepository.findByCityByRestaurantId(cityRepository.findOne(orderElementRequestBody.getCityId())));
+        orderRepository.save(order);
 
         food.getOrderElements().add(orderElement);
         foodRepository.save(food);
+
+      /*  Assortment assortment = assortmentRepository.findByRestaurantAndFood(order.getRestaurantByOrderId(), food);
+        if (assortment.getQuantity() != null) {
+            assortment.setQuantity(assortment.getQuantity() - orderElement.getQuantity());
+            if (assortment.getQuantity() == 0) {
+                assortment.setEnable(false);
+            }
+        }
+
+        assortmentRepository.save(assortment);*/
     }
 
     @Override
@@ -58,6 +73,20 @@ public class OrderElementServiceImpl implements OrderElementService {
 
     @Override
     public void delete(Long orderElementId) {
+        OrderElement orderElement = orderElementRepository.getOne(orderElementId);
+        Order order = orderRepository.getOne(orderElement.getOrder().getOrderId());
+        order.setFullPrice(order.getFullPrice() - orderElement.getQuantity()*orderElement.getFood().getPrice());
+
+       /* Assortment assortment = assortmentRepository.findByRestaurantAndFood(order.getRestaurantByOrderId(), orderElement.getFood());
+        if (assortment.getQuantity() != null) {
+            assortment.setQuantity(assortment.getQuantity() + orderElement.getQuantity());
+            if (assortment.getQuantity() > 0) {
+                assortment.setEnable(true);
+            }
+        }
+
+        assortmentRepository.save(assortment);*/
+
         orderElementRepository.delete(orderElementId);
     }
 }

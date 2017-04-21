@@ -73,4 +73,9 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantRepository.save(restaurant);
     }
 
+    @Override
+    public Restaurant findByCity(City city){
+        return restaurantRepository.findByCityByRestaurantId(city);
+    }
+
 }
