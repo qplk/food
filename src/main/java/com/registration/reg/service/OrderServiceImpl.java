@@ -103,6 +103,8 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
 
+            order.setAddressByOrderId(addressRepository.getOne(orderRequestBody.getAddressId()));
+
             order.setDeliveryTime(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime());
         }
 

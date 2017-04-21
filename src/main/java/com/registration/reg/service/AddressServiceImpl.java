@@ -33,7 +33,7 @@ public class AddressServiceImpl implements AddressService {
         Address currAddress = addressRepository.findByStreetAndBuildingNumberAndRoomNumber(addressRequestBody.getStreet(), addressRequestBody.getBuildingNumber(), addressRequestBody.getRoomNumber());
         User user = userRepository.findOne(addressRequestBody.getUserId());
 
-        if ((currAddress != null) && (currAddress.getCityByAddressId().getCityId() == addressRequestBody.getCityId())) {
+        if ((currAddress != null) && (currAddress.getCityByAddressId().getCityId().equals(addressRequestBody.getCityId()))) {
             currAddress.getUsers().add(user);
             addressRepository.save(currAddress);
 
@@ -47,9 +47,6 @@ public class AddressServiceImpl implements AddressService {
             address.getUsers().add(user);
             address.setCityByAddressId(city);
             addressRepository.save(address);
-
-
-            user.getAddresses().add(address);
             userRepository.save(user);
 
             city.getAddresses().add(address);

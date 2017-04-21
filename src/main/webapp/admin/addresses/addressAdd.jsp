@@ -1,7 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@page isErrorPage="true"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -15,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin page User Update</title>
+    <title>Admin page Address Add</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
@@ -39,10 +38,10 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="#">Food</a></li>
-                <li class="active"><a href="${contextPath}/admin/users/users">Users</a></li>
+                <li><a href="${contextPath}/admin/food/food">Food</a></li>
+                <li><a href="${contextPath}/admin/users/users">Users</a></li>
                 <li><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
-                <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
+                <li class="active"><a href="#">Cities</a></li>
                 <li><a href="${contextPath}/admin/orders/orders">Orders</a></li>
                 <li><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
             </ul>
@@ -89,71 +88,58 @@
             </div>
 
 
-            <form:form method="PUT" modelAttribute="userForm" class="form-signin">
-                <h2 class="form-signin-heading">Update user</h2>
+            <form:form method="POST" modelAttribute="addressForm" class="form-signin">
+                <h2 class="form-signin-heading">Add new address</h2>
 
-                <spring:bind path="username">
+                <spring:bind path="cityId">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="username" class="form-control" placeholder="Username"
-                                    autofocus="true" value="${user.username}"></form:input>
-                        <form:errors path="username"></form:errors>
-                    </div>
-                </spring:bind>
+                        <form:select class="form-control" path="cityId">
+                            <c:if test="${empty citiesList}">
 
+                                <option>No city available</option>
 
-                <spring:bind path="email">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="email" class="form-control" placeholder="Email"
-                                    autofocus="true" value="${user.email}"></form:input>
-                        <form:errors path="email"></form:errors>
-                    </div>
-                </spring:bind>
+                            </c:if>
 
-                <spring:bind path="phoneNumber">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="phoneNumber" class="form-control" placeholder="Phone number"
-                                    autofocus="true" value="${user.phoneNumber}"></form:input>
-                        <form:errors path="phoneNumber"></form:errors>
-                    </div>
-                </spring:bind>
+                            <c:forEach var="row" items="${citiesList}">
 
-                <spring:bind path="gender">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:select class="form-control" path="gender">
-                            <option value="0" <c:if test="${user.gender == 0}">selected</c:if>>Male</option>
-                            <option value="1" <c:if test="${user.gender == 1}">selected</c:if>>Female</option>
+                                <option value="${row.cityId}"><c:out value="${row.cityName}"/></option>
+
+                            </c:forEach>
                         </form:select>
+                        <form:errors path="cityId"></form:errors>
                     </div>
                 </spring:bind>
 
-                <spring:bind path="information">
+
+                <spring:bind path="street">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="information" class="form-control" placeholder="Information"
-                                    autofocus="true" value="${user.information}"></form:input>
-                        <form:errors path="information"></form:errors>
+                        <form:input type="text" path="street" class="form-control" placeholder="Street"
+                                    autofocus="true"></form:input>
+                        <form:errors path="street"></form:errors>
                     </div>
                 </spring:bind>
 
-                <spring:bind path="roles">
+
+                <spring:bind path="buildingNumber">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <c:if test="${empty roles}">
+                        <form:input type="text" path="buildingNumber" class="form-control" placeholder="Building number"></form:input>
+                        <form:errors path="buildingNumber"></form:errors>
+                    </div>
+                </spring:bind>
 
-                            <option>No roles exist</option>
+                <spring:bind path="roomNumber">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="roomNumber" class="form-control" placeholder="Room number"
+                                    autofocus="true"></form:input>
+                        <form:errors path="roomNumber"></form:errors>
+                    </div>
+                </spring:bind>
 
-                        </c:if>
-                        <c:if test="${not empty roles}">
-                            <p>Roles:
-                            <c:forEach var="hasRole" items="${user.roles}">
-                               <c:out value="${hasRole.name} " /><br />
-                            </c:forEach>
-                            </p>
-
-                            <c:forEach var="role" items="${roles}">
-                                <form:checkbox path="roles" value="${role}" /> ${role.name}
-                            </c:forEach>
-                        </c:if>
-
-                        <form:errors path="roles"></form:errors>
+                <spring:bind path="comment">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="comment" class="form-control" placeholder="Comment"
+                                    autofocus="true"></form:input>
+                        <form:errors path="comment"></form:errors>
                     </div>
                 </spring:bind>
 
@@ -161,12 +147,11 @@
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
             </form:form>
 
-            <p> <a class="btn btn-default" href="${contextPath}/admin/addresses/addressAdd/${user.userId}" role="button">Add address</a></p>
-
         </div><!--/.col-xs-12.col-sm-9-->
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
             <div class="list-group">
+                <a href="${contextPath}/admin/food/foodAdd" class="list-group-item active">Add</a>
                 <a href="#" class="list-group-item">Link</a>
                 <a href="#" class="list-group-item">Link</a>
             </div>

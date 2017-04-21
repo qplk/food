@@ -1,13 +1,13 @@
 package com.registration.reg.validator;
 
+import com.registration.reg.model.Address;
 import com.registration.reg.model.Assortment;
 import com.registration.reg.model.Order;
 import com.registration.reg.model.OrderElement;
 import com.registration.reg.requestBody.AssortmentRequestBody;
 import com.registration.reg.requestBody.OrderElementRequestBody;
-import com.registration.reg.service.AssortmentService;
-import com.registration.reg.service.CityService;
-import com.registration.reg.service.RestaurantService;
+import com.registration.reg.requestBody.OrderRequestBody;
+import com.registration.reg.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -22,9 +22,9 @@ public class OrderValidator implements Validator {
     @Autowired
     private AssortmentService assortmentService;
     @Autowired
-    private RestaurantService restaurantService;
+    private OrderService orderService;
     @Autowired
-    private CityService cityService;
+    private AddressService addressService;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -34,6 +34,15 @@ public class OrderValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         Order order = (Order) o;
+
+        if (order.getAddressByOrderId() != null) {
+            if (!order.getAddressByOrderId().getCityByAddressId().equals(order.getRestaurantByOrderId().getCityByRestaurantId())) {
+                errors.rejectValue("addressId", "City.addressForm.addressId");
+                System.out.println("Address error");
+            }
+
+        }
+
 
         if (order.getFullPrice() < order.getRestaurantByOrderId().getCityByRestaurantId().getMinPrice()) {
             errors.rejectValue("fullPrice", "TooSmall.orderForm.fullPrice");
@@ -55,6 +64,18 @@ public class OrderValidator implements Validator {
             }
 
         }
+    }
+
+
+    public void validateRequestBody(Long orderId, OrderRequestBody orderRequestBody, Errors errors) {
+        Order order = orderService.get(orderId);
+        Address address = addressService.get(orderRequestBody.getAddressId());
+
+        if (!order.getRestaurantByOrderId().getCityByRestaurantId().getCityId().equals(address.getCityByAddressId().getCityId())) {
+            errors.rejectValue("addressId", "City.addressForm.addressId");
+            System.out.println("Address error");
+        }
+
     }
 
 

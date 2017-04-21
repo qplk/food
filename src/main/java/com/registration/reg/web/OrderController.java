@@ -41,7 +41,6 @@ public class OrderController {
     @RequestMapping(value = "/admin/orders/order/{orderId}", method = RequestMethod.POST)
     public String formOrder(@PathVariable Long orderId, @ModelAttribute("orderForm") OrderRequestBody orderForm, BindingResult bindingResult, ModelMap model) {
 
-        System.out.println("Here");
         orderValidator.validate(orderService.get(orderId), bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -53,13 +52,13 @@ public class OrderController {
 
             return "/admin/orders/order";
         }
-        System.out.println("Price ok");
-        orderForm.setStatus("Formed");
-        orderForm.setStatusInfo("Autoformed");
 
-        orderService.update(orderId, orderForm);
+        //orderForm.setStatus("Formed");
+        //orderForm.setStatusInfo("Autoformed");
 
-        return "redirect:/admin/orders/orders";
+        //orderService.update(orderId, orderForm);
+
+        return "redirect:/admin/addresses/orderAddress/" + orderId;
 
     }
 
