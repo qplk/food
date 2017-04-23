@@ -1,10 +1,15 @@
 package com.registration.reg.web;
 
 import com.registration.reg.model.Order;
+import com.registration.reg.model.User;
 import com.registration.reg.requestBody.OrderRequestBody;
 import com.registration.reg.service.OrderService;
+import com.registration.reg.service.UserService;
 import com.registration.reg.validator.OrderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -26,29 +31,36 @@ public class OrderController {
     @Autowired
     OrderService orderService;
     @Autowired
+    UserService userService;
+    @Autowired
     private OrderValidator orderValidator;
 
     @RequestMapping(value = "/admin/orders/orders", method = RequestMethod.GET)
     public ModelAndView findAllOrders() {
         List<Order> ordersList = orderService.findAll();
         ModelAndView model = new ModelAndView("/admin/orders/orders");
-        model.addObject("formed", orderService.findByStatus("Forming"));
+        model.addObject("formed", orderService.findByStatus("Formed"));
         model.addObject("delivering", orderService.findByStatus("Delivering"));
 
         return model;
     }
 
-    @RequestMapping(value = "/admin/orders/order/{orderId}", method = RequestMethod.POST)
-    public String formOrder(@PathVariable Long orderId, @ModelAttribute("orderForm") OrderRequestBody orderForm, BindingResult bindingResult, ModelMap model) {
+    @RequestMapping(value = "/admin/orders/order", method = RequestMethod.POST)
+    public String formOrder(@ModelAttribute("orderForm") OrderRequestBody orderForm, BindingResult bindingResult, ModelMap model) {
 
-        orderValidator.validate(orderService.get(orderId), bindingResult);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String authenticatedUsername = userDetails.getUsername();
+        User user = userService.findByUsername(authenticatedUsername);
+
+        orderValidator.validate(orderService.findCurrentOrder(user.getUserId()), bindingResult);
 
         if (bindingResult.hasErrors()) {
 
             for (ObjectError error: bindingResult.getAllErrors()) {
                 System.out.println(error.toString());
             }
-            model.addAttribute("order", orderService.get(orderId));
+            model.addAttribute("order",orderService.findCurrentOrder(user.getUserId()));
 
             return "/admin/orders/order";
         }
@@ -58,7 +70,7 @@ public class OrderController {
 
         //orderService.update(orderId, orderForm);
 
-        return "redirect:/admin/addresses/orderAddress/" + orderId;
+        return "redirect:/admin/addresses/orderAddress/";
 
     }
 

@@ -18,4 +18,6 @@ public interface OrderElementService {
     List<OrderElement> findAll();
 
     void delete(Long orderElementId);
+
+    public void update(Long orderElementId, OrderElementRequestBody orderElementRequestBody);
 }

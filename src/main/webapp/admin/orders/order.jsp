@@ -120,7 +120,7 @@
 
                     </div><!--/.col-xs-6.col-lg-4-->
                 </c:forEach>
-                <form:form method="POST" modelAttribute="orderForm" action="${contextPath}/admin/orders/order/${order.orderId}">
+                <form:form method="POST" modelAttribute="orderForm" action="${contextPath}/admin/orders/order">
 
                     <spring:bind path="fullPrice">
                         <form:errors path="fullPrice"></form:errors>

@@ -111,18 +111,6 @@
                             <p> <form:form method="DELETE" action="${contextPath}/admin/food/food/${row.foodId}">
                             <button class="btn btn-default"type="submit">Delete</button>
                         </form:form></p>
-                           <p> <form:form method="POST" action="${contextPath}/admin/food/food/1/1/${row.foodId}" modelAttribute="orderElementForm" class="form-signin">
-
-                                <spring:bind path="quantity">
-                                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                                        <form:input type="text" path="quantity" class="form-control" placeholder="quantity"
-                                                    autofocus="true"></form:input>
-                                        <form:errors path="quantity"></form:errors>
-                                    </div>
-                                </spring:bind>
-
-                                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-                            </form:form></p>
 
                         </div><!--/.col-xs-6.col-lg-4-->
                     </c:forEach>

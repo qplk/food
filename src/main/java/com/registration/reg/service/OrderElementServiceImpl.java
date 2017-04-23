@@ -89,4 +89,16 @@ public class OrderElementServiceImpl implements OrderElementService {
 
         orderElementRepository.delete(orderElementId);
     }
+
+    @Override
+    public void update(Long orderElementId, OrderElementRequestBody orderElementRequestBody) {
+        if (orderElementRequestBody.getQuantity() == 0) {
+            delete(orderElementId);
+            return;
+        }
+        OrderElement orderElement = orderElementRepository.getOne(orderElementId);
+
+        orderElement.setQuantity(orderElementRequestBody.getQuantity());
+        orderElementRepository.save(orderElement);
+    }
 }

@@ -1,9 +1,7 @@
 package com.registration.reg.model;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.sql.*;
+import java.util.*;
 
 /**
  * Created by Stasia on 08.03.17.
@@ -11,7 +9,7 @@ import java.sql.*;
 @Entity
 @Table(name = "orders")
 public class Order {
-    public Order(Time deliveryTime, Integer fullPrice, String status, String statusInfo, String paymentInfo) {
+    public Order(Date deliveryTime, Integer fullPrice, String status, String statusInfo, String paymentInfo) {
         this.deliveryTime = deliveryTime;
         this.fullPrice = fullPrice;
         this.status = status;
@@ -20,7 +18,7 @@ public class Order {
     }
 
     public Order(String statusInfo, User user) {
-        this.deliveryTime = Time.valueOf("00:00:00");
+        this.deliveryTime = new Date();
         this.fullPrice = 0;
         this.status = "Forming";
         this.statusInfo = statusInfo;
@@ -35,7 +33,7 @@ public class Order {
 
     //private Long userId;
     //private Long restaurantId;
-    private Time deliveryTime;
+    private Date deliveryTime;
     private Integer fullPrice;
     private String status;
     private String statusInfo;
@@ -77,11 +75,11 @@ public class Order {
     }*/
 
     @Column(name = "delivery_time", nullable = false)
-    public Time getDeliveryTime() {
+    public Date getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(Time deliveryTime) {
+    public void setDeliveryTime(Date deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 

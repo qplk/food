@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Time;
+
+import java.util.Date;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
@@ -105,7 +106,16 @@ public class OrderServiceImpl implements OrderService {
 
             order.setAddressByOrderId(addressRepository.getOne(orderRequestBody.getAddressId()));
 
-            order.setDeliveryTime(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime());
+            Date date = new Date();
+            System.out.println(date.toString());
+            System.out.println(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime().toString());
+            System.out.println(date.getTime());
+            System.out.println(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime().getTime());
+            date.setTime(date.getTime() + Math.abs(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime().getTime()));
+            System.out.println(date.toString());
+
+            System.out.println(date.getTime());
+            order.setDeliveryTime(date);
         }
 
 
