@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@page isErrorPage="true"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -13,9 +14,8 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <sec:csrfMetaTags/>
 
-    <title>Admin page Orders</title>
+    <title>Admin page Order Update</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
@@ -37,14 +37,13 @@
             </button>
             <a class="navbar-brand" href="${contextPath}/admin/admin.jsp">Admin page</a>
         </div>
-
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="${contextPath}/admin/food/food">Food</a></li>
                 <li><a href="${contextPath}/admin/users/users">Users</a></li>
                 <li><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
                 <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
-                <li class="active"><a href="#">Orders</a></li>
+                <li class="active"><a href="${contextPath}/admin/orders/orders">Orders</a></li>
                 <li><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
             </ul>
 
@@ -72,6 +71,7 @@
             </c:if>
 
         </div><!-- /.nav-collapse -->
+
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
 
@@ -87,59 +87,42 @@
                 <h1>Admin page</h1>
                 <p>Here you can manage smth</p>
             </div>
-            <div class="row">
-
-                <c:if test="${empty formed}">
-                    <div class="col-xs-6 col-lg-4">
-                        <h2>No formed orders</h2>
-                    </div><!--/.col-xs-6.col-lg-4-->
-                </c:if>
 
 
-                <c:forEach var="row" items="${formed}">
-                    <div class="col-xs-6 col-lg-4">
-                        <p>User: <c:out value="${row.userByOrderId.username}"/></p>
-                        <p>Full price: <c:out value="${row.fullPrice}"/></p>
-                        <p>Delivery time: <c:out value="${row.deliveryTime}"/></p>
-                        <p>Status: <c:out value="${row.status}"/></p>
-                        <p>Status info: <c:out value="${row.statusInfo}"/></p>
-                        <p>Payment info: <c:out value="${row.paymentInfo}"/></p>
-                        <p><a class="btn btn-default" href="${contextPath}/admin/orders/orderUpdate/${row.orderId}" role="button">Update</a></p>
+            <p>User: <c:out value="${order.userByOrderId.username}"/></p>
+            <p>Full price: <c:out value="${order.fullPrice}"/></p>
+            <p>Delivery time: <c:out value="${order.deliveryTime}"/></p>
+            <p>Payment info: <c:out value="${order.paymentInfo}"/></p>
 
-                    </div><!--/.col-xs-6.col-lg-4-->
-                </c:forEach>
+            <form:form method="PUT" modelAttribute="orderForm" class="form-signin">
+                <h2 class="form-signin-heading">Update order item</h2>
 
 
-                <c:if test="${empty delivering}">
-                    <div class="col-xs-6 col-lg-4">
-                        <h2>No delivering orders</h2>
-                    </div><!--/.col-xs-6.col-lg-4-->
-                </c:if>
+                <spring:bind path="status">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:select class="form-control" path="status">
+                            <option <c:if test="${order.status == 'Formed'}">selected</c:if>>Formed</option>
+                            <option <c:if test="${order.status == 'Delivering'}">selected</c:if> >Delivering</option>
+                            <option <c:if test="${order.status == 'Delivered'}">selected</c:if>>Delivered</option>
+                            <option <c:if test="${order.status == 'Cancelled'}">selected</c:if>>Cancelled</option>
+                        </form:select>
+                    </div>
+                </spring:bind>
 
+                <spring:bind path="statusInfo">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="statusInfo" class="form-control" placeholder="Status info"
+                                    autofocus="true" value="${order.statusInfo}"></form:input>
+                        <form:errors path="statusInfo"></form:errors>
+                    </div>
+                </spring:bind>
 
-                <c:forEach var="row" items="${delivering}">
-                    <div class="col-xs-6 col-lg-4">
-                        <p>User: <c:out value="${row.userByOrderId.username}"/></p>
-                        <p>Full price: <c:out value="${row.fullPrice}"/></p>
-                        <p>Delivery time: <c:out value="${row.deliveryTime}"/></p>
-                        <p>Status: <c:out value="${row.status}"/></p>
-                        <p>Status info: <c:out value="${row.statusInfo}"/></p>
-                        <p>Payment info: <c:out value="${row.paymentInfo}"/></p>
-                        <p><a class="btn btn-default" href="${contextPath}/admin/orders/orderUpdate/${row.orderId}" role="button">Update</a></p>
-
-                    </div><!--/.col-xs-6.col-lg-4-->
-                </c:forEach>
-
-
-
-
-            </div><!--/row-->
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+            </form:form>
         </div><!--/.col-xs-12.col-sm-9-->
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
             <div class="list-group">
-                <a href="#" class="list-group-item active">Food</a>
-                <!--<a href=".jsp" class="list-group-item">Add new item</a>-->
 
             </div>
         </div><!--/.sidebar-offcanvas-->

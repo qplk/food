@@ -40,11 +40,11 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "address_id")
-    public Long getId() {
+    public Long getAddressId() {
         return addressId;
     }
 
-    public void setId(Long addressId) {
+    public void setAddressId(Long addressId) {
         this.addressId = addressId;
     }
 

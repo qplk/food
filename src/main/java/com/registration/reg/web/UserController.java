@@ -3,12 +3,12 @@ package com.registration.reg.web;
 import com.registration.reg.model.Role;
 import com.registration.reg.model.User;
 import com.registration.reg.requestBody.UserRequestBody;
-import com.registration.reg.service.RoleService;
-import com.registration.reg.service.RoleServiceImpl;
-import com.registration.reg.service.SecurityService;
-import com.registration.reg.service.UserService;
+import com.registration.reg.service.*;
 import com.registration.reg.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -27,6 +27,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private SecurityService securityService;
@@ -112,6 +115,26 @@ public class UserController {
         userService.update(id, userForm);
 
         return "redirect:/admin/users/users";
+    }
+
+    @RequestMapping(value = "/profile/profile", method = RequestMethod.GET)
+    public String profile(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.getPrincipal().toString().equals("anonymousUser")) {
+            return "redirect:/welcome/login";
+        }
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String authenticatedUsername = userDetails.getUsername();
+        User user = userService.findByUsername(authenticatedUsername);
+
+        model.addAttribute("user", user);
+        model.addAttribute("formed", orderService.findByUserAndStatus(user.getUserId(), "Formed"));
+        model.addAttribute("delivering", orderService.findByUserAndStatus(user.getUserId(), "Delivering"));
+        model.addAttribute("delivered", orderService.findByUserAndStatus(user.getUserId(), "Delivered"));
+
+        return "/profile/profile";
     }
 
 }

@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -13,9 +14,8 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <sec:csrfMetaTags/>
 
-    <title>Admin page Orders</title>
+    <title>${pageContext.request.userPrincipal.name}'s page</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
@@ -35,18 +35,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${contextPath}/admin/admin.jsp">Admin page</a>
+            <a class="navbar-brand" href="#">User page</a>
         </div>
 
+
         <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="${contextPath}/admin/food/food">Food</a></li>
-                <li><a href="${contextPath}/admin/users/users">Users</a></li>
-                <li><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
-                <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
-                <li class="active"><a href="#">Orders</a></li>
-                <li><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
-            </ul>
 
             <c:if test="${pageContext.request.userPrincipal.name == null}">
                 <form class="navbar-form navbar-right" action="${contextPath}/login">
@@ -84,51 +77,71 @@
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
             </p>
             <div class="jumbotron">
-                <h1>Admin page</h1>
-                <p>Here you can manage smth</p>
+                <h1>${pageContext.request.userPrincipal.name}'s page</h1>
+                <p>Here you can manage your profile</p>
             </div>
             <div class="row">
 
-                <c:if test="${empty formed}">
-                    <div class="col-xs-6 col-lg-4">
-                        <h2>No formed orders</h2>
-                    </div><!--/.col-xs-6.col-lg-4-->
-                </c:if>
+
+                <form:form method="POST" modelAttribute="addressForm" class="form-signin">
+                    <h2 class="form-signin-heading">Add new address</h2>
+
+                    <spring:bind path="cityId">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:select class="form-control" path="cityId">
+                                <c:if test="${empty citiesList}">
+
+                                    <option>No city available</option>
+
+                                </c:if>
+
+                                <c:forEach var="row" items="${citiesList}">
+
+                                    <option value="${row.cityId}"><c:out value="${row.cityName}"/></option>
+
+                                </c:forEach>
+                            </form:select>
+                            <form:errors path="cityId"></form:errors>
+                        </div>
+                    </spring:bind>
 
 
-                <c:forEach var="row" items="${formed}">
-                    <div class="col-xs-6 col-lg-4">
-                        <p>User: <c:out value="${row.userByOrderId.username}"/></p>
-                        <p>Full price: <c:out value="${row.fullPrice}"/></p>
-                        <p>Delivery time: <c:out value="${row.deliveryTime}"/></p>
-                        <p>Status: <c:out value="${row.status}"/></p>
-                        <p>Status info: <c:out value="${row.statusInfo}"/></p>
-                        <p>Payment info: <c:out value="${row.paymentInfo}"/></p>
-                        <p><a class="btn btn-default" href="${contextPath}/admin/orders/orderUpdate/${row.orderId}" role="button">Update</a></p>
-
-                    </div><!--/.col-xs-6.col-lg-4-->
-                </c:forEach>
+                    <spring:bind path="street">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="text" path="street" class="form-control" placeholder="Street"
+                                        autofocus="true"></form:input>
+                            <form:errors path="street"></form:errors>
+                        </div>
+                    </spring:bind>
 
 
-                <c:if test="${empty delivering}">
-                    <div class="col-xs-6 col-lg-4">
-                        <h2>No delivering orders</h2>
-                    </div><!--/.col-xs-6.col-lg-4-->
-                </c:if>
+                    <spring:bind path="buildingNumber">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="text" path="buildingNumber" class="form-control" placeholder="Building number"></form:input>
+                            <form:errors path="buildingNumber"></form:errors>
+                        </div>
+                    </spring:bind>
+
+                    <spring:bind path="roomNumber">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="text" path="roomNumber" class="form-control" placeholder="Room number"
+                                        autofocus="true"></form:input>
+                            <form:errors path="roomNumber"></form:errors>
+                        </div>
+                    </spring:bind>
+
+                    <spring:bind path="comment">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="text" path="comment" class="form-control" placeholder="Comment"
+                                        autofocus="true"></form:input>
+                            <form:errors path="comment"></form:errors>
+                        </div>
+                    </spring:bind>
 
 
-                <c:forEach var="row" items="${delivering}">
-                    <div class="col-xs-6 col-lg-4">
-                        <p>User: <c:out value="${row.userByOrderId.username}"/></p>
-                        <p>Full price: <c:out value="${row.fullPrice}"/></p>
-                        <p>Delivery time: <c:out value="${row.deliveryTime}"/></p>
-                        <p>Status: <c:out value="${row.status}"/></p>
-                        <p>Status info: <c:out value="${row.statusInfo}"/></p>
-                        <p>Payment info: <c:out value="${row.paymentInfo}"/></p>
-                        <p><a class="btn btn-default" href="${contextPath}/admin/orders/orderUpdate/${row.orderId}" role="button">Update</a></p>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                </form:form>
 
-                    </div><!--/.col-xs-6.col-lg-4-->
-                </c:forEach>
 
 
 
@@ -138,9 +151,16 @@
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
             <div class="list-group">
-                <a href="#" class="list-group-item active">Food</a>
-                <!--<a href=".jsp" class="list-group-item">Add new item</a>-->
-
+                <a href="#" class="list-group-item active">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
             </div>
         </div><!--/.sidebar-offcanvas-->
     </div><!--/row-->

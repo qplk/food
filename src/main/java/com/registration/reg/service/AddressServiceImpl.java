@@ -47,9 +47,6 @@ public class AddressServiceImpl implements AddressService {
             address.getUsers().add(user);
             address.setCityByAddressId(city);
             addressRepository.save(address);
-
-
-            user.getAddresses().add(address);
             userRepository.save(user);
 
             city.getAddresses().add(address);
@@ -71,5 +68,29 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public List<Address> findAll() {
         return addressRepository.findAll();
+    }
+
+    @Override
+    public void update(AddressRequestBody addressRequestBody) {
+        Address address = addressRepository.getOne(addressRequestBody.getAddressId());
+
+        address.setStreet(addressRequestBody.getStreet());
+        address.setBuildingNumber(addressRequestBody.getBuildingNumber());
+        address.setRoomNumber(addressRequestBody.getRoomNumber());
+        address.setComment(addressRequestBody.getComment());
+
+        if (!address.getCityByAddressId().getCityId().equals(addressRequestBody.getCityId())) {
+            City city = cityRepository.getOne(addressRequestBody.getCityId());
+            City oldCity = address.getCityByAddressId();
+
+            oldCity.getAddresses().remove(address);
+            address.setCityByAddressId(city);
+            city.getAddresses().add(address);
+
+            cityRepository.save(city);
+            cityRepository.save(oldCity);
+        }
+
+        addressRepository.save(address);
     }
 }
