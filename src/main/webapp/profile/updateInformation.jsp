@@ -83,59 +83,37 @@
             </div>
             <div class="row">
 
+                <h2>${pageContext.request.userPrincipal.name}</h2>
+                <p><a class="btn btn-default" href="${contextPath}/profile/updatePassword" role="button">Update password</a></p>
+
+
                 <div class="col-xs-6 col-lg-4">
-                <form:form method="PUT" modelAttribute="addressForm" class="form-signin">
-                    <h2 class="form-signin-heading">Add new address</h2>
+                <form:form method="PUT" modelAttribute="userForm" class="form-signin">
+                    <h3 class="form-signin-heading">Update information</h3>
 
-                    <spring:bind path="cityId">
+                    <spring:bind path="gender">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:select class="form-control" path="cityId">
-                                <c:if test="${empty citiesList}">
-
-                                    <option>No city available</option>
-
-                                </c:if>
-
-                                <c:forEach var="row" items="${citiesList}">
-
-                                    <option value="${row.cityId}" <c:if test="${row.cityId == address.cityByAddressId.cityId}">selected</c:if>  ><c:out value="${row.cityName}"/></option>
-
-                                </c:forEach>
+                            <form:select class="form-control" path="gender">
+                                <option value="0" <c:if test="${user.gender == 0}">selected</c:if>>Male</option>
+                                <option value="1" <c:if test="${user.gender == 1}">selected</c:if>>Female</option>
                             </form:select>
-                            <form:errors path="cityId"></form:errors>
                         </div>
                     </spring:bind>
 
 
-                    <spring:bind path="street">
+                    <spring:bind path="email">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="street" class="form-control" placeholder="Street"
-                                        autofocus="true" value="${address.street}"></form:input>
-                            <form:errors path="street"></form:errors>
+                            <form:input type="text" path="email" class="form-control" placeholder="Email"
+                                        autofocus="true" value="${user.email}"></form:input>
+                            <form:errors path="email"></form:errors>
                         </div>
                     </spring:bind>
 
-
-                    <spring:bind path="buildingNumber">
+                    <spring:bind path="phoneNumber">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="buildingNumber" class="form-control" placeholder="Building number" value="${address.buildingNumber}"></form:input>
-                            <form:errors path="buildingNumber"></form:errors>
-                        </div>
-                    </spring:bind>
-
-                    <spring:bind path="roomNumber">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="roomNumber" class="form-control" placeholder="Room number"
-                                        autofocus="true" value="${address.roomNumber}"></form:input>
-                            <form:errors path="roomNumber"></form:errors>
-                        </div>
-                    </spring:bind>
-
-                    <spring:bind path="comment">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="comment" class="form-control" placeholder="Comment"
-                                        autofocus="true" value="${address.comment}"></form:input>
-                            <form:errors path="comment"></form:errors>
+                            <form:input type="text" path="phoneNumber" class="form-control" placeholder="Phone number"
+                                        autofocus="true" value="${user.phoneNumber}"></form:input>
+                            <form:errors path="phoneNumber"></form:errors>
                         </div>
                     </spring:bind>
 
@@ -144,7 +122,6 @@
                 </form:form>
 
 </div>
-
 
 
             </div><!--/row-->

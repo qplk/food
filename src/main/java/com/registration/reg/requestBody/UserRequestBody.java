@@ -17,6 +17,33 @@ public class UserRequestBody {
     private Long gender;
     private Set<Role> roles;
     private String phoneNumber;
+    private String password;
+    private String newPassword;
+    private String newPasswordConfirm;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getNewPasswordConfirm() {
+        return newPasswordConfirm;
+    }
+
+    public void setNewPasswordConfirm(String newPasswordConfirm) {
+        this.newPasswordConfirm = newPasswordConfirm;
+    }
 
     public Long getUserId() {
         return userId;

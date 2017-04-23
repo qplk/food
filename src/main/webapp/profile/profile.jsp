@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -34,7 +35,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">User page</a>
+            <a class="navbar-brand" href="${contextPath}/profile/profile">User page</a>
         </div>
 
 
@@ -82,13 +83,13 @@
             <div class="row">
 
                     <h2>Common information</h2>
-                    <p>Username: ${user.username}</p>
-                    <p>Gender:
+                    <p>Username: <b>${user.username}</b></p>
+                    <p>Gender: <b>
                         <c:if test="${user.gender == 1}"><c:out value="Female" /></c:if>
-                        <c:if test="${user.gender == 0}"><c:out value="Male" /></c:if></p>
+                        <c:if test="${user.gender == 0}"><c:out value="Male" /></c:if> </b></p>
                     <p>
-                    <p>E-mail: ${user.email}</p>
-                    <p>Phone number: ${user.phoneNumber}</p>
+                    <p>E-mail: <b>${user.email}</b></p>
+                    <p>Phone number: <b>${user.phoneNumber}</b></p>
                         <a class="btn btn-default" href="${contextPath}/profile/updateInformation" role="button">Update information &raquo;</a></p>
 
 
@@ -98,12 +99,12 @@
                     <p><c:out value="You have not added any address yet" /></p>
                     </c:if>
                     <c:forEach var="address" items="${user.addresses}">
-                <p><c:out value="${address.cityByAddressId.cityName}" />, <c:out value="${address.street}" /> street, building <c:out value="${address.buildingNumber}" />, room <c:out value="${address.roomNumber}" /><br />
-                    Comment: <c:out value="${address.comment}" /></p>
-                        <p><a class="btn btn-default" href="${contextPath}/profile/updateAddress/${address.addressId}" role="button">Update</a>
+                <p><b><c:out value="${address.cityByAddressId.cityName}" /></b>, <c:out value="${address.street}" /> street, building <c:out value="${address.buildingNumber}" />, room <c:out value="${address.roomNumber}" /><br />
+                    <c:if test="${not empty address.comment}">Comment: <c:out value="${address.comment}" /></c:if></p>
+                        <p>
                          <form:form method="DELETE" action="${contextPath}/profile/deleteAddress/${address.addressId}">
-                            <button class="btn btn-default"type="submit">Delete</button>
-                        </form:form></p>
+                             <a class="btn btn-default" href="${contextPath}/profile/updateAddress/${address.addressId}" role="button">Update</a>
+                             <button class="btn btn-default"type="submit">Delete</button></form:form></p>
                 </c:forEach>
                     <a class="btn btn-default" href="${contextPath}/profile/addAddress" role="button">Add address &raquo;</a></p>
                 </p>
@@ -143,17 +144,17 @@
                         <td>
                             <c:forEach var="element" items="${order.orderElements}">
 
-                                <p><c:out value="${element.food.foodName}"/> <c:out value="${element.food.price}"/> quantity: <c:out value="${element.quantity}"/></p>
+                                <p><b><c:out value="${element.food.foodName}"/></b> <c:out value="${element.food.price}"/> &#8381; &#xD7; <c:out value="${element.quantity}"/> item<c:if test="${element.quantity > 1}">s</c:if></p>
 
 
                             </c:forEach>
                         </td>
 
                         <td>
-                            <c:out value="${order.deliveryTime}"/>
+                            <fmt:formatDate value="${order.deliveryTime}" pattern="dd/MM H:mm (zzzz)" />
                         </td>
                         <td>
-                            <c:out value="${order.fullPrice}"/>
+                            <c:out value="${order.fullPrice }"/> &#8381;
                         </td>
                         <td>
                             <c:out value="${order.paymentInfo}"/>
@@ -181,17 +182,17 @@
                             <td>
                                 <c:forEach var="element" items="${order.orderElements}">
 
-                                    <p><c:out value="${element.food.foodName}"/> <c:out value="${element.food.price}"/> quantity: <c:out value="${element.quantity}"/></p>
+                                    <p><b><c:out value="${element.food.foodName}"/></b> <c:out value="${element.food.price}"/> &#8381; &#xD7; <c:out value="${element.quantity}"/> item<c:if test="${element.quantity > 1}">s</c:if></p>
 
 
                                 </c:forEach>
                             </td>
 
                             <td>
-                                <c:out value="${order.deliveryTime}"/>
+                                <fmt:formatDate value="${order.deliveryTime}" pattern="dd/MM H:mm (zzzz)" />
                             </td>
                             <td>
-                                <c:out value="${order.fullPrice}"/>
+                                <c:out value="${order.fullPrice }"/> &#8381;
                             </td>
                             <td>
                                 <c:out value="${order.paymentInfo}"/>
@@ -248,17 +249,17 @@
                             <td>
                                 <c:forEach var="element" items="${order.orderElements}">
 
-                                    <p><c:out value="${element.food.foodName}"/> <c:out value="${element.food.price}"/> quantity: <c:out value="${element.quantity}"/></p>
+                                    <p><b><c:out value="${element.food.foodName}"/></b> <c:out value="${element.food.price}"/> &#8381; &#xD7; <c:out value="${element.quantity}"/> item<c:if test="${element.quantity > 1}">s</c:if></p>
 
 
                                 </c:forEach>
                             </td>
 
                             <td>
-                                <c:out value="${order.deliveryTime}"/>
+                                <fmt:formatDate value="${order.deliveryTime}" pattern="dd/MM H:mm (zzzz)" />
                             </td>
                             <td>
-                                <c:out value="${order.fullPrice}"/>
+                                <c:out value="${order.fullPrice }"/> &#8381;
                             </td>
                             <td>
                                 <c:out value="${order.paymentInfo}"/>

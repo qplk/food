@@ -41,6 +41,17 @@ public class AddressController {
     OrderService orderService;
 
 
+    User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.getPrincipal().toString().equals("anonymousUser")) {
+            return null;
+        }
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String authenticatedUsername = userDetails.getUsername();
+        return userService.findByUsername(authenticatedUsername);
+    }
 
     @RequestMapping(value = "/profile/addAddress", method = RequestMethod.GET)
     public ModelAndView addAddress() {
@@ -55,11 +66,11 @@ public class AddressController {
 
     @RequestMapping(value = "/profile/addAddress", method = RequestMethod.POST)
     public String addAddress(@ModelAttribute("addressForm") AddressRequestBody addressForm, BindingResult bindingResult, ModelMap model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String authenticatedUsername = userDetails.getUsername();
-        User user = userService.findByUsername(authenticatedUsername);
-        addressForm.setUserId(user.getUserId());
+        User currentUser = getCurrentUser();
+
+        if (currentUser != null) {
+            addressForm.setUserId(currentUser.getUserId());
+        }
 
         if (bindingResult.hasErrors()) {
             return "/profile/addAddress";
@@ -83,11 +94,11 @@ public class AddressController {
 
     @RequestMapping(value = "/profile/updateAddress/{addressId}", method = RequestMethod.PUT)
     public String updateAddress(@ModelAttribute("addressForm") AddressRequestBody addressForm, BindingResult bindingResult, ModelMap model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String authenticatedUsername = userDetails.getUsername();
-        User user = userService.findByUsername(authenticatedUsername);
-        addressForm.setUserId(user.getUserId());
+        User currentUser = getCurrentUser();
+
+        if (currentUser != null) {
+            addressForm.setUserId(currentUser.getUserId());
+        }
 
         if (bindingResult.hasErrors()) {
             return "/profile/updateAddress";

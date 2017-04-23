@@ -65,8 +65,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(Long id, UserRequestBody user) {
-        User oldUser = userRepository.getOne(id);
+    public void update(UserRequestBody user) {
+        User oldUser = userRepository.getOne(user.getUserId());
 
         if (user.getEmail() != null) {
             oldUser.setEmail(user.getEmail());
@@ -84,14 +84,15 @@ public class UserServiceImpl implements UserService {
             oldUser.setUsername(user.getUsername());
         }
 
-        if (user.getInformation() != null) {
-            oldUser.setInformation(user.getInformation());
-        }
 
         if (user.getRoles() != null) {
             oldUser.setRoles(user.getRoles());
         } else {
             oldUser.setRoles(new HashSet<Role>());
+        }
+
+        if (user.getPassword() != null) {
+            oldUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
 
 

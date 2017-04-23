@@ -35,7 +35,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">User page</a>
+            <a class="navbar-brand" href="${contextPath}/profile/profile">User page</a>
         </div>
 
 
@@ -81,7 +81,7 @@
                 <p>Here you can manage your profile</p>
             </div>
             <div class="row">
-
+                <div class="col-xs-6 col-lg-4">
 
                 <form:form method="POST" modelAttribute="addressForm" class="form-signin">
                     <h2 class="form-signin-heading">Add new address</h2>
@@ -142,7 +142,7 @@
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
                 </form:form>
 
-
+</div>
 
 
 

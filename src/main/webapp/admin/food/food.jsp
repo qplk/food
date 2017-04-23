@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
@@ -105,7 +107,7 @@
                             <p><c:out value="${row.category}"/></p>
                             <p><img src="${row.imgPath}" /></p>
                             <p>Portion size: <c:out value="${row.portionSize}"/></p>
-                            <p>Price: <c:out value="${row.price}"/></p>
+                            <p>Price: <c:out value="${row.price}"/> &#8381;</p>
 
                             <p><a class="btn btn-default" href="${contextPath}/admin/food/foodUpdate/${row.foodId}" role="button">Update</a></p>
                             <p> <form:form method="DELETE" action="${contextPath}/admin/food/food/${row.foodId}">
