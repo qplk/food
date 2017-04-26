@@ -1,6 +1,7 @@
 package com.registration.reg.service;
 
 import com.registration.reg.model.Assortment;
+import com.registration.reg.model.Food;
 import com.registration.reg.requestBody.AssortmentRequestBody;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface AssortmentService {
     void update(Long assortmentId, AssortmentRequestBody assortmentRequestBody);
 
     void update(Long restauranId, Long foodId, AssortmentRequestBody assortmentRequestBody);
+
+    List<Food> findAllFoodInRestaurant(Long restaurantId, String category);
 }

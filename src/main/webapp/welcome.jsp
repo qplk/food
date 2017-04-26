@@ -26,54 +26,13 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
-<nav class="navbar navbar-fixed-top navbar-inverse">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Food zone</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
+<body onLoad="welcomeCity()">
+<div class="hidden">
+    <input type="text" id="city" value="1"/>
+    <input type="text" id="userId" value="0">
+</div>
 
-          <c:if test="${pageContext.request.userPrincipal.name == null}">
-            <form class="navbar-form navbar-right" action="${contextPath}/login">
-                <a href="#ModalSign" class="btn btn-success" data-toggle="modal">Sign in</a>
-            </form>
-          </c:if>
-
-          <c:if test="${pageContext.request.userPrincipal.name == null}">
-            <form class="navbar-form navbar-right" action="${contextPath}/registration">
-                <a href="#ModalReg" class="btn btn-success" data-toggle="modal">Registration</a>
-            </form>
-          </c:if>
-
-          <c:if test="${pageContext.request.userPrincipal.name != null}">
-            <p class="navbar-text navbar-right">Signed in as <a href="profile.jsp" class="navbar-link">${pageContext.request.userPrincipal.name}</a></p>
-          </c:if>
-
-          <c:if test="${pageContext.request.userPrincipal.name != null}">
-              <form class="navbar-form navbar-right" id="logoutForm" method="POST" action="${contextPath}/logout">
-                  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                  <a onclick="document.forms['logoutForm'].submit()"><button class="btn btn-success">logout</button></a>
-              </form>
-          </c:if>
-
-
-        </div><!-- /.nav-collapse -->
-      </div><!-- /.container -->
-    </nav><!-- /.navbar -->
-
-    <div id="ModalSign" class="modal fade">
+<div id="ModalSign" class="modal fade">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-body">
@@ -102,77 +61,147 @@
     </div>
 
     <div id="ModalReg" class="modal fade">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <form:form method="POST" modelAttribute="userForm" class="form-signin">
-                                <h2 class="form-signin-heading">Create your account</h2>
-                                <spring:bind path="username">
-                                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                                        <form:input type="text" path="username" class="form-control" placeholder="Username"
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form:form method="POST" modelAttribute="userForm" class="form-signin">
+                                    <h2 class="form-signin-heading">Create your account</h2>
+                                    <spring:bind path="username">
+                                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                                            <form:input type="text" path="username" class="form-control" placeholder="Username"
+                                                        autofocus="true"></form:input>
+                                            <form:errors path="username"></form:errors>
+                                        </div>
+                                    </spring:bind>
+
+                                    <spring:bind path="password">
+                                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                                            <form:input type="password" path="password" class="form-control" placeholder="Password"></form:input>
+                                            <form:errors path="password"></form:errors>
+                                        </div>
+                                    </spring:bind>
+
+                                    <spring:bind path="passwordConfirm">
+                                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                                            <form:input type="password" path="passwordConfirm" class="form-control"
+                                                        placeholder="Confirm your password"></form:input>
+                                            <form:errors path="passwordConfirm"></form:errors>
+                                        </div>
+                                    </spring:bind>
+
+                                    <spring:bind path="email">
+                                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                                    <form:input type="text" path="email" class="form-control" placeholder="Email"
                                                     autofocus="true"></form:input>
-                                        <form:errors path="username"></form:errors>
-                                    </div>
-                                </spring:bind>
+                                                    <form:errors path="email"></form:errors>
+                                                </div>
+                                     </spring:bind>
 
-                                <spring:bind path="password">
-                                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                                        <form:input type="password" path="password" class="form-control" placeholder="Password"></form:input>
-                                        <form:errors path="password"></form:errors>
-                                    </div>
-                                </spring:bind>
+                                     <spring:bind path="phoneNumber">
+                                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                                    <form:input type="text" path="phoneNumber" class="form-control" placeholder="phone"
+                                                         autofocus="true"></form:input>
+                                                    <form:errors path="phoneNumber"></form:errors>
+                                                </div>
+                                     </spring:bind>
 
-                                <spring:bind path="passwordConfirm">
-                                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                                        <form:input type="password" path="passwordConfirm" class="form-control"
-                                                    placeholder="Confirm your password"></form:input>
-                                        <form:errors path="passwordConfirm"></form:errors>
-                                    </div>
-                                </spring:bind>
+                                     <spring:bind path="gender">
+                                                <div class="form-group ${status.error ? 'has-error' : ''}">
+                                                    <form:select class="form-control" path="gender">
+                                                          <option value="0">Male</option>
+                                                          <option value="1">Female</option>
+                                                    </form:select>
+                                                </div>
+                                     </spring:bind>
 
-                                <spring:bind path="email">
-                                            <div class="form-group ${status.error ? 'has-error' : ''}">
-                                                <form:input type="text" path="email" class="form-control" placeholder="Email"
-                                                autofocus="true"></form:input>
-                                                <form:errors path="email"></form:errors>
-                                            </div>
-                                 </spring:bind>
+                                    <div id="recaptcha" class="g-recaptcha" data-sitekey="6LesJhgUAAAAAFLSWEr_gKjZEBy3riMNfU3M7CNR"></div>
+                                    <button class="btn btn-lg btn-primary btn-block" type="submit" id="grecaptcha">Submit</button></div>
+                                </form:form>
+                                <script src="https://www.google.com/recaptcha/api.js"></script>
+                            </div>
+                    </div>
+                </div>
+        </div>
 
-                                 <spring:bind path="phoneNumber">
-                                            <div class="form-group ${status.error ? 'has-error' : ''}">
-                                                <form:input type="text" path="phoneNumber" class="form-control" placeholder="phone"
-                                                     autofocus="true"></form:input>
-                                                <form:errors path="phoneNumber"></form:errors>
-                                            </div>
-                                 </spring:bind>
-
-                                 <spring:bind path="gender">
-                                            <div class="form-group ${status.error ? 'has-error' : ''}">
-                                                <form:select class="form-control" path="gender">
-                                                      <option value="0">Male</option>
-                                                      <option value="1">Female</option>
-                                                </form:select>
-                                            </div>
-                                 </spring:bind>
-
-                                <div id="recaptcha" class="g-recaptcha" data-sitekey="6LesJhgUAAAAAFLSWEr_gKjZEBy3riMNfU3M7CNR"></div>
-                                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button></div>
-                            </form:form>
-                            <script src="https://www.google.com/recaptcha/api.js"></script>
+        <div id="ModalBuy" class="modal fade">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-body">
                         </div>
+                    </div>
                 </div>
             </div>
-    </div>
+
+<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Food zone</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="aCity"><input type="text">Cities<b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li><button class="btn btn-link btn-block" id="Moscow" onclick="setCity(1)">Moscow</button></li>
+                        <li><button class="btn btn-link btn-block" id="StPetersburg" onclick="setCity(2)">St. Petersburg</button></li>
+                        <li><button class="btn btn-link btn-block" id="Kazan" onclick="setCity(3)">Kazan</button></li>
+                        <li><button class="btn btn-link btn-block" id="Dolgoprudniy" onclick="setCity(4)">Dolgoprudniy</button></li>
+                      </ul>
+                    </li>
+          </ul>
+
+          <c:if test="${pageContext.request.userPrincipal.name == null}">
+            <form class="navbar-form navbar-right" action="${contextPath}/login">
+                <a href="#ModalSign" class="btn btn-success" data-toggle="modal">Sign in</a>
+            </form>
+          </c:if>
+
+          <c:if test="${pageContext.request.userPrincipal.name == null}">
+            <form class="navbar-form navbar-right" action="${contextPath}/registration">
+                <a href="#ModalReg" class="btn btn-success" data-toggle="modal">Registration</a>
+            </form>
+          </c:if>
+
+          <c:if test="${pageContext.request.userPrincipal.name != null}">
+            <p class="navbar-text navbar-right">Signed in as <a href="${contextPath}/profile" class="navbar-link">${pageContext.request.userPrincipal.name}</a></p>
+          </c:if>
+
+          <c:if test="${pageContext.request.userPrincipal.name != null}">
+              <form class="navbar-form navbar-right" id="logoutForm" method="POST" action="${contextPath}/logout">
+                  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                  <a onclick="document.forms['logoutForm'].submit()"><button class="btn btn-success">logout</button></a>
+              </form>
+          </c:if>
+
+          <div class="navbar-form navbar-right">
+              <a href="#ModalBuy" class="btn btn-default" data-toggle="modal"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+          </div>
+
+
+        </div><!-- /.nav-collapse -->
+      </div><!-- /.container -->
+    </div><!-- /.navbar -->
+
+
+
 
     <div class="container">
 
-      <div class="row row-offcanvas row-offcanvas-right">
+        <div class="row">
 
-        <div class="col-xs-12 col-sm-9">
+        <div class="col-lg-9 col-sm-9">
           <p class="pull-right visible-xs">
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
           </p>
-          <div class="jumbotron">
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
               <!-- Indicators -->
               <ol class="carousel-indicators">
@@ -187,16 +216,16 @@
                   <img src="http://i069.radikal.ru/1703/73/470db34c4705.jpg">
                   <div class="carousel-caption">
 
-                  </div>
-                </div>
+                  </div><!--Carousel-caption-->
+                </div><!--item active-->
                 <div class="item">
                   <img src="http://i069.radikal.ru/1703/73/470db34c4705.jpg">
                   <div class="carousel-caption">
 
-                  </div>
-                </div>
+                  </div><!--carousel-caption-->
+                </div><!--item-->
 
-              </div>
+              </div><!--carousel-inner-->
 
               <!-- Controls -->
               <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
@@ -207,61 +236,44 @@
                 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
               </a>
-            </div>
-          </div>
-          <div id="div1" class="row">
-            <div class='col-xs-6 col-lg-6'>
-              <img src="https://dodopizzaru-a.akamaihd.net/Img/Products/Pizza/c581dcc8-15e7-4a0b-aea2-45bae256c4ec.jpg">
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-
-              <div class="input-group">
-                <div class="input-group-btn">
-                 <button type="button" id="plus" class="btn btn-default" onclick="add()"><span class="glyphicon glyphicon-plus"></span></button>
-                 <button type="button" id="minus" class="btn btn-default" onclick="remove()"><span class="glyphicon glyphicon-minus"></span></button>
-                </div>
-                <div class="col-xs-3">
-                 <input type="text" value="0" id="res1" class="form-control" disabled>
-                </div>
-              </div>
-            </div><!--/.col-xs-6.col-lg-6-->
-            <div class="col-xs-6 col-lg-6">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-
-            </div><!--/.col-xs-6.col-lg-6-->
-            <div class="col-xs-6 col-lg-6">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div><!--/.col-xs-6.col-lg-6-->
-            <div class="col-xs-6 col-lg-6">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div><!--/.col-xs-6.col-lg-6-->
-          </div><!--/row-->
+            </div><!--carousel-slide-->
         </div><!--/.col-xs-12.col-sm-9-->
 
-        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
-          <div class="list-group">
-            <a href="#" class="list-group-item active">Sushi</a>
-            <a href="#" class="list-group-item">Rolls</a>
-            <a href="#" class="list-group-item">Soup</a>
-            <a href="#" class="list-group-item">Thai</a>
-            <a href="#" class="list-group-item">Salads</a>
-            <a href="#" class="list-group-item">Pizza</a>
-            <a href="#" class="list-group-item">Sets</a>
-            <a href="#" class="list-group-item">Drinks</a>
-            <input type="text" id="divNum" class="form-control">
-            <button type="button" id="build" class="btn btn-default" onclick="del"></button>
-          </div>
-        </div><!--/.sidebar-offcanvas-->
-      </div><!--/row-->
+        <div class="col-lg-3 col-sm-3 sidebar-offcanvas" id="sidebarCategories">
+            <button class='btn btn-primary btn-lg btn-block' id="category3" onclick="buildPizza()" value="Pizza">Pizza</button>
+            <button class='btn btn-primary btn-lg btn-block' id="category4" onclick="buildRoll()" value="Roll">Roll</button>
+            <button class='btn btn-primary btn-lg btn-block' id="category2" onclick="buildSnack()" value="Snack">Snack</button>
+            <button class='btn btn-primary btn-lg btn-block' id="category5" onclick="buildDessert()" value="Dessert">Dessert</button>
+            <button class='btn btn-primary btn-lg btn-block' id="category1" onclick="buildDrink()" value="Drink">Drink</button>
+        </div><!--/.sidebar-categories-->
 
-      <hr>
+        </div><!--/.row-->
+
+        <div class="clearfix visible-md-block"></div>
+
+        <div class="row" id="div1">
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
+                                <img src="http://s020.radikal.ru/i709/1704/1a/79606a4bc27b.jpg">
+                                <div class="caption">
+                                    <h4>Food Name</h4>
+                                    <p>Description</p>
+                                    <div class='input-group'>
+                                        <div class="input-group-btn">
+                                            <button type='button' id='plus' class='btn btn-default'><span class='glyphicon glyphicon-plus'></span></button>
+                                            <button type='button' id='minus' class='btn btn-default'><span class='glyphicon glyphicon-minus'></span></button>
+                                            <button type='button' id='toBascket' class='btn btn-default'><span class='glyphicon glyphicon-shopping-cart'></span></button>
+                                        </div>
+                                        <div class='col-xs-4'>
+                                            <input type='text' value='0' class='form-control' disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        </div><!--/row-->
     </div><!--/.container-->
 
-<!-- /container -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 <script src="${contextPath}/resources/js/addition.js"></script>

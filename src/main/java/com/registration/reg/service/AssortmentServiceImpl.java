@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
@@ -85,5 +86,24 @@ public class AssortmentServiceImpl implements AssortmentService {
         assortment.setEnable(assortmentRequestBody.getEnable());
 
         assortmentRepository.save(assortment);
+    }
+
+    @Override
+    public List<Food> findAllFoodInRestaurant(Long restaurantId, String category){
+        List<Assortment> allAssortmentList = findAll();
+        List<Food> foodAssortmentList = new ArrayList<Food>();
+        Set<Food> foodAssortmentSet = new HashSet<Food>();
+        for(Assortment item : allAssortmentList){
+            if (item.getRestaurant().getRestaurantId() == restaurantId){
+                if(item.getEnable() && (item.getFood().getCategory().equals(category))){
+                    foodAssortmentSet.add(item.getFood());
+                }
+            }
+        }
+        for(Food item: foodAssortmentSet){
+            item.setAssortment(null);
+            foodAssortmentList.add(item);
+        }
+        return foodAssortmentList;
     }
 }
