@@ -1,8 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@page isErrorPage="true"%>
 
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
@@ -16,9 +15,8 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <sec:csrfMetaTags/>
 
-    <title>Admin page Food</title>
+    <title>${pageContext.request.userPrincipal.name}'s page</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
@@ -38,18 +36,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${contextPath}/admin/admin.jsp">Admin page</a>
+            <a class="navbar-brand" href="${contextPath}/profile/profile">User page</a>
         </div>
 
+
         <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Food</a></li>
-                <li><a href="${contextPath}/admin/users/users">Users</a></li>
-                <li><a href="${contextPath}/admin/restaurants/restaurants">Restaurants</a></li>
-                <li><a href="${contextPath}/admin/cities/cities">Cities</a></li>
-                <li><a href="${contextPath}/admin/orders/orders">Orders</a></li>
-                <li><a href="${contextPath}/admin/assortment/assortment">Assortment</a></li>
-            </ul>
 
             <c:if test="${pageContext.request.userPrincipal.name == null}">
                 <form class="navbar-form navbar-right" action="${contextPath}/login">
@@ -74,7 +65,7 @@
                 </form>
             </c:if>
 
-    </div><!-- /.nav-collapse -->
+        </div><!-- /.nav-collapse -->
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
 
@@ -87,37 +78,49 @@
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
             </p>
             <div class="jumbotron">
-                <h1>Admin page</h1>
-                <p>Here you can manage smth</p>
+                <h1>${pageContext.request.userPrincipal.name}'s page</h1>
+                <p>Here you can manage your profile</p>
             </div>
             <div class="row">
-
-                <c:if test="${empty foodList}">
-                    <div class="col-xs-6 col-lg-4">
-                        <h2>Food is null</h2>
-                    </div><!--/.col-xs-6.col-lg-4-->
-                </c:if>
-
-                    <c:forEach var="row" items="${foodList}">
-                        <div class="col-xs-6 col-lg-4">
-                            <h2><c:out value="${row.foodName}"/></h2>
-                            <c:if test="${row.description != null}">
-                            <p><c:out value="${row.description}"/></p>
-                            </c:if>
-                            <p><c:out value="${row.category}"/></p>
-                            <p><img src="${row.imgPath}" /></p>
-                            <p>Portion size: <c:out value="${row.portionSize}"/></p>
-                            <p>Price: <c:out value="${row.price}"/> &#8381;</p>
-
-                            <p><a class="btn btn-default" href="${contextPath}/admin/food/foodUpdate/${row.foodId}" role="button">Update</a></p>
-                            <p> <form:form method="DELETE" action="${contextPath}/admin/food/food/${row.foodId}">
-                            <button class="btn btn-default"type="submit">Delete</button>
-                        </form:form></p>
-
-                        </div><!--/.col-xs-6.col-lg-4-->
-                    </c:forEach>
+                <div class="col-xs-6 col-lg-4">
 
 
+                <h2>${pageContext.request.userPrincipal.name}</h2>
+                <form:form method="PUT" modelAttribute="passwordForm" class="form-signin">
+                    <h3 class="form-signin-heading">Update password</h3>
+
+                    <spring:bind path="password">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="password" path="password" class="form-control" placeholder="Password"></form:input>
+                            <form:errors path="password"></form:errors>
+                        </div>
+                    </spring:bind>
+
+                    <spring:bind path="newPassword">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="password" path="newPassword" class="form-control" placeholder="New password"></form:input>
+                            <form:errors path="newPassword"></form:errors>
+                        </div>
+                    </spring:bind>
+
+                    <spring:bind path="newPasswordConfirm">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="password" path="newPasswordConfirm" class="form-control"
+                                        placeholder="Confirm new password"></form:input>
+                            <form:errors path="newPasswordConfirm"></form:errors>
+                        </div>
+                    </spring:bind>
+
+
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                </form:form>
+
+
+
+
+
+
+                </div>
 
 
             </div><!--/row-->
@@ -125,12 +128,16 @@
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
             <div class="list-group">
-                <a href="#" class="list-group-item active">Food</a>
-                <!--<a href=".jsp" class="list-group-item">Add new item</a>-->
-
-                <form class="navbar-form navbar-right" action="${contextPath}/admin/food/foodAdd">
-                    <button class="btn btn-success">Add new item</button>
-                </form>
+                <a href="#" class="list-group-item active">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
             </div>
         </div><!--/.sidebar-offcanvas-->
     </div><!--/row-->

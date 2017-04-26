@@ -1,6 +1,7 @@
 package com.registration.reg.service;
 
 import com.registration.reg.model.Order;
+import com.registration.reg.requestBody.OrderRequestBody;
 
 
 import java.util.List;
@@ -15,5 +16,12 @@ public interface OrderService {
 
     List<Order> findAll();
 
+    List<Order> findByStatus(String status);
+
+    Order findCurrentOrder(Long userId);
+    List<Order> findByUserAndStatus(Long userId, String status);
+
     void delete(Long orderId);
+
+    void update(OrderRequestBody orderRequestBody);
 }

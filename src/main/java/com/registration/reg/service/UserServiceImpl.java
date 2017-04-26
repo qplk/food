@@ -1,7 +1,9 @@
 package com.registration.reg.service;
 
+import com.registration.reg.model.Order;
 import com.registration.reg.model.Role;
 import com.registration.reg.model.User;
+import com.registration.reg.repository.OrderRepository;
 import com.registration.reg.repository.RoleRepository;
 import com.registration.reg.repository.UserRepository;
 import com.registration.reg.requestBody.UserRequestBody;
@@ -19,6 +21,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
+    private OrderRepository orderRepository;
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -26,6 +30,12 @@ public class UserServiceImpl implements UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         //user.setRoles(new HashSet<>(roleRepository.findAll()));
         user.getRoles().add(roleRepository.findByName("ROLE_USER"));
+        userRepository.save(user);
+
+        Order order = new Order("Initial order", user);
+        orderRepository.save(order);
+
+        user.getOrders().add(order);
         userRepository.save(user);
     }
 
@@ -55,8 +65,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(Long id, UserRequestBody user) {
-        User oldUser = userRepository.getOne(id);
+    public void update(UserRequestBody user) {
+        User oldUser = userRepository.getOne(user.getUserId());
 
         if (user.getEmail() != null) {
             oldUser.setEmail(user.getEmail());
@@ -74,14 +84,15 @@ public class UserServiceImpl implements UserService {
             oldUser.setUsername(user.getUsername());
         }
 
-        if (user.getInformation() != null) {
-            oldUser.setInformation(user.getInformation());
-        }
 
         if (user.getRoles() != null) {
             oldUser.setRoles(user.getRoles());
         } else {
             oldUser.setRoles(new HashSet<Role>());
+        }
+
+        if (user.getPassword() != null) {
+            oldUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
 
 

@@ -15,4 +15,6 @@ public interface AddressService {
     List<Address> findAll();
 
     void delete(Long addressId);
+
+    void update(AddressRequestBody addressRequestBody);
 }
