@@ -17,4 +17,6 @@ public interface OrderElementService {
     List<OrderElement> findAll();
 
     void delete(Long orderElementId);
+
+    List<OrderElement> findOrderElementsForUserId(Long userId);
 }

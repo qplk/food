@@ -30,6 +30,7 @@
 <div class="hidden">
     <input type="text" id="city" value="1"/>
     <input type="text" id="userId" value="0">
+    <input type="text" id="orderId" value="0">
 </div>
 
 <div id="ModalSign" class="modal fade">

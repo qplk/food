@@ -102,6 +102,7 @@ public class AssortmentServiceImpl implements AssortmentService {
         }
         for(Food item: foodAssortmentSet){
             item.setAssortment(null);
+            item.setOrderElements(null);
             foodAssortmentList.add(item);
         }
         return foodAssortmentList;

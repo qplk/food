@@ -1,11 +1,13 @@
 package com.registration.reg.web;
 
+import com.registration.reg.model.Order;
 import com.registration.reg.model.Role;
 import com.registration.reg.model.User;
 import com.registration.reg.requestBody.UserRequestBody;
 import com.registration.reg.service.*;
 import com.registration.reg.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -92,6 +95,28 @@ public class UserController {
     public String welcome(Model model) {
         return "welcome";
 
+    }
+
+    @RequestMapping(value = "/authenticatedUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity userId(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null){
+            return null;
+        }
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String authenticatedUsername = userDetails.getUsername();
+        User user = userService.findByUsername(authenticatedUsername);
+        user.setRoles(null);
+        Long orderId = 0L;
+        Set<Order> orderSet = user.getOrders();
+        for(Order item: orderSet){
+            orderId = item.getOrderId();
+        }
+        user.setInformation(orderId.toString());
+        user.setOrders(null);
+        ResponseEntity responseEntity = new ResponseEntity(user, HttpStatus.OK);
+
+        return responseEntity;
     }
 
 

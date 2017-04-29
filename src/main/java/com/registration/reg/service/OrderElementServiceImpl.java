@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
@@ -59,5 +60,27 @@ public class OrderElementServiceImpl implements OrderElementService {
     @Override
     public void delete(Long orderElementId) {
         orderElementRepository.delete(orderElementId);
+    }
+
+    @Override
+    public List<OrderElement> findOrderElementsForUserId(Long userId) {
+        Order userIdOrder = null;
+        List<OrderElement> userIdOrderElements = new ArrayList<OrderElement>();
+        List<Order> allOrders = orderRepository.findAll();
+        for(Order item: allOrders){
+            if(item.getUserByOrderId().getUserId() == userId){
+                userIdOrder = item;
+            }
+        }
+        List<OrderElement> allOrderElements = orderElementRepository.findAll();
+        for(OrderElement item: allOrderElements){
+            if(item.getOrder().getOrderId() == userIdOrder.getOrderId()){
+                item.getFood().setAssortment(null);
+                item.getFood().setOrderElements(null);
+                item.setOrder(null);
+                userIdOrderElements.add(item);
+            }
+        }
+        return userIdOrderElements;
     }
 }
