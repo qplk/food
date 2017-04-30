@@ -46,7 +46,6 @@
 
                         <p>Information: ${user.information}</p>
                         <p><a class="btn btn-default" href="${contextPath}/admin/users/userUpdate/${user.userId}" role="button">Update</a></p>
-                        <p><a class="btn btn-default" href="#" role="button">Delete</a></p>
 
                     </div><!--/.col-xs-6.col-lg-4-->
                 </c:forEach>
