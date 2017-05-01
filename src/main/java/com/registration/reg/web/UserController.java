@@ -129,22 +129,22 @@ public class UserController {
         return model;
     }
 
-    @RequestMapping(value = "/admin/users/userUpdate/{id}", method = RequestMethod.GET)
-    public String updateUser(@PathVariable Long id, Model model) {
+    @RequestMapping(value = "/admin/users/userUpdate/{userId}", method = RequestMethod.GET)
+    public String updateUser(@PathVariable Long userId, Model model) {
         model.addAttribute("userForm", new UserRequestBody());
-        model.addAttribute("user", userService.get(id));
+        model.addAttribute("user", userService.get(userId));
         model.addAttribute("roles", roleService.findAll());
 
         return "/admin/users/userUpdate";
     }
 
 
-    @RequestMapping(value = "/admin/users/userUpdate/{id}", method = RequestMethod.PUT)
-    public String updateUser(@PathVariable Long id, @ModelAttribute("userForm") UserRequestBody userForm, BindingResult bindingResult, ModelMap model) {
+    @RequestMapping(value = "/admin/users/userUpdate/{userId}", method = RequestMethod.PUT)
+    public String updateUser(@PathVariable Long userId, @ModelAttribute("userForm") UserRequestBody userForm, BindingResult bindingResult, ModelMap model) {
         userValidator.validateUpdate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("user", userService.get(id));
+            model.addAttribute("user", userService.get(userId));
             model.addAttribute("roles", roleService.findAll());
 
             return "/admin/users/userUpdate";
@@ -246,4 +246,3 @@ public class UserController {
     }
 
 }
-
