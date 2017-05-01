@@ -38,6 +38,8 @@ public class OrderElementServiceImpl implements OrderElementService {
         orderElement.setFood(food);
         orderElement.setOrder(order);
         orderRepository.save(order);
+        
+        orderElement.setElementPrice(food.getPrice() * orderElement.getQuantity());
 
         order.getOrderElements().add(orderElement);
         orderElementRepository.save(orderElement);
@@ -70,8 +72,10 @@ public class OrderElementServiceImpl implements OrderElementService {
             return;
         }
         OrderElement orderElement = orderElementRepository.getOne(orderElementId);
+        Food food = foodRepository.getOne(orderElementRequestBody.getFoodId());
 
         orderElement.setQuantity(orderElementRequestBody.getQuantity());
+        orderElement.setElementPrice(food.getPrice() * orderElement.getQuantity());
         orderElementRepository.save(orderElement);
     }
 
