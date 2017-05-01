@@ -7,6 +7,7 @@ import com.registration.reg.model.Restaurant;
 import com.registration.reg.repository.OrderElementRepository;
 import com.registration.reg.repository.FoodRepository;
 import com.registration.reg.repository.OrderRepository;
+import com.registration.reg.requestBody.OrderElementRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,12 +64,25 @@ public class OrderElementServiceImpl implements OrderElementService {
     }
 
     @Override
+    public void update(Long orderElementId, OrderElementRequestBody orderElementRequestBody) {
+        if (orderElementRequestBody.getQuantity() == 0) {
+            delete(orderElementId);
+            return;
+        }
+        OrderElement orderElement = orderElementRepository.getOne(orderElementId);
+
+        orderElement.setQuantity(orderElementRequestBody.getQuantity());
+        orderElementRepository.save(orderElement);
+    }
+
+
+    @Override
     public List<OrderElement> findOrderElementsForUserId(Long userId) {
         Order userIdOrder = null;
         List<OrderElement> userIdOrderElements = new ArrayList<OrderElement>();
         List<Order> allOrders = orderRepository.findAll();
         for(Order item: allOrders){
-            if(item.getUserByOrderId().getUserId() == userId){
+            if((item.getUserByOrderId().getUserId() == userId)&&(item.getStatus().equals("Forming"))){
                 userIdOrder = item;
             }
         }

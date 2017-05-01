@@ -75,9 +75,6 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByUserByOrderIdAndStatus(userRepository.findOne(userId), status);
     }
 
-
-
-
     @Override
     public void delete(Long orderId) {
         orderRepository.delete(orderId);

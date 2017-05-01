@@ -151,11 +151,7 @@
             <li><a href="#contact">Contact</a></li>
             <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="aCity"><input type="text">Cities<b class="caret"></b></a>
-                      <ul class="dropdown-menu">
-                        <li><button class="btn btn-link btn-block" id="Moscow" onclick="setCity(1)">Moscow</button></li>
-                        <li><button class="btn btn-link btn-block" id="StPetersburg" onclick="setCity(2)">St. Petersburg</button></li>
-                        <li><button class="btn btn-link btn-block" id="Kazan" onclick="setCity(3)">Kazan</button></li>
-                        <li><button class="btn btn-link btn-block" id="Dolgoprudniy" onclick="setCity(4)">Dolgoprudniy</button></li>
+                      <ul id="cityList" class="dropdown-menu">
                       </ul>
                     </li>
           </ul>
@@ -184,7 +180,7 @@
           </c:if>
 
           <div class="navbar-form navbar-right">
-              <a href="#ModalBuy" class="btn btn-default" data-toggle="modal"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+              <a href="#ModalBuy" class="btn btn-default" data-toggle="modal" onclick="getOrder()"><span class="glyphicon glyphicon-shopping-cart"></span></a>
           </div>
 
 

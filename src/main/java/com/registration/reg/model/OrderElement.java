@@ -16,7 +16,14 @@ public class OrderElement {
     private Long orderElementId;
     private Integer quantity;
     private Food food;
+    private Integer elementPrice;
     private Order order;
+
+    public OrderElement(Integer quantity, Food food, Order order) {
+        this.quantity = quantity;
+        this.food = food;
+        this.order = order;
+    }
 
     public OrderElement() {
     }
@@ -41,16 +48,13 @@ public class OrderElement {
     public Long getOrderId() {
         return orderId;
     }
-
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
-
     @Column(name = "food_id")
     public Long getFoodId() {
         return foodId;
     }
-
     public void setFoodId(Long foodId) {
         this.foodId = foodId;
     }*/
@@ -84,6 +88,16 @@ public class OrderElement {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+
+    @Column(name = "element_price", nullable = false)
+    public Integer getElementPrice() {
+        return elementPrice;
+    }
+
+    public void setElementPrice(Integer elementPrice) {
+        this.elementPrice = elementPrice;
     }
 }
 

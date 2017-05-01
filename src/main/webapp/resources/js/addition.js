@@ -15,21 +15,27 @@ function remove(i){
 
 function setCity(cityId){
     $("#city").val(cityId);
-    if(cityId == 1){$("#aCity").text("Moscow");}
-    if(cityId == 2){$("#aCity").text("St. Petersburg");}
-    if(cityId == 3){$("#aCity").text("Kazan");}
-    if(cityId == 4){$("#aCity").text("Dolgoprudniy");}
+//    $("#aCity").text(cityId);
 }
 
 function welcomeCity(){
+    var i;
+    var xhrCity = new XMLHttpRequest();
+    xhrCity.open('GET', '/cities', false);
+    xhrCity.send();
+    console.log(xhrCity.responseText);
+    var dataCity = JSON.parse(xhrCity.responseText);
+    $("#cityList").empty();
+    for(i = 0; i < dataCity.length; i++){
+        $("#cityList").append("<li><button class='btn btn-link btn-block' id='city" + dataCity[i].cityId + "' onclick='setCity(" + dataCity[i].cityId + ")'>" + dataCity[i].cityName + "</button></li>");
+    }
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/authenticatedUser', false);
     xhr.send();
     var data = JSON.parse(xhr.responseText);
     $("#orderId").val(data.information);
     $("#userId").val(data.userId);
-    $("#city").val(0);
-    $("#aCity").text("Cities");
+    $("#aCity").text("Moscow");
 }
 
 function buildDrink(){
@@ -138,4 +144,11 @@ function addToBasket(foodId, num){
         })
     }
 }
+
+//function getOrder(){
+//    $.ajax({
+//        type: 'GET',
+//        url:
+//    })
+//}
 

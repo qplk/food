@@ -23,6 +23,9 @@ public class CityController {
     @RequestMapping(value = "/cities", method = RequestMethod.GET)
     public ResponseEntity findAllCyties() {
         Iterable<City> cityList = cityService.findAll();
+        for(City item: cityList){
+            item.setRestaurants(null);
+        }
         ResponseEntity responseEntity = new ResponseEntity<>(cityList, HttpStatus.OK);
         return responseEntity;
     }

@@ -33,11 +33,8 @@ public class OrderElementController {
 
     @RequestMapping(value = "/orderElements", method = RequestMethod.PUT, consumes = "application/json")
     public ResponseEntity updateOrderElement(@RequestBody OrderElementRequestBody orderElementRequestBody, @RequestParam("orderElementId") Long orderElementId){
-        OrderElement oldOrderElement = orderElementService.get(orderElementId);
 
-        oldOrderElement.setQuantity(orderElementRequestBody.getQuantity());
-
-        orderElementService.save(oldOrderElement, oldOrderElement.getFood().getFoodId(), oldOrderElement.getOrder().getOrderId());
+        orderElementService.update(orderElementId, orderElementRequestBody);
 
         return new ResponseEntity(HttpStatus.OK);
     }
