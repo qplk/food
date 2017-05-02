@@ -86,7 +86,7 @@ public class OrderElementServiceImpl implements OrderElementService {
         List<OrderElement> userIdOrderElements = new ArrayList<OrderElement>();
         List<Order> allOrders = orderRepository.findAll();
         for(Order item: allOrders){
-            if((item.getUserByOrderId().getUserId() == userId)&&(item.getStatus().equals("Forming"))){
+            if((item.getUserByOrderId().getUserId() == userId)&&("Forming".equals(item.getStatus()))){
                 userIdOrder = item;
             }
         }
