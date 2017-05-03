@@ -10,6 +10,8 @@ import com.registration.reg.service.AddressService;
 import com.registration.reg.service.CityService;
 import com.registration.reg.service.OrderService;
 import com.registration.reg.service.UserService;
+import com.registration.reg.validator.AddressValidator;
+import com.registration.reg.validator.OrderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,6 +41,10 @@ public class AddressController {
     UserService userService;
     @Autowired
     OrderService orderService;
+    @Autowired
+    AddressValidator addressValidator;
+    @Autowired
+    OrderValidator orderValidator;
 
 
     User getCurrentUser() {
@@ -72,7 +78,10 @@ public class AddressController {
             addressForm.setUserId(currentUser.getUserId());
         }
 
+        addressValidator.validate(addressForm, bindingResult);
+
         if (bindingResult.hasErrors()) {
+            model.addAttribute("citiesList", cityService.findAll());
             return "/profile/addAddress";
         }
 
@@ -93,14 +102,19 @@ public class AddressController {
 
 
     @RequestMapping(value = "/profile/updateAddress/{addressId}", method = RequestMethod.PUT)
-    public String updateAddress(@ModelAttribute("addressForm") AddressRequestBody addressForm, BindingResult bindingResult, ModelMap model) {
+    public String updateAddress(@PathVariable Long addressId, @ModelAttribute("addressForm") AddressRequestBody addressForm, BindingResult bindingResult, ModelMap model) {
         User currentUser = getCurrentUser();
 
         if (currentUser != null) {
             addressForm.setUserId(currentUser.getUserId());
         }
 
+        addressValidator.validate(addressForm, bindingResult);
+
         if (bindingResult.hasErrors()) {
+            model.addAttribute("citiesList", cityService.findAll());
+            model.addAttribute("address", addressService.get(addressId));
+
             return "/profile/updateAddress";
         }
 
@@ -118,5 +132,58 @@ public class AddressController {
     }
 
 
+    @RequestMapping(value = "/completeForming", method = RequestMethod.GET)
+    public String selectAddress(Model model) {
+        User currentUser = getCurrentUser();
+
+        if (currentUser == null) {
+            return "redirect:/welcome/login";
+        }
+        model.addAttribute("addressList", currentUser.getAddresses());
+        model.addAttribute("addressForm", new AddressRequestBody());
+        model.addAttribute("citiesList", cityService.findAll());
+
+        return "/completeForming";
+    }
+
+    @RequestMapping(value = "/completeForming", method = RequestMethod.POST)
+    public String completeForming(@ModelAttribute("addressForm") AddressRequestBody addressForm, BindingResult bindingResult, ModelMap model) {
+        User currentUser = getCurrentUser();
+
+        if (currentUser != null) {
+            addressForm.setUserId(currentUser.getUserId());
+        }
+
+        addressValidator.validate(addressForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("citiesList", cityService.findAll());
+            model.addAttribute("addressList", currentUser.getAddresses());
+            return "/completeForming";
+        }
+
+        OrderRequestBody orderRequestBody = new OrderRequestBody();
+        Order order = orderService.findCurrentOrder(currentUser.getUserId());
+        orderRequestBody.setOrderId(order.getOrderId());
+        orderRequestBody.setAddressId(addressForm.getAddressId());
+
+        if (addressForm.getAddressId() == 0) {
+            orderRequestBody.setAddressId(addressService.save(addressForm));
+        }
+
+
+        orderValidator.validate(order, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            // TODO: change this return
+            return "/completeForming";
+        }
+
+        orderRequestBody.setStatus("Formed");
+        orderRequestBody.setStatusInfo("Autoformed");
+        orderService.update(orderRequestBody);
+
+        return "redirect:/profile/profile";
+    }
 
 }

@@ -27,6 +27,8 @@ public class OrderServiceImpl implements OrderService {
     private AddressRepository addressRepository;
     @Autowired
     private AssortmentRepository assortmentRepository;
+    @Autowired
+    private CityRepository cityRepository;
 
     @Transactional
     @Override
@@ -67,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findCurrentOrder(Long userId) {
-        return orderRepository.findByUserByOrderIdAndStatus(userRepository.findOne(userId), "Forming").get(1);
+        return orderRepository.findByUserByOrderIdAndStatus(userRepository.findOne(userId), "Forming").get(0);
     }
 
     @Override
@@ -93,6 +95,24 @@ public class OrderServiceImpl implements OrderService {
             user.getOrders().add(newOrder);
             userRepository.save(user);
 
+            order.setAddressByOrderId(addressRepository.getOne(orderRequestBody.getAddressId()));
+
+// Этот кусок кода нужен потому, что ресторан больше не сетится с добавлением элемента в заказ
+            // begin
+            if (order.getRestaurantByOrderId() == null) {
+                Address address = order.getAddressByOrderId();
+                List<Restaurant> restaurants = restaurantRepository.findAll();
+
+                for (Restaurant restaurant: restaurants) {
+                    if (restaurant.getCityByRestaurantId().getCityId().equals(address.getCityByAddressId().getCityId())) {
+                        order.setRestaurantByOrderId(restaurant);
+                        restaurant.getOrders().add(order);
+                        restaurantRepository.save(restaurant);
+                    }
+                }
+            }
+            // end
+
             for (OrderElement orderElement : order.getOrderElements()) {
                 Assortment assortment = assortmentRepository.findByRestaurantAndFood(order.getRestaurantByOrderId(), orderElement.getFood());
                 if (assortment.getQuantity() != null) {
@@ -106,17 +126,17 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
 
-            order.setAddressByOrderId(addressRepository.getOne(orderRequestBody.getAddressId()));
+
 
             Date date = new Date();
-            System.out.println(date.toString());
-            System.out.println(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime().toString());
-            System.out.println(date.getTime());
-            System.out.println(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime().getTime());
+            //System.out.println(date.toString());
+            //System.out.println(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime().toString());
+            //System.out.println(date.getTime());
+           // System.out.println(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime().getTime());
             date.setTime(date.getTime() + Math.abs(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime().getTime()));
-            System.out.println(date.toString());
+           // System.out.println(date.toString());
 
-            System.out.println(date.getTime());
+            //System.out.println(date.getTime());
             order.setDeliveryTime(date);
         }
 

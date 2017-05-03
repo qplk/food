@@ -29,11 +29,11 @@ public class AddressServiceImpl implements AddressService {
 
     @Transactional
     @Override
-    public void save(AddressRequestBody addressRequestBody) {
+    public Long save(AddressRequestBody addressRequestBody) {
         Address currAddress = addressRepository.findByStreetAndBuildingNumberAndRoomNumber(addressRequestBody.getStreet(), addressRequestBody.getBuildingNumber(), addressRequestBody.getRoomNumber());
         User user = userRepository.findOne(addressRequestBody.getUserId());
 
-        if ((currAddress != null) && (currAddress.getCityByAddressId().getCityId() == addressRequestBody.getCityId())) {
+        if ((currAddress != null) && (currAddress.getCityByAddressId().getCityId().equals(addressRequestBody.getCityId()))) {
             currAddress.getUsers().add(user);
             addressRepository.save(currAddress);
 
@@ -41,18 +41,19 @@ public class AddressServiceImpl implements AddressService {
             userRepository.save(user);
 
         } else {
-            Address address = new Address(addressRequestBody.getStreet(), addressRequestBody.getBuildingNumber(), addressRequestBody.getRoomNumber(), addressRequestBody.getComment());
+            currAddress = new Address(addressRequestBody.getStreet(), addressRequestBody.getBuildingNumber(), addressRequestBody.getRoomNumber(), addressRequestBody.getComment());
             City city = cityRepository.findOne(addressRequestBody.getCityId());
 
-            address.getUsers().add(user);
-            address.setCityByAddressId(city);
-            addressRepository.save(address);
+            currAddress.getUsers().add(user);
+            currAddress.setCityByAddressId(city);
+            addressRepository.save(currAddress);
             userRepository.save(user);
 
-            city.getAddresses().add(address);
+            city.getAddresses().add(currAddress);
             cityRepository.save(city);
         }
 
+        return currAddress.getAddressId();
     }
 
     @Override
