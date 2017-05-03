@@ -38,6 +38,8 @@ public class OrderElementServiceImpl implements OrderElementService {
         orderElement.setFood(food);
         orderElement.setOrder(order);
         orderRepository.save(order);
+        
+        orderElement.setElementPrice(food.getPrice() * orderElement.getQuantity());
 
         orderElement.setElementPrice(food.getPrice() * orderElement.getQuantity());
 
