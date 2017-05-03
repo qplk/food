@@ -23,7 +23,6 @@ function welcomeCity(){
     var xhrCity = new XMLHttpRequest();
     xhrCity.open('GET', '/cities', false);
     xhrCity.send();
-    console.log(xhrCity.responseText);
     var dataCity = JSON.parse(xhrCity.responseText);
     $("#cityList").empty();
     for(i = 0; i < dataCity.length; i++){
@@ -95,7 +94,7 @@ function buildDessert(){
     var data = JSON.parse(xhr.responseText);
     $("#div1").empty();
     for(i = 0; i < data.length; i++){
-        $("#div1").append("<div class='col-sm-6 col-md-4'><div class='thumbnail'><img src='" + data[i].imgPath + "'><div class='caption'><h4>" + data[i].foodName + "</h4><p>" + data[i].description + "</p><div class='input-group'><div class='input-group-btn'><button type='button' id='plus' class='btn btn-default' onclick='add(" + i + ")'><span class='glyphicon glyphicon-plus'></span></button><button type='button' id='minus' class='btn btn-default' onclick='remove(" + i + ")'><span class='glyphicon glyphicon-minus'></span></button><button type='button' id='toBascket' class='btn btn-default' onclick='addToBasket(" + data[i].foodId +"," + i + ")'><span class='glyphicon glyphicon-shopping-cart'></span></button></div><div class='col-xs-4'><input type='text' value='0' id='" + "res" + i + "' " + "class='form-control' disabled></div></div></div></div></div>");
+        $("#div1").append("<div class='col-sm-6 col-md-4'><div class='thumbnail'><img src='" + data[i].imgPath + "'><div class='caption'><h4>" + data[i].foodName + "</h4><p>" + data[i].description + "</p><div class='input-group'><div class='input-group-btn'><button type='button' id='plus' class='btn btn-default' onclick='add(" + i + ")'><span class='glyphicon glyphicon-plus'></span></button><button type='button' id='minus' class='btn btn-default' onclick='remove(" + i + ")'><span class='glyphicon glyphicon-minus'></span></button><button type='button' id='toBascket' class='btn btn-default' onclick='addToBasket(" + data[i].foodId +"," + i + "," + data[i].price + ")'><span class='glyphicon glyphicon-shopping-cart'></span></button></div><div class='col-xs-4'><input type='text' value='0' id='" + "res" + i + "' " + "class='form-control' disabled></div></div></div></div></div>");
     }
 }
 
@@ -113,10 +112,12 @@ $("#grecaptcha").click(function(){
     });
 });
 
-function addToBasket(foodId, num){
+function addToBasket(foodId, num, price){
     var i;
+    var fullPrice;
     var postIdentifier = true;
     var userId = $("#userId").val();
+    var orderId = $("#orderId").val();
     var quantityButtonId = "#" + "res" + num;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/orderElements' + '?userId=' + userId, false);
@@ -124,6 +125,7 @@ function addToBasket(foodId, num){
     var data = JSON.parse(xhr.responseText);
     for(i = 0; i < data.length; i++){
         if(foodId == data[i]['food']['foodId']){
+            fullPrice = price * $(quantityButtonId).val() - data[i].elementPrice;
             var jsonData = {"orderElementId" : data[i].orderElementId, "quantity" : $(quantityButtonId).val(), "orderId" : $("#orderId").val(), "foodId" : foodId};
             postIdentifier = false;
             $.ajax({
@@ -135,6 +137,7 @@ function addToBasket(foodId, num){
         }
     }
     if(postIdentifier){
+        fullPrice = price * $(quantityButtonId).val();
         var jsonData = {"orderElementId" : data.length + 1, "quantity" : $(quantityButtonId).val(), "orderId" : $("#orderId").val(), "foodId" : foodId};
             $.ajax({
             type: 'POST',
@@ -143,12 +146,40 @@ function addToBasket(foodId, num){
             data: JSON.stringify(jsonData)
         })
     }
+    var xhrOrder = new XMLHttpRequest();
+    xhrOrder.open('GET', '/order?userId=' + userId, false);
+    xhrOrder.send();
+    var orderData = JSON.parse(xhrOrder.responseText);
+    console.log(fullPrice);
+    var orderJsonData = {"orderId" : orderId, "userId" : userId, "addressId" : orderData.addressId, "deliveryTime" : orderData.deliveryTime, "fullPrice" : fullPrice, "status" : orderData.status, "statusInfo" : orderData.statusInfo, "paymentInfo" : orderData.paymentInfo};
+    $.ajax({
+        type: 'PUT',
+        url: '/orders',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(orderJsonData)
+    });
 }
 
-//function getOrder(){
-//    $.ajax({
-//        type: 'GET',
-//        url:
-//    })
-//}
+function getOrder(){
+    var data;
+    var i;
+    var userId = $("#userId").val();
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/orderElements' + '?userId=' + userId, false);
+    xhr.send();
+    data = JSON.parse(xhr.responseText);
+    $("#modalBody").empty();
+    for(i = 0; i < data.length; i++){
+        $("#modalBody").append("<div id='basketSubject" + i + "'><p><strong>" + data[i]['food']['foodName'] + "; Quantity: " + data[i].quantity + "; Price: " + data[i].elementPrice + "</strong><button type='button' class='btn btn-default' onclick='removeFromBasket(" + data[i].orderElementId + ", " + i + ")'><span class='glyphicon glyphicon-remove'></span></button></p></div>");
+    }
+}
+
+function removeFromBasket(orderElementId, i){
+    var basketSubjectIdString = "#basketSubject" + i;
+    $.ajax({
+        type: 'DELETE',
+        url: '/orderElements?orderElementId=' + orderElementId,
+    })
+    $(basketSubjectIdString).empty();
+}
 

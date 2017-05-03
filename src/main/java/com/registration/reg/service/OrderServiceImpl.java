@@ -67,7 +67,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findCurrentOrder(Long userId) {
-        return orderRepository.findByUserByOrderIdAndStatus(userRepository.findOne(userId), "Forming").get(1);
+        Order order = orderRepository.findByUserByOrderIdAndStatus(userRepository.findOne(userId), "Forming").get(0);
+        order.setUserByOrderId(null);
+        order.setOrderElements(null);
+
+        return order;
     }
 
     @Override
@@ -84,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
     public void update(OrderRequestBody orderRequestBody) {
         Order order = orderRepository.getOne(orderRequestBody.getOrderId());
 
-        if (order.getStatus().equals("Forming") && (orderRequestBody.getStatus().equals("Formed"))) {
+        if ("Forming".equals(order.getStatus()) && ("Formed".equals(orderRequestBody.getStatus()))){
             User user = userRepository.getOne(order.getUserByOrderId().getUserId());
 
             Order newOrder = new Order("New order", user);
@@ -101,7 +105,6 @@ public class OrderServiceImpl implements OrderService {
                     if (assortment.getQuantity() == 0) {
                         assortment.setEnable(false);
                     }
-
                     assortmentRepository.save(assortment);
                 }
             }
@@ -120,7 +123,7 @@ public class OrderServiceImpl implements OrderService {
             order.setDeliveryTime(date);
         }
 
-
+        order.setFullPrice(order.getFullPrice() + orderRequestBody.getFullPrice());
         order.setStatus(orderRequestBody.getStatus());
         order.setStatusInfo(orderRequestBody.getStatusInfo());
 

@@ -127,7 +127,14 @@
         <div id="ModalBuy" class="modal fade">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
-                        <div class="modal-body">
+                        <div class="modal-header">
+                            <h4>Confirming order</h4>
+                        </div>
+                        <div class="modal-body" id="modalBody">
+                            <h2>You do not have any orders</h2>
+                        </div>
+                        <div class="modal-footer" id="modalFooter">
+
                         </div>
                     </div>
                 </div>

@@ -48,8 +48,8 @@ public class OrderElementController {
     }
 
 
-    @RequestMapping(value = "/orderElements/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteOrderElement(@PathVariable("id") Long id) {
+    @RequestMapping(value = "/orderElements", method = RequestMethod.DELETE)
+    public ResponseEntity deleteOrderElement(@RequestParam("orderElementId") Long id) {
         orderElementService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }

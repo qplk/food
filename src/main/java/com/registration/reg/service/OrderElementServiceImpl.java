@@ -39,6 +39,8 @@ public class OrderElementServiceImpl implements OrderElementService {
         orderElement.setOrder(order);
         orderRepository.save(order);
 
+        orderElement.setElementPrice(food.getPrice() * orderElement.getQuantity());
+
         order.getOrderElements().add(orderElement);
         orderElementRepository.save(orderElement);
 
@@ -70,8 +72,10 @@ public class OrderElementServiceImpl implements OrderElementService {
             return;
         }
         OrderElement orderElement = orderElementRepository.getOne(orderElementId);
+        Food food = foodRepository.getOne(orderElementRequestBody.getFoodId());
 
         orderElement.setQuantity(orderElementRequestBody.getQuantity());
+        orderElement.setElementPrice(food.getPrice() * orderElement.getQuantity());
         orderElementRepository.save(orderElement);
     }
 
@@ -82,7 +86,7 @@ public class OrderElementServiceImpl implements OrderElementService {
         List<OrderElement> userIdOrderElements = new ArrayList<OrderElement>();
         List<Order> allOrders = orderRepository.findAll();
         for(Order item: allOrders){
-            if((item.getUserByOrderId().getUserId() == userId)&&(item.getStatus().equals("Forming"))){
+            if((item.getUserByOrderId().getUserId() == userId)&&("Forming".equals(item.getStatus()))){
                 userIdOrder = item;
             }
         }
