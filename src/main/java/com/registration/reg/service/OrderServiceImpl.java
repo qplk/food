@@ -88,7 +88,15 @@ public class OrderServiceImpl implements OrderService {
     public void update(OrderRequestBody orderRequestBody) {
         Order order = orderRepository.getOne(orderRequestBody.getOrderId());
 
-        if ("Forming".equals(order.getStatus()) && ("Formed".equals(orderRequestBody.getStatus()))){
+        System.out.println("ORDER UPDATE");
+
+        if (orderRequestBody.getAddressId() != null) {
+            order.setAddressByOrderId(addressRepository.getOne(orderRequestBody.getAddressId()));
+        }
+
+        if (("Forming".equals(order.getStatus())) && ("Formed".equals(orderRequestBody.getStatus()))){
+
+            System.out.println("FORMED!!!");
             User user = userRepository.getOne(order.getUserByOrderId().getUserId());
 
             Order newOrder = new Order("New order", user);
@@ -96,6 +104,8 @@ public class OrderServiceImpl implements OrderService {
             orderRepository.save(newOrder);
             user.getOrders().add(newOrder);
             userRepository.save(user);
+
+            order.setRestaurantByOrderId(restaurantRepository.getOne(orderRequestBody.getRestaurantId()));
 
             for (OrderElement orderElement : order.getOrderElements()) {
                 Assortment assortment = assortmentRepository.findByRestaurantAndFood(order.getRestaurantByOrderId(), orderElement.getFood());
@@ -109,26 +119,28 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
 
-            order.setAddressByOrderId(addressRepository.getOne(orderRequestBody.getAddressId()));
 
             Date date = new Date();
-            System.out.println(date.toString());
+            //System.out.println(date.toString());
             System.out.println(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime().toString());
-            System.out.println(date.getTime());
-            System.out.println(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime().getTime());
-            date.setTime(date.getTime() + Math.abs(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime().getTime()));
-            System.out.println(date.toString());
+            System.out.println("ADDRESS" + order.getAddressByOrderId().toString());
 
-            System.out.println(date.getTime());
+            //System.out.println(date.getTime());
+            //System.out.println(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime().getTime());
+            date.setTime(date.getTime() + Math.abs(order.getRestaurantByOrderId().getCityByRestaurantId().getDeliveryTime().getTime()));
+            //System.out.println(date.toString());
+
+            //System.out.println(date.getTime());
             order.setDeliveryTime(date);
         }
 
-        order.setFullPrice(order.getFullPrice() + orderRequestBody.getFullPrice());
-        order.setStatus(orderRequestBody.getStatus());
-        order.setStatusInfo(orderRequestBody.getStatusInfo());
+        if (orderRequestBody.getStatus() != null) {
+            order.setStatus(orderRequestBody.getStatus());
+            order.setStatusInfo(orderRequestBody.getStatusInfo());
+        }
 
         orderRepository.save(order);
-
     }
+
 
 }

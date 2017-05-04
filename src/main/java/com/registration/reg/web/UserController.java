@@ -99,13 +99,12 @@ public class UserController {
 
     @RequestMapping(value = "/authenticatedUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity userId(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication == null){
+        User user = getCurrentUser();
+
+        if (user == null) {
             return null;
         }
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String authenticatedUsername = userDetails.getUsername();
-        User user = userService.findByUsername(authenticatedUsername);
+
         user.setRoles(null);
         Long orderId = 0L;
         Set<Order> orderSet = user.getOrders();

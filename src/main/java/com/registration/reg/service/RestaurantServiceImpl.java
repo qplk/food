@@ -1,7 +1,9 @@
 package com.registration.reg.service;
 
+import com.registration.reg.model.Address;
 import com.registration.reg.model.Restaurant;
 import com.registration.reg.model.City;
+import com.registration.reg.repository.AddressRepository;
 import com.registration.reg.repository.RestaurantRepository;
 import com.registration.reg.repository.CityRepository;
 import com.registration.reg.requestBody.RestaurantRequestBody;
@@ -22,6 +24,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     private RestaurantRepository restaurantRepository;
     @Autowired
     private CityRepository cityRepository;
+    @Autowired
+    private AddressRepository addressRepository;
 
     @Transactional
     @Override
@@ -71,6 +75,15 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 
         restaurantRepository.save(restaurant);
+    }
+
+    @Override
+    public Restaurant selectRestaurant(Address address) {
+        City city = address.getCityByAddressId();
+        List<Restaurant> restaurants = restaurantRepository.findByCityByRestaurantId(city);
+
+        // trivial selecting algo
+        return restaurants.get(0);
     }
 
 }

@@ -1,8 +1,6 @@
 package com.registration.reg.web;
 
-import com.registration.reg.model.Address;
-import com.registration.reg.model.Order;
-import com.registration.reg.model.User;
+import com.registration.reg.model.*;
 import com.registration.reg.repository.AddressRepository;
 import com.registration.reg.requestBody.AddressRequestBody;
 import com.registration.reg.requestBody.OrderRequestBody;
@@ -10,6 +8,8 @@ import com.registration.reg.service.AddressService;
 import com.registration.reg.service.CityService;
 import com.registration.reg.service.OrderService;
 import com.registration.reg.service.UserService;
+import com.registration.reg.validator.AddressValidator;
+import com.registration.reg.validator.OrderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,10 @@ public class AddressController {
     UserService userService;
     @Autowired
     OrderService orderService;
+    @Autowired
+    AddressValidator addressValidator;
+    @Autowired
+    OrderValidator orderValidator;
 
 
     User getCurrentUser() {
@@ -72,7 +77,10 @@ public class AddressController {
             addressForm.setUserId(currentUser.getUserId());
         }
 
+        addressValidator.validate(addressForm, bindingResult);
+
         if (bindingResult.hasErrors()) {
+            model.addAttribute("citiesList", cityService.findAll());
             return "/profile/addAddress";
         }
 
@@ -93,14 +101,19 @@ public class AddressController {
 
 
     @RequestMapping(value = "/profile/updateAddress/{addressId}", method = RequestMethod.PUT)
-    public String updateAddress(@ModelAttribute("addressForm") AddressRequestBody addressForm, BindingResult bindingResult, ModelMap model) {
+    public String updateAddress(@PathVariable Long addressId, @ModelAttribute("addressForm") AddressRequestBody addressForm, BindingResult bindingResult, ModelMap model) {
         User currentUser = getCurrentUser();
 
         if (currentUser != null) {
             addressForm.setUserId(currentUser.getUserId());
         }
 
+        addressValidator.validate(addressForm, bindingResult);
+
         if (bindingResult.hasErrors()) {
+            model.addAttribute("citiesList", cityService.findAll());
+            model.addAttribute("address", addressService.get(addressId));
+
             return "/profile/updateAddress";
         }
 
@@ -118,5 +131,57 @@ public class AddressController {
     }
 
 
+    @RequestMapping(value = "/addOrderAddress", method = RequestMethod.GET)
+    public String selectAddress(Model model) {
+        User currentUser = getCurrentUser();
+
+        if (currentUser == null) {
+            return "redirect:/welcome/login";
+        }
+        model.addAttribute("addressList", currentUser.getAddresses());
+        model.addAttribute("addressForm", new AddressRequestBody());
+        model.addAttribute("citiesList", cityService.findAll());
+
+        return "/addOrderAddress";
+    }
+
+    @RequestMapping(value = "/addOrderAddress", method = RequestMethod.POST)
+    public String completeForming(@ModelAttribute("addressForm") AddressRequestBody addressForm, BindingResult bindingResult, ModelMap model) {
+        User currentUser = getCurrentUser();
+
+        if (currentUser == null) {
+            return "redirect:/welcome";
+        }
+
+        addressForm.setUserId(currentUser.getUserId());
+        OrderRequestBody orderRequestBody = new OrderRequestBody();
+        Order order = orderService.findByUserAndStatus(currentUser.getUserId(), "Forming").get(0);
+        orderRequestBody.setOrderId(order.getOrderId());
+        orderRequestBody.setAddressId(addressForm.getAddressId());
+
+        if (!addressForm.getStreet().isEmpty()) {
+            System.out.println("["+addressForm.getStreet() + "]");
+            addressValidator.validate(addressForm, bindingResult);
+
+            if (bindingResult.hasErrors()) {
+                model.addAttribute("citiesList", cityService.findAll());
+                model.addAttribute("addressList", currentUser.getAddresses());
+
+                Address address = addressService.findAddress(addressForm);
+                if (address != null) {
+                    model.addAttribute("addressId", address.getAddressId());
+                    model.addAttribute("addressForm", new AddressRequestBody());
+                }
+
+                return "/addOrderAddress";
+            }
+
+            orderRequestBody.setAddressId(addressService.save(addressForm));
+        }
+
+        orderService.update(orderRequestBody);
+
+        return "redirect:/completeForming";
+    }
 
 }

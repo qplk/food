@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (user.getPassword() != null) {
-            oldUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            oldUser.setPassword(bCryptPasswordEncoder.encode(user.getNewPasswordConfirm()));
         }
 
 
