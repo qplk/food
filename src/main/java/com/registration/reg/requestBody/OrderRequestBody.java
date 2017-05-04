@@ -6,7 +6,9 @@ import com.registration.reg.model.Restaurant;
 import com.registration.reg.model.User;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,6 +17,32 @@ import java.util.Set;
 public class OrderRequestBody {
     private Long orderId;
     private Long userId;
+
+    public List<OrderElement> getOrderElements() {
+        return orderElements;
+    }
+
+    public void setOrderElements(List<OrderElement> orderElements) {
+        this.orderElements = orderElements;
+    }
+
+    private List<OrderElement> orderElements = new ArrayList<>();
+
+    public OrderRequestBody() {
+    }
+
+
+    public OrderRequestBody(Long orderId, String status, String statusInfo) {
+        this.orderId = orderId;
+        this.status = status;
+        this.statusInfo = statusInfo;
+    }
+
+    public OrderRequestBody(Long orderId, List<OrderElement> orderElements, Integer fullPrice) {
+        this.orderId = orderId;
+        this.orderElements = orderElements;
+        this.fullPrice = fullPrice;
+    }
 
     public Long getOrderId() {
         return orderId;

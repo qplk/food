@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Stasia on 09.03.17.
  */
 public interface AddressService {
-    void save(AddressRequestBody addressRequestBody);
+    Long save(AddressRequestBody addressRequestBody);
 
     Address get(Long addressId);
 
@@ -17,4 +17,6 @@ public interface AddressService {
     void delete(Long addressId);
 
     void update(AddressRequestBody addressRequestBody);
+
+    Address findAddress(AddressRequestBody addressRequestBody);
 }

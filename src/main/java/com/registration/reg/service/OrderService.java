@@ -1,6 +1,7 @@
 package com.registration.reg.service;
 
 import com.registration.reg.model.Order;
+import com.registration.reg.model.Restaurant;
 import com.registration.reg.requestBody.OrderRequestBody;
 
 

@@ -41,7 +41,7 @@ public class Order {
     private String paymentInfo;
     private User userByOrderId;
     private Restaurant restaurantByOrderId;
-    private Set<OrderElement> orderElements = new HashSet<>();
+    private List<OrderElement> orderElements = new ArrayList<>();
     private Address addressByOrderId;
 
 
@@ -144,11 +144,11 @@ public class Order {
 
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    public Set<OrderElement> getOrderElements() {
+    public List<OrderElement> getOrderElements() {
         return orderElements;
     }
 
-    public void setOrderElements(Set<OrderElement> orderElements) {
+    public void setOrderElements(List<OrderElement> orderElements) {
         this.orderElements = orderElements;
     }
 

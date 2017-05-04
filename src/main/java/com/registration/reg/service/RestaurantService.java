@@ -1,5 +1,6 @@
 package com.registration.reg.service;
 
+import com.registration.reg.model.Address;
 import com.registration.reg.model.Restaurant;
 import com.registration.reg.model.City;
 import com.registration.reg.requestBody.RestaurantRequestBody;
@@ -19,4 +20,6 @@ public interface RestaurantService {
     void delete(Long restaurantId);
 
     void update(Long restaurantId, RestaurantRequestBody restaurantRequestBody);
+
+    Restaurant selectRestaurant(Address address);
 }

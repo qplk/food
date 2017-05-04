@@ -34,17 +34,18 @@ public class OrderElementServiceImpl implements OrderElementService {
     public void save(OrderElement orderElement, Long foodId, Long orderId) {
         Food food = foodRepository.getOne(foodId);
         Order order = orderRepository.getOne(orderId);
+        System.out.println("id is " + orderId);
 
         orderElement.setFood(food);
         orderElement.setOrder(order);
-        orderRepository.save(order);
-        
         orderElement.setElementPrice(food.getPrice() * orderElement.getQuantity());
+        orderElementRepository.save(orderElement);
 
-        orderElement.setElementPrice(food.getPrice() * orderElement.getQuantity());
 
         order.getOrderElements().add(orderElement);
-        orderElementRepository.save(orderElement);
+        order.setFullPrice(order.getFullPrice() + orderElement.getElementPrice());
+        orderRepository.save(order);
+
 
         food.getOrderElements().add(orderElement);
         foodRepository.save(food);
@@ -58,12 +59,18 @@ public class OrderElementServiceImpl implements OrderElementService {
 
     @Override
     public List<OrderElement> findAll() {
+
         return orderElementRepository.findAll();
     }
 
 
     @Override
     public void delete(Long orderElementId) {
+        OrderElement orderElement = orderElementRepository.getOne(orderElementId);
+        Order order = orderRepository.getOne(orderElement.getOrder().getOrderId());
+        order.setFullPrice(order.getFullPrice() - orderElement.getElementPrice());
+        orderRepository.save(order);
+
         orderElementRepository.delete(orderElementId);
     }
 
@@ -73,12 +80,17 @@ public class OrderElementServiceImpl implements OrderElementService {
             delete(orderElementId);
             return;
         }
+
         OrderElement orderElement = orderElementRepository.getOne(orderElementId);
+        Order order = orderRepository.getOne(orderElement.getOrder().getOrderId());
         Food food = foodRepository.getOne(orderElementRequestBody.getFoodId());
 
+        order.setFullPrice(order.getFullPrice() - orderElement.getElementPrice());
         orderElement.setQuantity(orderElementRequestBody.getQuantity());
         orderElement.setElementPrice(food.getPrice() * orderElement.getQuantity());
         orderElementRepository.save(orderElement);
+        order.setFullPrice(order.getFullPrice() + orderElement.getElementPrice());
+        orderRepository.save(order);
     }
 
 

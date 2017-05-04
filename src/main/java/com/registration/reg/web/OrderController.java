@@ -1,17 +1,24 @@
 package com.registration.reg.web;
 
 import com.registration.reg.model.Order;
+import com.registration.reg.model.OrderElement;
+import com.registration.reg.model.Restaurant;
+import com.registration.reg.model.User;
 import com.registration.reg.requestBody.OrderRequestBody;
 import com.registration.reg.service.OrderService;
+import com.registration.reg.service.RestaurantService;
+import com.registration.reg.service.UserService;
+import com.registration.reg.validator.OrderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -23,6 +30,25 @@ import java.util.List;
 public class OrderController {
     @Autowired
     OrderService orderService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    OrderValidator orderValidator;
+    @Autowired
+    RestaurantService restaurantService;
+
+
+    User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.getPrincipal().toString().equals("anonymousUser")) {
+            return null;
+        }
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String authenticatedUsername = userDetails.getUsername();
+        return userService.findByUsername(authenticatedUsername);
+    }
 
     @RequestMapping(value = "/admin/orders/orders", method = RequestMethod.GET)
     public ModelAndView findAllOrders() {
@@ -56,4 +82,67 @@ public class OrderController {
 
         return "redirect:/admin/orders/orders";
     }
+
+    @RequestMapping(value = "/completeForming", method = RequestMethod.GET)
+    public ModelAndView formingOrder() {
+        User currentUser = getCurrentUser();
+
+        if (currentUser == null) {
+            return new ModelAndView("/welcome");
+        }
+
+        ModelAndView model = new ModelAndView("/completeForming");
+
+        Order order = orderService.findByUserAndStatus(currentUser.getUserId(), "Forming").get(0);
+        model.addObject("order", order);
+        model.addObject("orderForm", new OrderRequestBody(order.getOrderId(), order.getOrderElements(), order.getFullPrice()));
+
+        return model;
+    }
+
+
+    @RequestMapping(value = "/completeForming", method = RequestMethod.POST)
+    public String formingOrder(@ModelAttribute("orderForm") OrderRequestBody orderForm, BindingResult bindingResult, ModelMap model) {
+        User currentUser = getCurrentUser();
+
+        if (currentUser == null) {
+            return "redirect:/welcome";
+        }
+
+        Order order = orderService.findByUserAndStatus(currentUser.getUserId(), "Forming").get(0);
+        Restaurant restaurant = restaurantService.selectRestaurant(order.getAddressByOrderId());
+
+        orderForm.setOrderId(order.getOrderId());
+        orderForm.setOrderElements(order.getOrderElements());
+        orderForm.setAddressId(order.getAddressByOrderId().getAddressId());
+        orderForm.setRestaurantId(restaurant.getRestaurantId());
+        orderForm.setFullPrice(order.getFullPrice());
+        orderForm.setStatus(order.getStatus());
+        orderForm.setStatusInfo(order.getStatusInfo());
+        orderValidator.validate(orderForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            System.out.println("ERRORS");
+            for (ObjectError e: bindingResult.getAllErrors()) {
+                System.out.println(e.toString());
+            }
+            model.addAttribute("order", orderService.findByUserAndStatus(currentUser.getUserId(), "Forming").get(0));
+           // model.addAttribute("orderForm", new OrderRequestBody(order.getOrderId(), order.getOrderElements(), order.getFullPrice()));
+
+            for (OrderElement e: orderForm.getOrderElements()) {
+                System.out.println(e.toString());
+            }
+
+
+            return "/completeForming";
+        }
+
+        orderForm.setStatus("Formed");
+        orderForm.setStatusInfo("Autoformed");
+        orderService.update(orderForm);
+
+        return "redirect:/profile/profile";
+    }
+
+
 }
