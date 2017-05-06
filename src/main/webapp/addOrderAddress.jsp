@@ -36,9 +36,6 @@
 
                 <div id="42" hidden="true">
 
-                    <h2 class="form-signin-heading">New address</h2>
-
-
                     <spring:bind path="cityId">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <form:select class="form-control" path="cityId">

@@ -35,7 +35,8 @@
             <tr>
                 <td>
                     <b><c:out value="${element.food.foodName}"/></b>
-                    <img src="${element.food.imgPath}" />
+
+                    <p><img src="${element.food.imgPath}" width="100" /></p>
 
                     <spring:bind path="orderElements[${i}].orderElementId">
                         <div class="form-group ${status.error ? 'has-error' : ''}" style="color: #aa0000;">
