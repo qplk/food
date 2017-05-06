@@ -25,6 +25,7 @@ public class CityController {
         Iterable<City> cityList = cityService.findAll();
         for(City item: cityList){
             item.setRestaurants(null);
+            item.setAddresses(null);
         }
         ResponseEntity responseEntity = new ResponseEntity<>(cityList, HttpStatus.OK);
         return responseEntity;

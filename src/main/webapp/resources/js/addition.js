@@ -31,6 +31,7 @@ function welcomeCity(){
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/authenticatedUser', false);
     xhr.send();
+    console.log(xhr.responseText);
     var data = JSON.parse(xhr.responseText);
     $("#orderId").val(data.information);
     $("#userId").val(data.userId);
@@ -41,12 +42,11 @@ function buildDrink(){
     var i;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/assortment' + '?restaurantId=' + $("#city").val() + "&category=" + $("#category1").val(), false);
-
     xhr.send();
     var data = JSON.parse(xhr.responseText);
     $("#div1").empty();
     for(i = 0; i < data.length; i++){
-        $("#div1").append("<div class='col-sm-6 col-md-4'><div class='thumbnail'><img src='"+ data[i].imgPath +"'><div class='caption'><h4>" + data[i].foodName + "</h4><p>" + data[i].description + "</p><div class='input-group'><div class='input-group-btn'><button type='button' id='plus' class='btn btn-default' onclick='add(" + i + ")'><span class='glyphicon glyphicon-plus'></span></button><button type='button' id='minus' class='btn btn-default' onclick='remove(" + i + ")'><span class='glyphicon glyphicon-minus'></span></button><button type='button' id='toBascket' class='btn btn-default' onclick='addToBasket(" + data[i].foodId +"," + i + ")'><span class='glyphicon glyphicon-shopping-cart'></span></button></div><div class='col-xs-4'><input type='text' value='0' id='" + "res" + i + "' " + "class='form-control' disabled></div></div></div></div></div>");
+        $("#div1").append("<div class='col-sm-6 col-md-4'><div class='thumbnail'><img src='"+ data[i].imgPath +"'><div class='caption'><h4>" + data[i].foodName + "</h4><p>" + data[i].description + " Price: " + data[i].price + "</p><div class='input-group'><div class='input-group-btn'><button type='button' id='plus' class='btn btn-default' onclick='add(" + i + ")'><span class='glyphicon glyphicon-plus'></span></button><button type='button' id='minus' class='btn btn-default' onclick='remove(" + i + ")'><span class='glyphicon glyphicon-minus'></span></button><button type='button' id='toBascket' class='btn btn-default' onclick='addToBasket(" + data[i].foodId +"," + i + ")'><span class='glyphicon glyphicon-shopping-cart'></span></button></div><div class='col-xs-4'><input type='text' value='0' id='" + "res" + i + "' " + "class='form-control' disabled></div></div></div></div></div>");
     }
 }
 
@@ -58,7 +58,7 @@ function buildSnack(){
     var data = JSON.parse(xhr.responseText);
     $("#div1").empty();
     for(i = 0; i < data.length; i++){
-        $("#div1").append("<div class='col-sm-6 col-md-4'><div class='thumbnail'><img src='"+ data[i].imgPath +"'><div class='caption'><h4>" + data[i].foodName + "</h4><p>" + data[i].description + "</p><div class='input-group'><div class='input-group-btn'><button type='button' id='plus' class='btn btn-default' onclick='add(" + i + ")'><span class='glyphicon glyphicon-plus'></span></button><button type='button' id='minus' class='btn btn-default' onclick='remove(" + i + ")'><span class='glyphicon glyphicon-minus'></span></button><button type='button' id='toBascket' class='btn btn-default' onclick='addToBasket(" + data[i].foodId +"," + i + ")'><span class='glyphicon glyphicon-shopping-cart'></span></button></div><div class='col-xs-4'><input type='text' value='0' id='" + "res" + i + "' " + "class='form-control' disabled></div></div></div></div></div>");
+        $("#div1").append("<div class='col-sm-6 col-md-4'><div class='thumbnail'><img src='"+ data[i].imgPath +"'><div class='caption'><h4>" + data[i].foodName + "</h4><p>" + data[i].description + " Price: " + data[i].price + "</p><div class='input-group'><div class='input-group-btn'><button type='button' id='plus' class='btn btn-default' onclick='add(" + i + ")'><span class='glyphicon glyphicon-plus'></span></button><button type='button' id='minus' class='btn btn-default' onclick='remove(" + i + ")'><span class='glyphicon glyphicon-minus'></span></button><button type='button' id='toBascket' class='btn btn-default' onclick='addToBasket(" + data[i].foodId +"," + i + ")'><span class='glyphicon glyphicon-shopping-cart'></span></button></div><div class='col-xs-4'><input type='text' value='0' id='" + "res" + i + "' " + "class='form-control' disabled></div></div></div></div></div>");
     }
 }
 
@@ -70,7 +70,7 @@ function buildPizza(){
     var data = JSON.parse(xhr.responseText);
     $("#div1").empty();
     for(i = 0; i < data.length; i++){
-        $("#div1").append("<div class='col-sm-6 col-md-4'><div class='thumbnail'><img src='" + data[i].imgPath +"'><div class='caption'><h4>" + data[i].foodName + "</h4><p>" + data[i].description + "</p><div class='input-group'><div class='input-group-btn'><button type='button' id='plus' class='btn btn-default' onclick='add(" + i + ")'><span class='glyphicon glyphicon-plus'></span></button><button type='button' id='minus' class='btn btn-default' onclick='remove(" + i + ")'><span class='glyphicon glyphicon-minus'></span></button><button type='button' id='toBascket' class='btn btn-default' onclick='addToBasket(" + data[i].foodId +"," + i + ")'><span class='glyphicon glyphicon-shopping-cart'></span></button></div><div class='col-xs-4'><input type='text' value='0' id='" + "res" + i + "' " + "class='form-control' disabled></div></div></div></div></div>");
+        $("#div1").append("<div class='col-sm-6 col-md-4'><div class='thumbnail'><img src='" + data[i].imgPath +"'><div class='caption'><h4>" + data[i].foodName + "</h4><p>" + data[i].description + " Price: " + data[i].price + "</p><div class='input-group'><div class='input-group-btn'><button type='button' id='plus' class='btn btn-default' onclick='add(" + i + ")'><span class='glyphicon glyphicon-plus'></span></button><button type='button' id='minus' class='btn btn-default' onclick='remove(" + i + ")'><span class='glyphicon glyphicon-minus'></span></button><button type='button' id='toBascket' class='btn btn-default' onclick='addToBasket(" + data[i].foodId +"," + i + ")'><span class='glyphicon glyphicon-shopping-cart'></span></button></div><div class='col-xs-4'><input type='text' value='0' id='" + "res" + i + "' " + "class='form-control' disabled></div></div></div></div></div>");
     }
 }
 
@@ -82,7 +82,7 @@ function buildRoll(){
     var data = JSON.parse(xhr.responseText);
     $("#div1").empty();
     for(i = 0; i < data.length; i++){
-        $("#div1").append("<div class='col-sm-6 col-md-4'><div class='thumbnail'><img src='" + data[i].imgPath + "'><div class='caption'><h4>" + data[i].foodName + "</h4><p>" + data[i].description + "</p><div class='input-group'><div class='input-group-btn'><button type='button' id='plus' class='btn btn-default' onclick='add(" + i + ")'><span class='glyphicon glyphicon-plus'></span></button><button type='button' id='minus' class='btn btn-default' onclick='remove(" + i + ")'><span class='glyphicon glyphicon-minus'></span></button><button type='button' id='toBascket' class='btn btn-default' onclick='addToBasket(" + data[i].foodId +"," + i + ")'><span class='glyphicon glyphicon-shopping-cart'></span></button></div><div class='col-xs-4'><input type='text' value='0' id='" + "res" + i + "' " + "class='form-control' disabled></div></div></div></div></div>");
+        $("#div1").append("<div class='col-sm-6 col-md-4'><div class='thumbnail'><img src='" + data[i].imgPath + "'><div class='caption'><h4>" + data[i].foodName + "</h4><p>" + data[i].description + " Price: " + data[i].price + "</p><div class='input-group'><div class='input-group-btn'><button type='button' id='plus' class='btn btn-default' onclick='add(" + i + ")'><span class='glyphicon glyphicon-plus'></span></button><button type='button' id='minus' class='btn btn-default' onclick='remove(" + i + ")'><span class='glyphicon glyphicon-minus'></span></button><button type='button' id='toBascket' class='btn btn-default' onclick='addToBasket(" + data[i].foodId +"," + i + ")'><span class='glyphicon glyphicon-shopping-cart'></span></button></div><div class='col-xs-4'><input type='text' value='0' id='" + "res" + i + "' " + "class='form-control' disabled></div></div></div></div></div>");
     }
 }
 
@@ -94,7 +94,7 @@ function buildDessert(){
     var data = JSON.parse(xhr.responseText);
     $("#div1").empty();
     for(i = 0; i < data.length; i++){
-        $("#div1").append("<div class='col-sm-6 col-md-4'><div class='thumbnail'><img src='" + data[i].imgPath + "'><div class='caption'><h4>" + data[i].foodName + "</h4><p>" + data[i].description + "</p><div class='input-group'><div class='input-group-btn'><button type='button' id='plus' class='btn btn-default' onclick='add(" + i + ")'><span class='glyphicon glyphicon-plus'></span></button><button type='button' id='minus' class='btn btn-default' onclick='remove(" + i + ")'><span class='glyphicon glyphicon-minus'></span></button><button type='button' id='toBascket' class='btn btn-default' onclick='addToBasket(" + data[i].foodId +"," + i + "," + data[i].price + ")'><span class='glyphicon glyphicon-shopping-cart'></span></button></div><div class='col-xs-4'><input type='text' value='0' id='" + "res" + i + "' " + "class='form-control' disabled></div></div></div></div></div>");
+        $("#div1").append("<div class='col-sm-6 col-md-4'><div class='thumbnail'><img src='" + data[i].imgPath + "'><div class='caption'><h4>" + data[i].foodName + "</h4><p>" + data[i].description + " Price: " + data[i].price + "</p><div class='input-group'><div class='input-group-btn'><button type='button' id='plus' class='btn btn-default' onclick='add(" + i + ")'><span class='glyphicon glyphicon-plus'></span></button><button type='button' id='minus' class='btn btn-default' onclick='remove(" + i + ")'><span class='glyphicon glyphicon-minus'></span></button><button type='button' id='toBascket' class='btn btn-default' onclick='addToBasket(" + data[i].foodId +"," + i + "," + data[i].price + ")'><span class='glyphicon glyphicon-shopping-cart'></span></button></div><div class='col-xs-4'><input type='text' value='0' id='" + "res" + i + "' " + "class='form-control' disabled></div></div></div></div></div>");
     }
 }
 
@@ -150,7 +150,6 @@ function addToBasket(foodId, num, price){
     xhrOrder.open('GET', '/order?userId=' + userId, false);
     xhrOrder.send();
     var orderData = JSON.parse(xhrOrder.responseText);
-    console.log(fullPrice);
     var orderJsonData = {"orderId" : orderId, "userId" : userId, "addressId" : orderData.addressId, "deliveryTime" : orderData.deliveryTime, "fullPrice" : fullPrice, "status" : orderData.status, "statusInfo" : orderData.statusInfo, "paymentInfo" : orderData.paymentInfo};
     $.ajax({
         type: 'PUT',
@@ -158,6 +157,7 @@ function addToBasket(foodId, num, price){
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(orderJsonData)
     });
+    alert("Product added to cart!");
 }
 
 function getOrder(){
@@ -181,5 +181,12 @@ function removeFromBasket(orderElementId, i){
         url: '/orderElements?orderElementId=' + orderElementId,
     })
     $(basketSubjectIdString).empty();
+    var userId = $("#userId").val();
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/orders?userId=' + userId, false);
+    xhr.send();
+    var data = JSON.parse(xhr.responseText);
+
 }
+
 

@@ -131,10 +131,11 @@
                             <h4>Confirming order</h4>
                         </div>
                         <div class="modal-body" id="modalBody">
-                            <h2>You do not have any orders</h2>
+                            <h2>Yor cart is empty</h2>
                         </div>
                         <div class="modal-footer" id="modalFooter">
-
+                            <div id="totalPrice"></div>
+                            <a href="addOrderAddress" onclick="completeForming"><span class='glyphicon glyphicon-shopping-cart'></span></a>
                         </div>
                     </div>
                 </div>
@@ -176,7 +177,7 @@
           </c:if>
 
           <c:if test="${pageContext.request.userPrincipal.name != null}">
-            <p class="navbar-text navbar-right">Signed in as <a href="${contextPath}/profile" class="navbar-link">${pageContext.request.userPrincipal.name}</a></p>
+            <p class="navbar-text navbar-right">Signed in as <a href="${contextPath}/profile/profile" class="navbar-link">${pageContext.request.userPrincipal.name}</a></p>
           </c:if>
 
           <c:if test="${pageContext.request.userPrincipal.name != null}">

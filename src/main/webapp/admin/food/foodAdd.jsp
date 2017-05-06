@@ -46,6 +46,7 @@
                     <div class="form-group ${status.error ? 'has-error' : ''}">
                         <form:select class="form-control" path="category">
                             <option>Drink</option>
+                            <option>
                             <option>Snack</option>
                         </form:select>
                     </div>

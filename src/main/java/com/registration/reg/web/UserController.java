@@ -106,6 +106,7 @@ public class UserController {
         }
 
         user.setRoles(null);
+        user.setAddresses(null);
         Long orderId = 0L;
         Set<Order> orderSet = user.getOrders();
         for(Order item: orderSet){
