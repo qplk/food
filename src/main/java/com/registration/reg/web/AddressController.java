@@ -73,9 +73,12 @@ public class AddressController {
     public String addAddress(@ModelAttribute("addressForm") AddressRequestBody addressForm, BindingResult bindingResult, ModelMap model) {
         User currentUser = getCurrentUser();
 
-        if (currentUser != null) {
-            addressForm.setUserId(currentUser.getUserId());
+        if (currentUser == null) {
+            return "redirect:/welcome";
         }
+
+
+        addressForm.setUserId(currentUser.getUserId());
 
         addressValidator.validate(addressForm, bindingResult);
 
@@ -104,9 +107,11 @@ public class AddressController {
     public String updateAddress(@PathVariable Long addressId, @ModelAttribute("addressForm") AddressRequestBody addressForm, BindingResult bindingResult, ModelMap model) {
         User currentUser = getCurrentUser();
 
-        if (currentUser != null) {
-            addressForm.setUserId(currentUser.getUserId());
+        if (currentUser == null) {
+            return "redirect:/welcome";
         }
+
+        addressForm.setUserId(currentUser.getUserId());
 
         addressValidator.validate(addressForm, bindingResult);
 
@@ -136,7 +141,7 @@ public class AddressController {
         User currentUser = getCurrentUser();
 
         if (currentUser == null) {
-            return "redirect:/welcome/login";
+            return "redirect:/welcome";
         }
         model.addAttribute("addressList", currentUser.getAddresses());
         model.addAttribute("addressForm", new AddressRequestBody());

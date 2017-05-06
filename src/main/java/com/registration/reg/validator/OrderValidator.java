@@ -42,8 +42,12 @@ public class OrderValidator implements Validator {
 
         Restaurant restaurant = restauranService.get(order.getRestaurantId());
 
-        if (order.getFullPrice() < restaurant.getCityByRestaurantId().getMinPrice()) {
-            errors.rejectValue("fullPrice", "TooSmall");
+        Integer minPrice = restaurant.getCityByRestaurantId().getMinPrice();
+        if (order.getFullPrice() < minPrice) {
+            //errors.rejectValue("fullPrice", "TooSmall");
+            Object[] args = {minPrice};
+            errors.rejectValue("fullPrice", "TooSmall", args, "Some Default Message.");
+
         }
 
 

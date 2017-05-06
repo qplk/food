@@ -160,7 +160,7 @@ public class UserController {
         User user = getCurrentUser();
 
         if (user == null) {
-            return "redirect:/welcome/login";
+            return "redirect:/welcome";
         }
 
         model.addAttribute("user", user);
@@ -177,7 +177,7 @@ public class UserController {
         User user = getCurrentUser();
 
         if (user == null) {
-            return "redirect:/welcome/login";
+            return "redirect:/welcome";
         }
 
         model.addAttribute("user", user);
@@ -212,7 +212,7 @@ public class UserController {
         User user = getCurrentUser();
 
         if (user == null) {
-            return "redirect:/welcome/login";
+            return "redirect:/welcome";
         }
 
         model.addAttribute("user", user);
