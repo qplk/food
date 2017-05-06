@@ -75,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
     }
     
     @Override
-    public Order findCurrentOrder(Long userId) {
+    public Order findCurrentOrderForJson(Long userId) {
         Order order = orderRepository.findByUserByOrderIdAndStatus(userRepository.findOne(userId), "Forming").get(0);
         order.setUserByOrderId(null);
         order.setOrderElements(null);
