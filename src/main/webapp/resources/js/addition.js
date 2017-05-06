@@ -33,7 +33,11 @@ function welcomeCity(){
     xhr.send();
     console.log(xhr.responseText);
     var data = JSON.parse(xhr.responseText);
-    $("#orderId").val(data.information);
+    var xhrOrder = new XMLHttpRequest();
+    xhrOrder.open('GET', '/order?userId=' + data.userId, false);
+    xhrOrder.send();
+    var orderData = JSON.parse(xhrOrder.responseText);
+    $("#orderId").val(orderData.orderId);
     $("#userId").val(data.userId);
     $("#aCity").text("Moscow");
 }
@@ -150,7 +154,7 @@ function addToBasket(foodId, num, price){
     xhrOrder.open('GET', '/order?userId=' + userId, false);
     xhrOrder.send();
     var orderData = JSON.parse(xhrOrder.responseText);
-    var orderJsonData = {"orderId" : orderId, "userId" : userId, "addressId" : orderData.addressId, "deliveryTime" : orderData.deliveryTime, "fullPrice" : fullPrice, "status" : orderData.status, "statusInfo" : orderData.statusInfo, "paymentInfo" : orderData.paymentInfo};
+    var orderJsonData = {"orderId" : orderData.orderId, "userId" : userId, "addressId" : orderData.addressId, "deliveryTime" : orderData.deliveryTime, "fullPrice" : fullPrice, "status" : orderData.status, "statusInfo" : orderData.statusInfo, "paymentInfo" : orderData.paymentInfo};
     $.ajax({
         type: 'PUT',
         url: '/orders',
