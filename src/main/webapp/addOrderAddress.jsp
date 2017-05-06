@@ -93,7 +93,7 @@
                 </div>
 
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit" style="background-color: #3c3c3c">Form order</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" style="background-color: #3c3c3c;">Form order</button>
 
             </form:form>
 

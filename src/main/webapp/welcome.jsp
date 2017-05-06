@@ -245,11 +245,11 @@
         </div><!--/.col-xs-12.col-sm-9-->
 
         <div class="col-lg-3 col-sm-3 sidebar-offcanvas" id="sidebarCategories">
-            <button class='btn btn-primary btn-lg btn-block' id="category3" onclick="buildPizza()" value="Pizza">Pizza</button>
-            <button class='btn btn-primary btn-lg btn-block' id="category4" onclick="buildRoll()" value="Roll">Roll</button>
-            <button class='btn btn-primary btn-lg btn-block' id="category2" onclick="buildSnack()" value="Snack">Snack</button>
-            <button class='btn btn-primary btn-lg btn-block' id="category5" onclick="buildDessert()" value="Dessert">Dessert</button>
-            <button class='btn btn-primary btn-lg btn-block' id="category1" onclick="buildDrink()" value="Drink">Drink</button>
+            <button class='btn btn-primary btn-lg btn-block' id="category3" onclick="buildPizza()" value="Pizza" style="background-color: #3c3c3c;">Pizza</button>
+            <button class='btn btn-primary btn-lg btn-block' id="category4" onclick="buildRoll()" value="Roll" style="background-color: #3c3c3c;">Roll</button>
+            <button class='btn btn-primary btn-lg btn-block' id="category2" onclick="buildSnack()" value="Snack" style="background-color: #3c3c3c;">Snack</button>
+            <button class='btn btn-primary btn-lg btn-block' id="category5" onclick="buildDessert()" value="Dessert" style="background-color: #3c3c3c;">Dessert</button>
+            <button class='btn btn-primary btn-lg btn-block' id="category1" onclick="buildDrink()" value="Drink" style="background-color: #3c3c3c;">Drink</button>
         </div><!--/.sidebar-categories-->
 
         </div><!--/.row-->

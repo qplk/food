@@ -24,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
 
@@ -54,6 +55,14 @@ public class UserController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String authenticatedUsername = userDetails.getUsername();
         return userService.findByUsername(authenticatedUsername);
+    }
+
+    @RequestMapping("/default")
+    public String defaultAfterLogin(HttpServletRequest request) {
+        if (request.isUserInRole("ROLE_ADMIN")) {
+            return "redirect:/admin/admin.jsp";
+        }
+        return "redirect:/welcome";
     }
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
