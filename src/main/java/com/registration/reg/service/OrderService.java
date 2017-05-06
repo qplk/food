@@ -20,6 +20,9 @@ public interface OrderService {
     List<Order> findByStatus(String status);
 
     Order findCurrentOrder(Long userId);
+    
+    Order findCurrentOrderForJson(Long userId);
+    
     List<Order> findByUserAndStatus(Long userId, String status);
 
     void delete(Long orderId);
