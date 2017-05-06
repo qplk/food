@@ -27,8 +27,8 @@ public class OrderController {
 //    }
 
     @RequestMapping(value = "/order", method = RequestMethod.GET)
-    public ResponseEntity findCurrentOrderForJson(@RequestParam("userId") Long userId){
-        Order order = orderService.findCurrentOrder(userId);
+    public ResponseEntity findCurrentOrder(@RequestParam("userId") Long userId){
+        Order order = orderService.findCurrentOrderForJson(userId);
         ResponseEntity responseEntity = new ResponseEntity<>(order, HttpStatus.OK);
         return responseEntity;
     }
