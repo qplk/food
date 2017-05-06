@@ -73,6 +73,16 @@ public class OrderServiceImpl implements OrderService {
 
         return order;
     }
+    
+    @Override
+    public Order findCurrentOrder(Long userId) {
+        Order order = orderRepository.findByUserByOrderIdAndStatus(userRepository.findOne(userId), "Forming").get(0);
+        order.setUserByOrderId(null);
+        order.setOrderElements(null);
+        order.setAddressByOrderId(null);
+
+        return order;
+    }
 
     @Override
     public List<Order> findByUserAndStatus(Long userId, String status) {
