@@ -6,7 +6,7 @@ import com.registration.reg.requestBody.UserRequestBody;
 import java.util.List;
 
 public interface UserService {
-    void save(User user);
+    void save(UserRequestBody userRequestBody);
 
     User findByUsername(String username);
 

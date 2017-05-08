@@ -1,6 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -115,10 +116,34 @@
                                                 </div>
                                      </spring:bind>
 
-                                    <div id="recaptcha" class="g-recaptcha" data-sitekey="6LesJhgUAAAAAFLSWEr_gKjZEBy3riMNfU3M7CNR"></div>
-                                    <button class="btn btn-lg btn-primary btn-block" type="submit" id="grecaptcha">Submit</button></div>
-                                </form:form>
-                                <script src="https://www.google.com/recaptcha/api.js"></script>
+                                <spring:bind path="recaptchaResponse">
+                                    <div class="form-group ${status.error ? 'has-error' : ''}">
+
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <div class="g-recaptcha" data-sitekey="<c:out value="${recaptchaSiteKey}" />" data-theme="light"></div>
+
+                                        <div id="g-recaptcha"></div>
+                                        <form:hidden path="recaptchaResponse"/>
+                                        <script type="text/javascript">
+                                            var onloadCallback = function() {
+                                                grecaptcha.render('g-recaptcha', {
+                                                    'sitekey' : '<c:out value="${recaptchaSiteKey}" />',
+                                                    'callback' : function(response) {
+                                                        document.getElementById('recaptchaResponse').value = response;
+                                                    },
+                                                    'theme' : 'light'
+                                                });
+                                            }
+                                        </script>
+                                        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+
+                                        <form:errors path="recaptchaResponse" element="div" class="alert alert-danger"/>
+                                    </div>
+                                </spring:bind>
+                                    <button class="btn btn-lg btn-primary btn-block" type="submit" id="grecaptcha">Submit</button>
+                            </form:form>
+
+                            <script src="https://www.google.com/recaptcha/api.js"></script>
                             </div>
                     </div>
                 </div>
