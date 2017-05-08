@@ -15,7 +15,7 @@ function remove(i){
 
 function setCity(cityId){
     $("#city").val(cityId);
-//    $("#aCity").text(cityId);
+    $("#aCity").text(cityId);
 }
 
 function welcomeCity(){
@@ -31,14 +31,21 @@ function welcomeCity(){
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/authenticatedUser', false);
     xhr.send();
-    console.log(xhr.responseText);
-    var data = JSON.parse(xhr.responseText);
+    var userId;
+    try{
+        var data = JSON.parse(xhr.responseText);
+        userId = data.userId;
+    }catch(Exception){
+        userId = 0;
+    };
     var xhrOrder = new XMLHttpRequest();
-    xhrOrder.open('GET', '/order?userId=' + data.userId, false);
+    xhrOrder.open('GET', '/order?userId=' + userId, false);
     xhrOrder.send();
     var orderData = JSON.parse(xhrOrder.responseText);
+    $("#div1").empty();
+    $("#div1").append("<h1>Please choose category!</h1>");
     $("#orderId").val(orderData.orderId);
-    $("#userId").val(data.userId);
+    $("#userId").val(userId);
     $("#aCity").text("Moscow");
 }
 
@@ -172,25 +179,33 @@ function getOrder(){
     xhr.open('GET', '/orderElements' + '?userId=' + userId, false);
     xhr.send();
     data = JSON.parse(xhr.responseText);
-    $("#modalBody").empty();
+    $("#modalBodyTable").empty();
     for(i = 0; i < data.length; i++){
-        $("#modalBody").append("<div id='basketSubject" + i + "'><p><strong>" + data[i]['food']['foodName'] + "; Quantity: " + data[i].quantity + "; Price: " + data[i].elementPrice + "</strong><button type='button' class='btn btn-default' onclick='removeFromBasket(" + data[i].orderElementId + ", " + i + ")'><span class='glyphicon glyphicon-remove'></span></button></p></div>");
+        $("#modalBodyTable").append("<tr id='basketSubject" + i + "'><td>" + data[i]['food']['foodName'] + "</td><td>" + data[i].quantity + "</td><td>" + data[i].elementPrice + "</td><td><button type='button' class='btn' onclick='removeFromBasket(" + data[i].orderElementId + ", " + i + ", " + data[i].elementPrice + ")'><span class='glyphicon glyphicon-remove'></span></button></td></tr>");
     }
+    var xhrOrder = new XMLHttpRequest();
+    xhrOrder.open('GET', '/order?userId=' + userId, false);
+    xhrOrder.send();
+    var dataOrder = JSON.parse(xhrOrder.responseText);
+    $("#totalPrice").empty();
+    $("#totalPrice").append("Order price: " + dataOrder.fullPrice);
 }
 
-function removeFromBasket(orderElementId, i){
+function removeFromBasket(orderElementId, i, elementPrice){
+    var userId = $("#userId").val();
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/order?userId=' + userId, false);
+    xhr.send();
+    var data = JSON.parse(xhr.responseText);
     var basketSubjectIdString = "#basketSubject" + i;
     $.ajax({
         type: 'DELETE',
         url: '/orderElements?orderElementId=' + orderElementId,
     })
+    var totalPrice = data.fullPrice - elementPrice;
     $(basketSubjectIdString).empty();
-    var userId = $("#userId").val();
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/orders?userId=' + userId, false);
-    xhr.send();
-    var data = JSON.parse(xhr.responseText);
-
+    $("#totalPrice").empty();
+    $("#totalPrice").append("Order price: " + totalPrice);
 }
 
 

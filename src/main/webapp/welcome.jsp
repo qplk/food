@@ -131,11 +131,13 @@
                             <h4>Confirming order</h4>
                         </div>
                         <div class="modal-body" id="modalBody">
-                            <h2>Yor cart is empty</h2>
+                            <table class="table table-bordered" id="modalBodyTable">
+
+                            </table>
                         </div>
                         <div class="modal-footer" id="modalFooter">
                             <div id="totalPrice"></div>
-                            <a href="addOrderAddress" onclick="completeForming"><span class='glyphicon glyphicon-shopping-cart'></span></a>
+                            <a href="addOrderAddress" onclick="completeForming"><span class='glyphicon glyphicon-shopping-cart'>Continue</span></a>
                         </div>
                     </div>
                 </div>
@@ -257,25 +259,7 @@
         <div class="clearfix visible-md-block"></div>
 
         <div class="row" id="div1">
-                        <div class="col-sm-6 col-md-4">
-                            <div class="thumbnail">
-                                <img src="http://s020.radikal.ru/i709/1704/1a/79606a4bc27b.jpg">
-                                <div class="caption">
-                                    <h4>Food Name</h4>
-                                    <p>Description</p>
-                                    <div class='input-group'>
-                                        <div class="input-group-btn">
-                                            <button type='button' id='plus' class='btn btn-default'><span class='glyphicon glyphicon-plus'></span></button>
-                                            <button type='button' id='minus' class='btn btn-default'><span class='glyphicon glyphicon-minus'></span></button>
-                                            <button type='button' id='toBascket' class='btn btn-default'><span class='glyphicon glyphicon-shopping-cart'></span></button>
-                                        </div>
-                                        <div class='col-xs-4'>
-                                            <input type='text' value='0' class='form-control' disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
         </div><!--/row-->
     </div><!--/.container-->
 
