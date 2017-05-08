@@ -1,12 +1,13 @@
 package com.registration.reg.web;
 
 import com.registration.reg.model.Order;
-import com.registration.reg.model.Role;
 import com.registration.reg.model.User;
 import com.registration.reg.requestBody.UserRequestBody;
 import com.registration.reg.service.*;
+import com.registration.reg.validator.RecaptchaFormValidator;
 import com.registration.reg.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,6 +46,16 @@ public class UserController {
     @Autowired
     private UserValidator userValidator;
 
+
+    @Autowired
+    private RecaptchaFormValidator recaptchaFormValidator;
+
+
+    @ModelAttribute("recaptchaSiteKey")
+    public String getRecaptchaSiteKey(@Value("${recaptcha.site-key}") String recaptchaSiteKey) {
+        return recaptchaSiteKey;
+    }
+
     User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -67,16 +78,19 @@ public class UserController {
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String registration(Model model) {
-        model.addAttribute("userForm", new User());
+        model.addAttribute("userForm", new UserRequestBody());
 
         return "welcome";
     }
 
     @RequestMapping(value = "/welcome", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
+    public String registration(@ModelAttribute("userForm") UserRequestBody userForm, BindingResult bindingResult, Model model) {
         userValidator.validate(userForm, bindingResult);
+        System.out.println("Validation:");
+        recaptchaFormValidator.validate(userForm.getRecaptchaResponse(), bindingResult);
 
         if (bindingResult.hasErrors()) {
+            System.out.println("Validation: errors");
             return "welcome";
         }
 

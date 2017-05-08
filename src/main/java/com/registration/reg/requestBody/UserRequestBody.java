@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Created by Stasia on 06.04.17.
  */
-public class UserRequestBody {
+public class UserRequestBody extends RecaptchaForm {
     private Long userId;
     private String username;
     private String email;
@@ -18,8 +18,10 @@ public class UserRequestBody {
     private Set<Role> roles;
     private String phoneNumber;
     private String password;
+    private String passwordConfirm;
     private String newPassword;
     private String newPasswordConfirm;
+    private String information;
 
     public String getPassword() {
         return password;
@@ -101,5 +103,12 @@ public class UserRequestBody {
         this.information = information;
     }
 
-    private String information;
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
 }

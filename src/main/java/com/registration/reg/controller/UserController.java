@@ -18,24 +18,24 @@ public class UserController {
 
 
     @RequestMapping(value = "/users", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity addUser(@RequestBody User user) {
+    public ResponseEntity addUser(@RequestBody UserRequestBody user) {
         userService.save(user);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-    public ResponseEntity setUser(@PathVariable("id") Long id, @RequestBody User user) {
-        User oldUser = userService.get(id);
+    public ResponseEntity setUser(@PathVariable("id") Long id, @RequestBody UserRequestBody user) {
+       // User oldUser = userService.get(id);
 
         //update
 
-        oldUser.setEmail(user.getEmail());
-        oldUser.setGender(user.getGender());
-        oldUser.setInformation(user.getInformation());
-        oldUser.setPhoneNumber(user.getPhoneNumber());
-        oldUser.setUsername(user.getUsername());
+        //oldUser.setEmail(user.getEmail());
+        //oldUser.setGender(user.getGender());
+        //oldUser.setInformation(user.getInformation());
+        //oldUser.setPhoneNumber(user.getPhoneNumber());
+        //oldUser.setUsername(user.getUsername());
 
-        userService.save(oldUser);
+        userService.update(user);
 
         return new ResponseEntity(HttpStatus.OK);
     }
