@@ -2,9 +2,11 @@ package com.registration.reg.service;
 
 import com.registration.reg.model.Address;
 import com.registration.reg.model.City;
+import com.registration.reg.model.Order;
 import com.registration.reg.model.User;
 import com.registration.reg.repository.AddressRepository;
 import com.registration.reg.repository.CityRepository;
+import com.registration.reg.repository.OrderRepository;
 import com.registration.reg.repository.UserRepository;
 import com.registration.reg.requestBody.AddressRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class AddressServiceImpl implements AddressService {
     private UserRepository userRepository;
     @Autowired
     private CityRepository cityRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Transactional
     @Override
@@ -63,6 +67,14 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void delete(Long addressId) {
+        Address address = addressRepository.getOne(addressId);
+
+        for (Order order: address.getOrders()) {
+            order.setAddressByOrderId(null);
+            orderRepository.save(order);
+        }
+        address.getOrders().clear();
+        addressRepository.save(address);
         addressRepository.delete(addressId);
     }
 

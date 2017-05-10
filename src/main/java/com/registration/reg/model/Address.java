@@ -125,7 +125,7 @@ public class Address {
     }
 
 
-    @OneToMany(mappedBy = "addressByOrderId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "addressByOrderId", cascade = CascadeType.DETACH, orphanRemoval = false)
     public Set<Order> getOrders() {
         return orders;
     }

@@ -109,7 +109,13 @@ public class OrderController {
             return "redirect:/welcome";
         }
 
+
         Order order = orderService.findByUserAndStatus(currentUser.getUserId(), "Forming").get(0);
+
+        if (order.getAddressByOrderId() == null) {
+            model.addAttribute("addressError", "You should select delivery address");
+            return "/completeForming";
+        }
         Restaurant restaurant = restaurantService.selectRestaurant(order.getAddressByOrderId());
 
         orderForm.setOrderId(order.getOrderId());

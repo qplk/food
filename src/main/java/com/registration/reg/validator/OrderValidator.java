@@ -54,12 +54,19 @@ public class OrderValidator implements Validator {
         List <OrderElement> orderElements = order.getOrderElements();
         for (OrderElement orderElement: orderElements) {
             Assortment assortment = assortmentService.findByRestaurantIdAndFoodId(restaurant.getRestaurantId(), orderElement.getFood().getFoodId());
-            if (!assortment.getEnable()) {
+            if (assortment == null) {
                 errors.rejectValue("orderElements[" + orderElements.indexOf(orderElement) + "].orderElementId", "Disabled");
+
+            } else {
+                if (!assortment.getEnable()) {
+                    errors.rejectValue("orderElements[" + orderElements.indexOf(orderElement) + "].orderElementId", "Disabled");
+                }
+                if ((assortment.getQuantity() != null) && (assortment.getQuantity() < orderElement.getQuantity())) {
+                    errors.rejectValue("orderElements[" + orderElements.indexOf(orderElement) + "].quantity", "TooBig");
+                }
+
             }
-            if ((assortment.getQuantity() != null) && (assortment.getQuantity() < orderElement.getQuantity())) {
-                errors.rejectValue("orderElements[" + orderElements.indexOf(orderElement) + "].quantity", "TooBig");
-            }
+
         }
 
     }

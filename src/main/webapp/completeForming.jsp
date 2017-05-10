@@ -12,6 +12,10 @@
         <p><b><c:out value="${order.addressByOrderId.cityByAddressId.cityName}" /></b>, <c:out value="${order.addressByOrderId.street}" /> street, building <c:out value="${order.addressByOrderId.buildingNumber}" />, room <c:out value="${order.addressByOrderId.roomNumber}" /><br />
             <c:if test="${not empty order.addressByOrderId.comment}">Comment: <c:out value="${address.comment}" /></c:if></p>
         <p>
+        <p><a href="${contextPath}/addOrderAddress">Change address</a></p>
+
+        <c:if test="${not empty addressError}"><div class="alert alert-danger" ><c:out value="${addressError}" /></div></c:if>
+
 
 
         <form:form action="${contextPath}/completeForming" modelAttribute="orderForm" method="POST">
