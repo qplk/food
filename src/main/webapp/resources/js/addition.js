@@ -109,19 +109,19 @@ function buildDessert(){
     }
 }
 
-$("#grecaptcha").click(function(){
-    var g_recaptcha_response = $("#g-recaptcha-response").val();
-
-    $.ajax({
-        type: 'POST',
-        url: 'https://www.google.com/recaptcha/api/siteverify',
-        dataType: 'JSON',
-        data: {"secret" : "6LesJhgUAAAAAB_v7rmJdKHHOIa--MoNe60eTgV3", "response" : g_recaptcha_response },
-        success: function(data){
-            console.log(data);
-        }
-    });
-});
+//$("#grecaptcha").click(function(){
+//    var g_recaptcha_response = $("#g-recaptcha-response").val();
+//
+//    $.ajax({
+//        type: 'POST',
+//        url: 'https://www.google.com/recaptcha/api/siteverify',
+//        dataType: 'JSON',
+//        data: {"secret" : "6LesJhgUAAAAAB_v7rmJdKHHOIa--MoNe60eTgV3", "response" : g_recaptcha_response },
+//        success: function(data){
+//            console.log(data);
+//        }
+//    });
+//});
 
 function addToBasket(foodId, num, price){
     var i;
@@ -183,6 +183,9 @@ function getOrder(){
     for(i = 0; i < data.length; i++){
         $("#modalBodyTable").append("<tr id='basketSubject" + i + "'><td>" + data[i]['food']['foodName'] + "</td><td>" + data[i].quantity + "</td><td>" + data[i].elementPrice + "</td><td><button type='button' class='btn' onclick='removeFromBasket(" + data[i].orderElementId + ", " + i + ", " + data[i].elementPrice + ")'><span class='glyphicon glyphicon-remove'></span></button></td></tr>");
     }
+    if(data.length == 0){
+        $("#modalBodyTable").append("<h2>Yor cart is empty</h2>");
+    }
     var xhrOrder = new XMLHttpRequest();
     xhrOrder.open('GET', '/order?userId=' + userId, false);
     xhrOrder.send();
@@ -207,5 +210,25 @@ function removeFromBasket(orderElementId, i, elementPrice){
     $("#totalPrice").empty();
     $("#totalPrice").append("Order price: " + totalPrice);
 }
+
+function welcome(){
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/authenticatedUser', false);
+    xhr.send();
+    var userId;
+    try{
+        var data = JSON.parse(xhr.responseText);
+        userId = data.userId;
+    }catch(Exception){
+        userId = 0;
+    };
+    var xhrOrder = new XMLHttpRequest();
+    xhrOrder.open('GET', '/order?userId=' + userId, false);
+    xhrOrder.send();
+    var orderData = JSON.parse(xhrOrder.responseText);
+    $("#orderId").val(orderData.orderId);
+    $("#userId").val(userId);
+}
+
 
 

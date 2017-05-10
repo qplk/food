@@ -119,23 +119,12 @@
                                 <spring:bind path="recaptchaResponse">
                                     <div class="form-group ${status.error ? 'has-error' : ''}">
 
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
         <div class="g-recaptcha" data-sitekey="<c:out value="${recaptchaSiteKey}" />" data-theme="light"></div>
 
                                         <div id="g-recaptcha"></div>
                                         <form:hidden path="recaptchaResponse"/>
-                                        <script type="text/javascript">
-                                            var onloadCallback = function() {
-                                                grecaptcha.render('g-recaptcha', {
-                                                    'sitekey' : '<c:out value="${recaptchaSiteKey}" />',
-                                                    'callback' : function(response) {
-                                                        document.getElementById('recaptchaResponse').value = response;
-                                                    },
-                                                    'theme' : 'light'
-                                                });
-                                            }
-                                        </script>
-                                        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+
 
                                         <form:errors path="recaptchaResponse" element="div" class="alert alert-danger"/>
                                     </div>

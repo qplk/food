@@ -27,7 +27,29 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
+<body onLoad="welcome()">
+<div class="hidden">
+    <input type="text" id="userId" value="0">
+    <input type="text" id="orderId" value="0">
+</div>
+<div id="ModalBuy" class="modal fade">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4>Confirming order</h4>
+                        </div>
+                        <div class="modal-body" id="modalBody">
+                            <table class="table table-bordered" id="modalBodyTable">
+
+                            </table>
+                        </div>
+                        <div class="modal-footer" id="modalFooter">
+                            <div id="totalPrice"></div>
+                            <a href="addOrderAddress" onclick="completeForming"><span class='glyphicon glyphicon-shopping-cart'>Continue</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -70,7 +92,7 @@
             </c:if>
 
             <div class="navbar-form navbar-right">
-                <a href="#ModalBuy" class="btn btn-default" data-toggle="modal"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+                <a href="#ModalBuy" class="btn btn-default" data-toggle="modal" onclick="getOrder()"><span class="glyphicon glyphicon-shopping-cart"></span></a>
             </div>
 
 
