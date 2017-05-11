@@ -181,6 +181,11 @@ function getOrder(){
     var data;
     var i;
     var userId = $("#userId").val();
+    if(userId == 0){
+        $("#modalBodyTable").empty();
+        $("#modalBodyTable").append("<h2>You are not logged in</h2>");
+        return;
+    } 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/orderElements' + '?userId=' + userId, false);
     xhr.send();
