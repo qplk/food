@@ -221,8 +221,10 @@
 
 
     </div><!--/row-->
-
     <hr>
+    <footer>
+        <p>Copyright 2017</p>
+    </footer>
 </div><!--/.container-->
 <%@include file='footer.jsp'%>
 

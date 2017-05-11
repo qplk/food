@@ -151,7 +151,7 @@
                         </div>
                         <div class="modal-footer" id="modalFooter">
                             <div id="totalPrice"></div>
-                            <a href="addOrderAddress" onclick="completeForming"><span class='glyphicon glyphicon-shopping-cart'>Continue</span></a>
+                            <a href="${contextPath}/addOrderAddress" onclick="completeForming"><span class='glyphicon glyphicon-shopping-cart'>Continue</span></a>
                         </div>
                     </div>
                 </div>

@@ -15,7 +15,8 @@ function remove(i){
 
 function setCity(cityId){
     $("#city").val(cityId);
-    $("#aCity").text(cityId);
+    document.cookie = "selectedCity=" + cityId;
+    location.reload();
 }
 
 function welcomeCity(){
@@ -40,13 +41,18 @@ function welcomeCity(){
     };
     var xhrOrder = new XMLHttpRequest();
     xhrOrder.open('GET', '/order?userId=' + userId, false);
-    xhrOrder.send();
+    try{
+        xhrOrder.send();
+    }catch(err){
+        $("#modalBodyTable").append("<h2>You are not logged in</h2>");
+    }
     var orderData = JSON.parse(xhrOrder.responseText);
     $("#div1").empty();
     $("#div1").append("<h1>Please choose category!</h1>");
     $("#orderId").val(orderData.orderId);
     $("#userId").val(userId);
-    $("#aCity").text("Moscow");
+    $("#city").val(getCookie("selectedCity"));
+    $("#aCity").text(getCookie("selectedCity"));
 }
 
 function buildDrink(){
@@ -184,7 +190,7 @@ function getOrder(){
         $("#modalBodyTable").append("<tr id='basketSubject" + i + "'><td>" + data[i]['food']['foodName'] + "</td><td>" + data[i].quantity + "</td><td>" + data[i].elementPrice + "</td><td><button type='button' class='btn' onclick='removeFromBasket(" + data[i].orderElementId + ", " + i + ", " + data[i].elementPrice + ")'><span class='glyphicon glyphicon-remove'></span></button></td></tr>");
     }
     if(data.length == 0){
-        $("#modalBodyTable").append("<h2>Yor cart is empty</h2>");
+        $("#modalBodyTable").append("<h2>Your cart is empty</h2>");
     }
     var xhrOrder = new XMLHttpRequest();
     xhrOrder.open('GET', '/order?userId=' + userId, false);
@@ -228,6 +234,16 @@ function welcome(){
     var orderData = JSON.parse(xhrOrder.responseText);
     $("#orderId").val(orderData.orderId);
     $("#userId").val(userId);
+}
+
+function getCookie ( cookie_name )
+{
+  var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );
+
+  if ( results )
+    return ( unescape ( results[2] ) );
+  else
+    return null;
 }
 
 
