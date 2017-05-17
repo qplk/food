@@ -33,7 +33,7 @@
             </c:if>
 
             <c:if test="${pageContext.request.userPrincipal.name != null}">
-                <p class="navbar-text navbar-right">Signed in as <a href="profile.jsp" class="navbar-link">${pageContext.request.userPrincipal.name}</a></p>
+                <p class="navbar-text navbar-right">Signed in as <a href="${contextPath}/profile/profile" class="navbar-link">${pageContext.request.userPrincipal.name}</a></p>
             </c:if>
 
             <c:if test="${pageContext.request.userPrincipal.name != null}">

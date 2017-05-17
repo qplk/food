@@ -1,6 +1,4 @@
-
-<!--TODO: add new header-->
-<%@ include file="profile/header.jsp"%>
+<%@ include file="header.jsp"%>
 
 <div class="container">
 
@@ -10,7 +8,7 @@
 
         <h2>Address</h2>
         <p><b><c:out value="${order.addressByOrderId.cityByAddressId.cityName}" /></b>, <c:out value="${order.addressByOrderId.street}" /> street, building <c:out value="${order.addressByOrderId.buildingNumber}" />, room <c:out value="${order.addressByOrderId.roomNumber}" /><br />
-            <c:if test="${not empty order.addressByOrderId.comment}">Comment: <c:out value="${address.comment}" /></c:if></p>
+            <c:if test="${not empty order.addressByOrderId.comment}">Comment: <c:out value="${order.addressByOrderId.comment}" /></c:if></p>
         <p>
         <p><a href="${contextPath}/addOrderAddress">Change address</a></p>
 
@@ -101,18 +99,4 @@
 
 </div><!--/.container-->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
-<script src="${contextPath}/resources/js/addition.js"></script>
-<script type="text/javascript">
-    function toggle_visibility(id)
-    {
-        var e = document.getElementById(id);
-        if ( e.style.display == 'block' )
-            e.style.display = 'none';
-        else
-            e.style.display = 'block';
-    }
-</script>
-</body>
-</html>
+<%@include file='footer.jsp'%>

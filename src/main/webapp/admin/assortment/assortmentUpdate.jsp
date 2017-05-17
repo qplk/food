@@ -4,29 +4,24 @@
 
 <div class="container">
 
+
     <div class="row row-offcanvas row-offcanvas-right">
+        <div class="jumbotron" style="background-color: #ffffff; padding-bottom: 0; margin-bottom: 0;"><h2>Assortment</h2></div>
 
-        <div class="col-xs-12 col-sm-9">
-            <p class="pull-right visible-xs">
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-            </p>
-            <div class="jumbotron">
-                <h1>Admin page</h1>
-                <p>Here you can manage smth</p>
-            </div>
-
-
-            <h2>Restaurant</h2>
-            <h2><c:out value="${restaurant.street}"/>, <c:out value="${restaurant.buildingNumber}"/></h2>
-            <p><c:out value="${restaurant.restaurantPhone}"/></p>
+        <hr>
+        <div class="col-xs-6 col-lg-4">
+            <h3>Restaurant</h3>
+            <h3><c:out value="${restaurant.street}"/>, <c:out value="${restaurant.buildingNumber}"/></h3>
             <p><c:out value="${restaurant.cityByRestaurantId.cityName}"/></p>
+            <p><c:out value="${restaurant.restaurantPhone}"/></p>
+
 
 
 
             <form:form method="PUT" modelAttribute="assortmentForm" class="form-signin">
-                <h2 class="form-signin-heading">Update assortment</h2>
+                <h3 class="form-signin-heading">Update assortment</h3>
 
-              <p><c:out value="${food.foodName}"/></p>
+              <p>Food name: <b><c:out value="${food.foodName}"/></b></p>
 
 
                 <spring:bind path="enable">
@@ -57,7 +52,7 @@
 
 
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" style="background-color: #3c3c3c">Submit</button>
             </form:form>
 
         </div><!--/.col-xs-12.col-sm-9-->

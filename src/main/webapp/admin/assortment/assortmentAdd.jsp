@@ -4,22 +4,18 @@
 
 <div class="container">
 
+
     <div class="row row-offcanvas row-offcanvas-right">
+        <div class="jumbotron" style="background-color: #ffffff; padding-bottom: 0; margin-bottom: 0;"><h2>Assortment</h2></div>
 
-        <div class="col-xs-12 col-sm-9">
-            <p class="pull-right visible-xs">
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-            </p>
-            <div class="jumbotron">
-                <h1>Admin page</h1>
-                <p>Here you can manage smth</p>
-            </div>
+        <hr>
+        <div class="col-xs-6 col-lg-4">
 
-
-            <h2>Restaurant</h2>
-            <h2><c:out value="${restaurant.street}"/>, <c:out value="${restaurant.buildingNumber}"/></h2>
-            <p><c:out value="${restaurant.restaurantPhone}"/></p>
+            <h3>Restaurant</h3>
+            <h4><c:out value="${restaurant.street}"/>, <c:out value="${restaurant.buildingNumber}"/></h4>
             <p><c:out value="${restaurant.cityByRestaurantId.cityName}"/></p>
+            <p><c:out value="${restaurant.restaurantPhone}"/></p>
+
 
 
 
@@ -69,18 +65,12 @@
 
 
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" style="background-color: #3c3c3c">Submit</button>
             </form:form>
 
         </div><!--/.col-xs-12.col-sm-9-->
 
-        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
-            <div class="list-group">
-                <a href="${contextPath}/admin/food/foodAdd" class="list-group-item active">Add</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-            </div>
-        </div><!--/.sidebar-offcanvas-->
+
     </div><!--/row-->
 
     <hr>

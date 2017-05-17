@@ -7,15 +7,16 @@
 
     <div class="row row-offcanvas row-offcanvas-right">
 
-        <div class="col-xs-12 col-sm-9">
-            <p class="pull-right visible-xs">
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-            </p>
-            <div class="jumbotron">
-                <h1>Admin page</h1>
-                <p>Here you can manage smth</p>
-            </div>
-            <div class="row">
+
+
+        <div class="jumbotron" style="background-color: #ffffff; padding-bottom: 0; margin-bottom: 0;"><h2>Cities
+            <form class="navbar-form navbar-right" action="${contextPath}/admin/cities/cityAdd">
+                <button class="btn btn-success">Add new item</button>
+            </form>
+        </h2></div>
+
+        <hr>
+        <div class="row">
 
                 <c:if test="${empty citiesList}">
                     <div class="col-xs-6 col-lg-4">
@@ -45,19 +46,9 @@
 
 
             </div><!--/row-->
-        </div><!--/.col-xs-12.col-sm-9-->
+        </div>
 
-        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
-            <div class="list-group">
-                <a href="#" class="list-group-item active">Food</a>
-                <!--<a href=".jsp" class="list-group-item">Add new item</a>-->
 
-                <form class="navbar-form navbar-right" action="${contextPath}/admin/cities/cityAdd">
-                    <button class="btn btn-success">Add new item</button>
-                </form>
-            </div>
-        </div><!--/.sidebar-offcanvas-->
-    </div><!--/row-->
 
     <hr>
 </div><!--/.container-->

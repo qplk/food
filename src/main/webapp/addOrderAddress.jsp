@@ -1,15 +1,14 @@
-<%@include file='profile/header.jsp'%>
-<!--TODO: add new header-->
+<%@include file='header.jsp'%>
 
 <div class="container">
 
-    <div class="jumbotron" style="background-color: #ffffff;">
-        <div class="col-xs-6 col-lg-4">
+    <div class="jumbotron"  style="background-color: #ffffff;">
+
             <h1 class="form-signin-heading">Form order</h1>
 
 
-            <form:form method="POST" modelAttribute="addressForm" class="form-signin">
-                <h2 class="form-signin-heading">Select address</h2>
+            <form:form method="POST" modelAttribute="addressForm" style="width:250pt;">
+                <h2>Select address</h2>
 
                 <spring:bind path="addressId">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
@@ -97,7 +96,6 @@
 
             </form:form>
 
-        </div>
 
     </div><!--/.row-->
 

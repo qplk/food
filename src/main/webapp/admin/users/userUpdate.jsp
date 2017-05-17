@@ -6,15 +6,11 @@
 
     <div class="row row-offcanvas row-offcanvas-right">
 
-        <div class="col-xs-12 col-sm-9">
-            <p class="pull-right visible-xs">
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-            </p>
-            <div class="jumbotron">
-                <h1>Admin page</h1>
-                <p>Here you can manage smth</p>
-            </div>
 
+        <div class="jumbotron" style="background-color: #ffffff; padding-bottom: 0; margin-bottom: 0;"><h2>Users</h2></div>
+
+        <hr>
+        <div class="col-xs-6 col-lg-4">
 
             <form:form method="PUT" modelAttribute="userForm" class="form-signin">
                 <h2 class="form-signin-heading">Update user</h2>
@@ -69,14 +65,11 @@
 
                         </c:if>
                         <c:if test="${not empty roles}">
-                            <p>Roles:
-                            <c:forEach var="hasRole" items="${user.roles}">
-                               <c:out value="${hasRole.name} " /><br />
-                            </c:forEach>
-                            </p>
+                            <c:set var="i" value="0" />
 
                             <c:forEach var="role" items="${roles}">
-                                <form:checkbox path="roles" value="${role}" /> ${role.name}
+                                <form:checkbox path="roles"  value="${role}" checked="checked"  ></form:checkbox> ${role.name}
+                                <c:set var="i" value="${i + 1}" />
                             </c:forEach>
                         </c:if>
 
@@ -85,14 +78,14 @@
                 </spring:bind>
 
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit"  style="background-color: #3c3c3c">Submit</button>
             </form:form>
 
         </div><!--/.col-xs-12.col-sm-9-->
 
     </div><!--/row-->
-
     <hr>
+
 </div><!--/.container-->
 
 <%@include file='/admin/footer.jsp'%>

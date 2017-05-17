@@ -5,12 +5,13 @@
     <div class="jumbotron" style="background-color: #ffffff;">
 
 
-                <form:form method="POST" modelAttribute="addressForm" class="form-signin">
-                    <h2 class="form-signin-heading">Add new address</h2>
 
                     <div class="col-xs-6 col-lg-4">
+                        <form:form method="POST" modelAttribute="addressForm" class="form-signin">
+                            <h2 class="form-signin-heading">Add new address</h2>
 
-                    <spring:bind path="cityId">
+
+                            <spring:bind path="cityId">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <form:select class="form-control" path="cityId">
                                 <c:if test="${empty citiesList}">

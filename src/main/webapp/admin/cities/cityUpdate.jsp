@@ -5,17 +5,10 @@
 <div class="container">
 
     <div class="row row-offcanvas row-offcanvas-right">
+        <div class="jumbotron" style="background-color: #ffffff; padding-bottom: 0; margin-bottom: 0;"><h2>Cities</h2></div>
 
-        <div class="col-xs-12 col-sm-9">
-            <p class="pull-right visible-xs">
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-            </p>
-            <div class="jumbotron">
-                <h1>Admin page</h1>
-                <p>Here you can manage smth</p>
-            </div>
-
-
+        <hr>
+        <div class="col-xs-6 col-lg-4">
             <form:form method="PUT" modelAttribute="cityForm" class="form-signin">
                 <h2 class="form-signin-heading">Update city</h2>
                 <spring:bind path="cityName">
@@ -67,7 +60,7 @@
                     </div>
                 </spring:bind>
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" style="background-color: #3c3c3c">Submit</button>
             </form:form>
 
         </div><!--/.col-xs-12.col-sm-9-->

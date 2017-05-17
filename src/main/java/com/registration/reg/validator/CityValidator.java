@@ -48,7 +48,8 @@ public class CityValidator implements Validator {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "minPrice", "NotEmpty");
-        if (city.getMinPrice() < 0) {
+        if ((city.getMinPrice() != null) && (city.getMinPrice() < 0))
+        {
             errors.rejectValue("minPrice", "Value.cityForm.minPrice");
         }
     }
